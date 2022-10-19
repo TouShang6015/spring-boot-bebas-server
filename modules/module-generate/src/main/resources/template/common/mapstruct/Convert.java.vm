@@ -1,0 +1,50 @@
+package ${packageModuleName}.org.modules.model.${moduleName}.dto;
+
+import ${packageModuleName}.org.modules.model.${moduleName}.dto.${className}DTO;
+import ${packageModuleName}.org.modules.model.${moduleName}.model.${className}Model;
+import org.mapstruct.Builder;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * ${comments} Convert
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper(builder = @Builder(disableBuilder = true))
+public interface ${className}Convert{
+
+    ${className}Convert INSTANCE = Mappers.getMapper(${className}Convert.class);
+
+    /**
+    * dto 转换 model
+    * @param dto
+    * @return
+    */
+    ${className}Model convertToModel(${className}DTO dto);
+
+    /**
+    * dtoList 转换 modelList
+    * @param dto
+    * @return
+    */
+    List<${className}Model> convertToModel(List<${className}DTO> dto);
+
+    /**
+    * model 转换 dto
+    * @param model
+    * @return
+    */
+    ${className}DTO convertToDTO(${className}Model model);
+
+    /**
+    * modelList 转换 dtoList
+    * @param model
+    * @return
+    */
+    List<${className}DTO> convertToDTO(List<${className}Model> model);
+
+}

@@ -1,0 +1,15 @@
+package ${packageModuleName}.module.${moduleName}.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ${packageModuleName}.org.modules.model.${moduleName}.model.${className}Model;
+
+/**
+ * ${comments} 持久层接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Mapper extends BaseMapper<${className}Model> {
+
+
+}

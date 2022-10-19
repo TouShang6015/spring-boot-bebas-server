@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bebas.module.base.mapper.BaseMaterialInfoMapper">
+
+    <resultMap type="com.bebas.org.modules.model.base.model.BaseMaterialInfoModel" id="baseMap">
+            <result property="id" column="id"/>
+            <result property="createTime" column="create_time"/>
+            <result property="createOper" column="create_oper"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="updateOper" column="update_oper"/>
+            <result property="delFlag" column="del_flag"/>
+            <result property="version" column="version"/>
+            <result property="materialTypeId" column="material_type_id"/>
+            <result property="materialName" column="material_name"/>
+            <result property="materialUrl" column="material_url"/>
+            <result property="thumbnailUrl" column="thumbnail_url"/>
+            <result property="status" column="status"/>
+        </resultMap>
+
+    <resultMap type="com.bebas.org.modules.model.base.dto.BaseMaterialInfoDTO" id="dtoMap">
+
+    </resultMap>
+
+</mapper>

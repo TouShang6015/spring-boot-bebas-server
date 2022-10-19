@@ -1,0 +1,16 @@
+package ${packageModuleName}.org.modules.model.${moduleName}.dto;
+
+import ${packageModuleName}.org.modules.model.${moduleName}.model.${className}Model;
+import lombok.*;
+
+/**
+ * ${comments} Dto
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ${className}DTO extends ${className}Model {
+
+}

@@ -1,0 +1,104 @@
+spring:
+  profiles:
+    active: @profileActive@
+  # 国际化配置
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    static-path-pattern: /**
+  #文件上传配置
+  servlet:
+    multipart:
+      enabled: true # 是否支持多部分上传。
+      maxFileSize: 20MB
+      maxRequestSize: 200MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  main:
+    # 三级缓存，防止循环依赖
+    allow-circular-references: true
+
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  # 请求前缀
+  pathMapping: /api
+
+# 插件配置
+plugins:
+  # 文件上传方式 loacl 本地 ...
+  fileUpload: local
+# 项目配置
+project:
+  # 文件上传配置
+  upload:
+    # 上传文件最大大小 M
+    maxUploadSize: 20
+    # 文件名最大长度
+    maxFileNameLength: 100
+  # quartz定时任务配置
+  quartz:
+    # 定时任务白名单 仅允许访问的包名
+    jobWhite: com.bebas
+  fastjson:
+    # redis反序列化包白名单
+    redisSerializerPackage: com.bebas
+  # 事务配置
+  tx:
+    # 事务超时时间（秒）
+    timeOut: 20
+    # 开始事务路径表达式
+    pointcutExpression: execution(* com.bebas.module.*.web.service.impl.*ServiceImpl.*(..))
+  # ****项目基本参数配置
+  baseinfo:
+    # 名称
+    name: single-template
+    # 版本
+    version: 1.0
+    # 实例演示开关
+    demoEnabled: true
+    # 作者
+    author: WuHao
+  # **** uuid工具配置
+  idgenerate:
+    # 机器码
+    workerId: 0
+    method: 1
+    baseTime: 1218153600000
+    workerIdBitLength: 8
+    seqBitLength: 10
+    maxSeqNumber: 10
+    minSeqNumber: 5
+    topOverCostCount: 3000
+  # **** token配置
+  token:
+    # 令牌自定义标识
+    header: Authorization
+    # 令牌密钥
+    secret: IMERpd1eC8ctB7sx73akVEgiNs0CNP
+    # 小时
+    expireTime: 168
+    # 令牌刷新时间 分钟
+    flushToken: 30
+  security:
+    rsa:
+      privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJvFaDVFidF5SSuaNFaHG+Pxb5UXcXbQrjVx5eF1iCB3V8CyG1zagGDP0YjqPYc7Ggc51WgaI2IrNjkl6UWzUdWnXsGQzvAvrdeUuqHkpLsCVXk2T29vGuGJY4uEy6d6wgzUY5RkN/Dsq++y0WxdoEbJoLu66iAiqb8gUFfr1EOXAgMBAAECgYEAhY4FwNb0SROSNr4p7Z49vXv9zXiiIdrd4pjbHillI2DvbhnG+B+nPlowLxGW22FC+bsOTAlNGRgvj2P/03Dh0dMa66bKYCT+HnNBgCa17Auf/qNHRwxk7zLiMZCBViAxrjYD5IANECyeQJDPq0Jwhdo9jg+pb23n5ZlaKfeM4YECQQDeXgU6UD3mV6eL5x9JD1cV1OFYJJSIr/+z1aXjzkCzdJaHgtiOWtwgIqv8D1J+yazBPG44iP8Bc0NLk9UjnW93AkEAs1TO4cn+RhnJgCpghN39p0mu+E0DpnFRKiuouwcVqDRUXBXRS1Y0i+KQtHhUmK+6k8CmowL2LdX/5yTBLEAU4QJAOqNMeZ4jVJSUyB3AcEGtU0J50gaDbLAMm92hCzuecDQ0ZbOpa5CmL4s1ExjvRiPkfGh1IE9v/2/ntQxczjF77QJADLaIbA1Lz2BonoNikEjEgKWCl+utxJDn9htePNQFvwTmrhiF29dipkALjh+xr5lVmr/fkFLXbOxs1dAPObnZQQJBANKYfsIPcz6co6fdvvwDPK67rBqW8Djkj4T7009+p1EK5V4B2M58KbOg4HkHOKZ+RYj7xx1hwPf3Wn94rn9aSVo=
+      publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbxWg1RYnReUkrmjRWhxvj8W+VF3F20K41ceXhdYggd1fAshtc2oBgz9GI6j2HOxoHOdVoGiNiKzY5JelFs1HVp17BkM7wL63XlLqh5KS7AlV5Nk9vbxrhiWOLhMunesIM1GOUZDfw7KvvstFsXaBGyaC7uuogIqm/IFBX69RDlwIDAQAB
+
+# BebasWh 框架配置
+bebasWh:
+  cache:
+    # 是否开启主键缓存
+    openMainCache: true
+    # 缓存默认过期时间  6小时
+    defaultExpireTime: 7200
+    # 业务缓存最小过期时间  **** 无效
+    businessMinTime: 1800
+    # 业务缓存最大过期时间(秒) **** 无效
+    businessMaxTime: 3600
+

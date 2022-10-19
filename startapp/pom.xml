@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>springBoot-bebas</artifactId>
+        <groupId>org.wuhao</groupId>
+        <version>${env.project.version}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <version>${env.project.version}</version>
+
+    <artifactId>startapp</artifactId>
+    <packaging>jar</packaging>
+
+    <properties>
+        <tomcat.version>8.5.20</tomcat.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.wuhao</groupId>
+            <artifactId>module-base</artifactId>
+            <version>${env.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wuhao</groupId>
+            <artifactId>module-quartz</artifactId>
+            <version>${env.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wuhao</groupId>
+            <artifactId>module-generate</artifactId>
+            <version>${env.project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.yml</include>
+                    <include>*.properties</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.json</include>
+                    <include>META-INF/**</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <!-- dev为研发服务器版 -->
+        <profile>
+            <id>local</id>
+            <properties>
+                <profileActive>local</profileActive>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <!-- test为测试服务器版 -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <profileActive>test</profileActive>
+            </properties>
+        </profile>
+        <!-- pro为生产服务器版 -->
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profileActive>pro</profileActive>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>

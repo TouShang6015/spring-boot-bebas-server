@@ -1,0 +1,44 @@
+package ${packageModuleName}.org.modules.model.${moduleName}.model;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
+import com.org.bebasWh.core.model.BaseModel;
+import lombok.*;
+
+/**
+ * ${comments} Model
+ *
+ * @author ${author}
+ * @date ${datetime}
+ * @tableName ${tableName}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("${tableName}")
+public class ${className}Model extends BaseModel {
+
+	private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if(
+	$column.attrNameAttribute == "id" ||
+	$column.attrNameAttribute == "createTime" ||
+	$column.attrNameAttribute == "createOper" ||
+	$column.attrNameAttribute == "updateTime" ||
+	$column.attrNameAttribute == "updateOper" ||
+	$column.attrNameAttribute == "version" ||
+	$column.attrNameAttribute == "delFlag"
+)
+#else
+	/**
+	 * $column.comments
+	 */
+	@ApiModelProperty(value = "$column.comments", dataType = "$column.attrType")
+	private $column.attrType $column.attrNameAttribute;
+#end
+#end
+
+}

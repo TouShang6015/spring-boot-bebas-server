@@ -1,0 +1,117 @@
+server:
+  port: 7001
+  servlet:
+    # 应用的访问路径
+    context-path: /
+    tomcat:
+      # tomcat的URI编码
+      uri-encoding: UTF-8
+      # 连接数满后的排队数，默认为100
+      accept-count: 500
+      threads:
+        # tomcat最大线程数，默认为200
+        max: 600
+        # Tomcat启动初始化的线程数，默认值10
+        min-spare: 30
+
+# 日志配置
+logging:
+  level:
+    com.bebas.module: debug
+    org.springframework: warn
+
+mybatis-plus:
+  configuration:
+    # map 映射value为null的情况
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
+  global-config:
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: INPUT
+      #数据库大写下划线转换
+      capital-mode: true
+      #逻辑删除配置
+      logic-delete-value: 1 # 逻辑已删除值
+      logic-not-delete-value: 0 #逻辑未删除值
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.bebas.module
+
+spring:
+  # security
+  security:
+    user:
+      name: wuhao
+      password: 123456
+  # 数据库mysql
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.alibaba.druid.pool.xa.DruidXADataSource
+      url: jdbc:mysql://localhost:3306/导入后的数据库名?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
+      username: 你的mysql用户名
+      password: 你的mysql密码
+      #初始化时建立物理连接的个数
+      initial-size: 5
+      #池中最大连接数
+      max-active: 20
+      #最小空闲连接
+      min-idle: 1
+      #获取连接时最大等待时间，单位毫秒
+      max-wait: 10000
+      #有两个含义：
+      #1) Destroy线程会检测连接的间隔时间，如果连接空闲时间大于等于minEvictableIdleTimeMillis则关闭物理连接。
+      #2) testWhileIdle的判断依据，详细看testWhileIdle属性的说明
+      time-between-eviction-runs-millis: 60000
+      #连接保持空闲而不被驱逐的最小时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      #使用该SQL语句检查链接是否可用。如果validationQuery=null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用。
+      validationQuery: SELECT 1 FROM DUAL
+      #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  # redis配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 10
+    password:
+    timeout: 10s
+    Lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 20
+        max-wait: -1ms
+  # rabbitMQ
+  rabbitmq:
+    host: xxxxxx
+    port: 5672
+    virtual-host: test
+    username: 登录名
+    password: 密码
+    # 开启消息确认模式  消息发送到交换机确认机制，是否返回回调
+    publisher-returns: true
+    template:
+      #开启mandatory: true, basic.return方法将消息返还给生产者
+      mandatory: true
+    listener:
+      simple:
+        # 手动应答
+        acknowledge-mode: manual
+        # 最少消费者数量
+        concurrency: 1
+        # 最多消费者数量
+        max-concurrency: 10
+        # 支持重试
+        retry:
+          enabled: true

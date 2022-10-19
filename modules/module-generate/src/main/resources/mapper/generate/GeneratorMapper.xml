@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bebas.module.generate.mapper.GeneratorMapper">
+	<select id="selectTableList" resultType="com.bebas.module.generate.model.TableInfoModel">
+		SELECT
+			table_name tableName,
+			ENGINE,
+			table_comment tableComment,
+			create_time createTime,
+			update_time updateTime
+		FROM information_schema.TABLES
+		<where>
+			<if test="databaseName == null">
+				and table_schema = (SELECT DATABASE())
+			</if>
+			<if test="databaseName != null and databaseName.trim() != ''">
+				and table_schema = (#{databaseName})
+			</if>
+			<if test="tableName != null and tableName.trim() != ''">
+				and table_name like concat('%',#{param.tableName},'%')
+			</if>
+		</where>
+		order by update_time desc
+	</select>
+
+	<select id="selectTableListPage" resultType="com.bebas.module.generate.model.TableInfoModel">
+		SELECT
+			(select database()) as databaseName,
+			table_name tableName,
+			ENGINE,
+			table_comment tableComment,
+			create_time createTime,
+			update_time updateTime
+		FROM information_schema.TABLES
+		<where>
+			<if test="param.databaseName == null">
+				and table_schema = (SELECT DATABASE())
+			</if>
+			<if test="param.databaseName != null and param.databaseName.trim() != ''">
+				and table_schema = (#{param.databaseName})
+			</if>
+			<if test="param.tableName != null and param.tableName.trim() != ''">
+				and table_name like concat('%',#{param.tableName},'%')
+			</if>
+			<if test="param.tableComment != null and param.tableComment.trim() != ''">
+				and table_comment like concat('%',#{param.tableComment},'%')
+			</if>
+			<if test="param.tableNames != null and param.tableNames.size() > 0">
+				and `table_name` in
+				<foreach collection="param.tableNames" item="tableName" open="(" separator="," close=")">
+					#{tableName}
+				</foreach>
+			</if>
+		</where>
+		order by create_time,update_time desc
+	</select>
+
+	<select id="selectColumnsList" resultType="com.bebas.module.generate.model.TableColumnsModel">
+		select
+				(select database()) as databaseName,
+			   table_name as tableName,
+		       column_name columnName,
+		       data_type dataType,
+		       column_comment columnComment,
+		       column_key columnKey,
+		       extra
+		from information_schema.columns
+		<where>
+			and table_schema = (select database())
+			<if test="tableNames != null and tableNames.size() > 0">
+				and `table_name` in
+				<foreach collection="tableNames" item="tableName" open="(" separator="," close=")">
+					#{tableName}
+				</foreach>
+			</if>
+		</where>
+		order by ordinal_position
+	</select>
+
+</mapper>

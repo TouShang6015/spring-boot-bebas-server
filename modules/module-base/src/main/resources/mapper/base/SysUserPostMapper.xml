@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bebas.module.base.mapper.SysUserPostMapper">
+
+    <resultMap type="com.bebas.org.modules.model.base.model.SysUserPostModel" id="baseMap">
+            <result property="id" column="id"/>
+            <result property="createTime" column="create_time"/>
+            <result property="createOper" column="create_oper"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="updateOper" column="update_oper"/>
+            <result property="delFlag" column="del_flag"/>
+            <result property="version" column="version"/>
+            <result property="userId" column="user_id"/>
+            <result property="postId" column="post_id"/>
+        </resultMap>
+
+    <resultMap type="com.bebas.org.modules.model.base.dto.SysUserPostDTO" id="dtoMap">
+
+    </resultMap>
+
+    <select id="selectPostByUserId" resultType="com.bebas.org.modules.model.base.model.SysPostModel">
+        select sp.* from sys_post sp
+        inner join sys_user_post sup on sup.user_id = #{userId} and sup.post_id = sp.id
+    </select>
+
+</mapper>

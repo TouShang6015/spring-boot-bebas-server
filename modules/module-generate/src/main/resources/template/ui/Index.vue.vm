@@ -1,0 +1,130 @@
+<template>
+    <div class="app-container">
+        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="76px">
+            <el-form-item label="id" prop="id">
+                <el-input v-model="queryParams.id" placeholder="需要查询的字段" clearable @keyup.enter.native="baseHandleQuery"/>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="baseHandleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-form-item>
+        </el-form>
+
+        <el-row :gutter="10" class="mb8">
+            <el-col :span="1.5">
+                <el-button type="primary"
+                           icon="el-icon-plus" size="mini"
+                           @click="baseHandleAdd">新增</el-button>
+            </el-col>
+            <el-col :span="1.5">
+                <el-button type="success" icon="el-icon-edit"
+                           size="mini" :disabled="single"
+                           @click="baseHandleEdit(null,true)">修改</el-button>
+            </el-col>
+            <el-col :span="1.5">
+                <el-button type="danger"
+                           icon="el-icon-delete" size="mini"
+                           :disabled="multiple"
+                           @click="submitDelete()">删除</el-button>
+            </el-col>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="baseHandleQuery"></right-toolbar>
+        </el-row>
+
+        <el-table
+                v-loading="loading"
+                :data="tableList"
+                :header-cell-style="tableStyle"
+                border
+                @selection-change="baseHandleSelectionChange">
+            <el-table-column type="selection" width="55" align="center" />
+    #foreach ($column in $columns)
+        #if(
+            $column.attrNameAttribute == "id" ||
+            $column.attrNameAttribute == "updateTime" ||
+            $column.attrNameAttribute == "updateOper" ||
+            $column.attrNameAttribute == "version" ||
+            $column.attrNameAttribute == "delFlag"
+        )
+        #else
+            <el-table-column label="$column.comments" align="center" prop="$column.attrNameAttribute"/>
+        #end
+    #end
+            <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            type="success"
+                            icon="el-icon-edit"
+                            @click="baseHandleEdit(scope.row)"
+                    >修改</el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            icon="el-icon-delete"
+                            @click="submitDelete(scope.row.id)"
+                    >删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+
+        <pagination
+                v-show="total>0"
+                :total="total"
+                :page.sync="queryParams.page"
+                :limit.sync="queryParams.size"
+                @pagination="baseHandleQuery"
+        />
+
+        <!-- 添加或修改岗位对话框 -->
+        <el-dialog :title="title" :visible.sync="dialog" width="500px" append-to-body>
+            <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        #foreach ($column in $columns)
+            #if(
+                $column.attrNameAttribute == "id" ||
+                $column.attrNameAttribute == "createTime" ||
+                $column.attrNameAttribute == "createOper" ||
+                $column.attrNameAttribute == "updateTime" ||
+                $column.attrNameAttribute == "updateOper" ||
+                $column.attrNameAttribute == "version" ||
+                $column.attrNameAttribute == "delFlag"
+            )
+            #else
+                <el-form-item label="$column.comments" prop="$column.attrNameAttribute">
+                    <el-input v-model="form.$column.attrNameAttribute" placeholder="请输入$column.comments" />
+                </el-form-item>
+            #end
+        #end
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="submitForm">确 定</el-button>
+                <el-button @click="cancel">取 消</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</template>
+
+<script>
+    import crud from '/src/common/crud/crud';
+
+    export default {
+        name: "${className}",
+        mixins:[crud],
+        data() {
+            return {
+                // 表单校验
+                rules: {
+                }
+            };
+        },
+        created() {
+            this.baseHandleQuery();
+        },
+        methods: {
+            baseInit(){
+                this.url = "/module/${moduleName}/${classNameFlag}";
+                this.viewName = '${comments}';
+                return true;
+            }
+        }
+    };
+</script>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bebas.module.base.mapper.SysRoleDeptMapper">
+
+    <resultMap type="com.bebas.org.modules.model.base.model.SysRoleDeptModel" id="baseMap">
+            <result property="id" column="id"/>
+            <result property="createTime" column="create_time"/>
+            <result property="createOper" column="create_oper"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="updateOper" column="update_oper"/>
+            <result property="delFlag" column="del_flag"/>
+            <result property="version" column="version"/>
+            <result property="roleId" column="role_id"/>
+            <result property="deptId" column="dept_id"/>
+        </resultMap>
+
+    <resultMap type="com.bebas.org.modules.model.base.dto.SysRoleDeptDTO" id="dtoMap">
+
+    </resultMap>
+
+    <select id="selectDeptIdsByRoleId" resultType="java.lang.Long">
+        select d.id from sys_dept d
+        left join sys_role_dept rd on d.id = rd.dept_id
+        where rd.role_id = #{roleId}
+        <if test="deptCheckStrictly == 1">
+            and d.id not in (select d.parent_id from sys_dept d inner join sys_role_dept rd on d.id = rd.dept_id and rd.role_id = #{roleId})
+        </if>
+        order by d.order_num
+    </select>
+
+</mapper>

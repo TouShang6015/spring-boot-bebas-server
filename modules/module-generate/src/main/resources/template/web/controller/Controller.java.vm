@@ -1,0 +1,29 @@
+package ${packageModuleName}.module.${moduleName}.web.controller;
+
+import ${packageModuleName}.org.modules.model.${moduleName}.model.${className}Model;
+import ${packageModuleName}.module.${moduleName}.web.service.I${className}Service;
+import com.bebas.org.common.web.controller.BaseController;
+import com.bebas.org.modules.constants.ApiPrefixConstant;
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+
+/**
+ * ${comments} 控制器
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping(ApiPrefixConstant.Modules.${ModuleName} + "/${classNameFlag}")
+@Api(value = "${className}Model",tags = "${comments}")
+public class ${className}Controller extends BaseController<I${className}Service,${className}Model> {
+
+    @Resource
+    public void setService(I${className}Service service) {
+        super.service = service;
+    }
+
+}

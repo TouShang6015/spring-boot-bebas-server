@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bebas.module.base.mapper.SysPermissionMapper">
+
+    <resultMap type="com.bebas.org.modules.model.base.model.SysPermissionModel" id="baseMap">
+            <result property="id" column="id"/>
+            <result property="createTime" column="create_time"/>
+            <result property="createOper" column="create_oper"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="updateOper" column="update_oper"/>
+            <result property="delFlag" column="del_flag"/>
+            <result property="version" column="version"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="title" column="title"/>
+            <result property="routePath" column="route_path"/>
+            <result property="permissionTag" column="permission_tag"/>
+            <result property="requestMethod" column="request_method"/>
+        </resultMap>
+
+    <resultMap type="com.bebas.org.modules.model.base.dto.SysPermissionDTO" id="dtoMap">
+
+    </resultMap>
+
+    <select id="selectListByUserId" resultType="com.bebas.org.modules.model.base.model.SysPermissionModel">
+        select
+            a.*
+        from sys_permission a
+        where a.if_route = 1
+        and exists(
+            select 1 from sys_role_permission t1
+            left join sys_user_role t2 on t2.role_id = t1.role_id
+            where t2.user_id = #{userId}
+            and a.id = t1.permission_id
+        )
+    </select>
+
+</mapper>

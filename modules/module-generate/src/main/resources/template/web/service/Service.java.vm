@@ -1,0 +1,14 @@
+package ${packageModuleName}.module.${moduleName}.web.service;
+
+import com.org.bebasWh.mapper.service.IService;
+import ${packageModuleName}.org.modules.model.${moduleName}.model.${className}Model;
+
+/**
+ * ${comments} 业务接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${className}Service extends IService<${className}Model> {
+
+}
