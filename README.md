@@ -22,6 +22,30 @@ javaWeb快速开发框架，持久层使用mybatisPlus，封装BaseController进
 - TreeBuild类，简化树模型构建
 - 策略器模式实现部门、角色权限范围管理，文件上传
 
+
+最终controller代码
+
+```java
+/**
+ * 通知公告表 控制器
+ *
+ * @author WuHao
+ * @date 2022-05-25 22:41:42
+ */
+@RestController
+@RequestMapping(ApiPrefixConstant.Modules.BASE + "/sysnotice")
+@Api(value = "SysNoticeModel",tags = "通知公告")
+public class SysNoticeController extends BaseController<ISysNoticeService,SysNoticeModel> {
+
+    @Resource
+    @Override
+    public void setService(ISysNoticeService service) {
+        super.service = service;
+    }
+
+}
+```
+
 ### 目录结构
 
 ```
