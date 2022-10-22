@@ -175,7 +175,7 @@ SpringBoot-bebas
 默认端口7001
 ```
 
-<h3>我的个人博客： [equinox-blog](https://www.equinoxblog.site)
+**我的个人博客** ： [equinox-blog](https://www.equinoxblog.site)
 
 ## 运行截图
 > 首页
