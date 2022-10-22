@@ -37,11 +37,11 @@ javaWeb快速开发框架，持久层使用mybatisPlus，封装BaseController进
 @Api(value = "SysNoticeModel",tags = "通知公告")
 public class SysNoticeController extends BaseController<ISysNoticeService,SysNoticeModel> {
 
-    @Resource
-    @Override
-    public void setService(ISysNoticeService service) {
-        super.service = service;
-    }
+  @Resource
+  @Override
+  public void setService(ISysNoticeService service) {
+    super.service = service;
+  }
 
 }
 ```
@@ -75,22 +75,22 @@ SpringBoot-bebas
 
 - 网站配置管理
 - 系统管理
-    - 用户管理
-    - 部门管理
-    - 岗位管理
-    - 字典管理
-    - 通知公告
-    - 素材管理
+  - 用户管理
+  - 部门管理
+  - 岗位管理
+  - 字典管理
+  - 通知公告
+  - 素材管理
 - 权限管理
-    - 角色管理
-    - 菜单管理
-    - 接口路由管理
+  - 角色管理
+  - 菜单管理
+  - 接口路由管理
 - 日志管理
 - 系统工具
-    - 表单构建
-    - 代码生成
-    - 接口文档
-    - 定时任务
+  - 表单构建
+  - 代码生成
+  - 接口文档
+  - 定时任务
 
 > 部分功能未完善，持续更新中
 
@@ -175,3 +175,27 @@ SpringBoot-bebas
 默认端口7001
 ```
 
+<h3>我的个人博客： [equinox-blog](https://www.equinoxblog.site)
+
+## 运行截图
+> 首页
+
+![图片.png](http://static.equinoxblog.site/articles/34a56d1d8035e5884f9f538680ec79f2.png)
+> 网站信息配置
+
+![图片.png](http://static.equinoxblog.site/articles/49344f5f2c552f0a86c61c66ed7dee90.png)
+> 动态路由权限配置
+
+![图片.png](http://static.equinoxblog.site/articles/fb9418437412aff424c1dadac26fa98c.png)
+> 用户管理
+
+![图片.png](http://static.equinoxblog.site/articles/7d820dfac984bd55162d7e04476f5877.png)
+> 素材管理
+
+![图片.png](http://static.equinoxblog.site/articles/963df79ec312ffc3089d3bf918109b73.png)
+> 角色管理
+
+![图片.png](http://static.equinoxblog.site/articles/1e89485eadc6b31532e78177b383ea1c.png)
+> 代码生成
+
+![图片.png](http://static.equinoxblog.site/articles/62e7dc3f5f5ce3d1ac1b545368eba2cc.png)
