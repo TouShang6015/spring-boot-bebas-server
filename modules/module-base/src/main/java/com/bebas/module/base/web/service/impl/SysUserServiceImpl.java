@@ -3,13 +3,9 @@ package com.bebas.module.base.web.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
-import com.org.bebasWh.utils.OptionalUtil;
 import com.bebas.module.base.core.dataPermission.annotation.PermissionData;
 import com.bebas.module.base.mapper.SysUserMapper;
 import com.bebas.module.base.web.service.*;
-import com.org.bebasWh.exception.UserException;
-import com.org.bebasWh.utils.StringUtils;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.common.security.utils.SecurityUtils;
 import com.bebas.org.common.utils.MessageUtils;
@@ -19,11 +15,18 @@ import com.bebas.org.modules.model.base.model.*;
 import com.bebas.org.modules.model.base.vo.user.UserInfo;
 import com.bebas.org.modules.webapi.base.ISysPermissionWebApi;
 import com.bebas.org.modules.webapi.base.ISysUserWebApi;
+import com.org.bebasWh.exception.UserException;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.org.bebasWh.utils.OptionalUtil;
+import com.org.bebasWh.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,12 +37,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel> implements ISysUserService, ISysUserWebApi {
-
-    @Resource
-    @Override
-    protected void setMapper(SysUserMapper mapper) {
-        super.mapper = mapper;
-    }
 
     @Resource
     private ISysDeptService sysDeptService;
@@ -73,15 +70,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
     @PermissionData
     public IPage<SysUserModel> listPageByParam(IPage<SysUserModel> page, SysUserModel param) {
         this.buildParam(param);
-        return super.listPageByParam(page,param);
+        return super.listPageByParam(page, param);
     }
 
-    private void buildParam(SysUserModel param){
+    private void buildParam(SysUserModel param) {
         // 部门查询条件
         Long deptId = param.getDeptId();
         if (Objects.nonNull(deptId)) {
             String deptIds = OptionalUtil.ofNullList(
-                        sysDeptService.lambdaQuery().and(deptWrapper -> deptWrapper.eq(SysDeptModel::getId, deptId).or().apply(StringUtils.format("FIND_IN_SET({},{})", deptId, "ancestors"))).list()
+                            sysDeptService.lambdaQuery().and(deptWrapper -> deptWrapper.eq(SysDeptModel::getId, deptId).or().apply(StringUtils.format("FIND_IN_SET({},{})", deptId, "ancestors"))).list()
                     )
                     .stream()
                     .map(SysDeptModel::getId)
@@ -89,7 +86,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
                     .map(String::valueOf)
                     .collect(Collectors.joining(StringPool.COMMA));
             if (StringUtils.isNotEmpty(deptIds)) {
-                param.queryParamIn("deptId",deptIds);
+                param.queryParamIn(SysUserModel::getDeptId, deptIds);
             }
         }
     }
@@ -124,7 +121,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
     @Override
     public List<SysUserDTO> selectDetailList(SysUserDTO param) {
         List<SysUserModel> userModelList = super.listByParam(param);
-        if (CollUtil.isEmpty(userModelList)){
+        if (CollUtil.isEmpty(userModelList)) {
             return CollUtil.newArrayList();
         }
         // 获取部门信息
@@ -146,12 +143,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
      */
     @Override
     public SysUserDTO selectUserDetailById(Long id) {
-        return mapper.selectUserDetailById(id);
+        return baseMapper.selectUserDetailById(id);
     }
 
     @Override
     public IPage<SysUserDTO> selectAllocatedList(IPage<SysUserDTO> page, SysUserDTO user) {
-        return mapper.selectAllocatedList(page, user);
+        return baseMapper.selectAllocatedList(page, user);
     }
 
     /**
@@ -162,7 +159,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
      */
     @Override
     public IPage<SysUserDTO> selectUnallocatedList(IPage<SysUserDTO> page, SysUserDTO user) {
-        return mapper.selectUnallocatedList(page, user);
+        return baseMapper.selectUnallocatedList(page, user);
     }
 
     /**
@@ -185,7 +182,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
      */
     @Override
     public SysUserDTO selectUserById(Long userId) {
-        return mapper.selectUserDetailById(userId);
+        return baseMapper.selectUserDetailById(userId);
     }
 
     /**
@@ -211,7 +208,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
      */
     @Override
     public String selectUserPostGroup(String userName) {
-        List<SysPostModel> postList = mapper.selectPostsByUserName(userName);
+        List<SysPostModel> postList = baseMapper.selectPostsByUserName(userName);
         if (CollectionUtils.isEmpty(postList)) {
             return StringUtils.EMPTY;
         }
@@ -227,7 +224,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
     @Override
     public boolean checkUserNameUnique(SysUserModel param) {
         Long userId = Objects.isNull(param.getId()) ? -1L : param.getId();
-        SysUserModel model = lambdaQuery().eq(SysUserModel::getUserName, param.getUserName()).ne(SysUserModel::getId,userId).one();
+        SysUserModel model = lambdaQuery().eq(SysUserModel::getUserName, param.getUserName()).ne(SysUserModel::getId, userId).one();
         return Objects.isNull(model);
     }
 
@@ -240,7 +237,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
     @Override
     public boolean checkPhoneUnique(SysUserModel param) {
         Long userId = Objects.isNull(param.getId()) ? -1L : param.getId();
-        SysUserModel model = lambdaQuery().eq(SysUserModel::getPhonenumber, param.getPhonenumber()).ne(SysUserModel::getId,userId).one();
+        SysUserModel model = lambdaQuery().eq(SysUserModel::getPhonenumber, param.getPhonenumber()).ne(SysUserModel::getId, userId).one();
         return Objects.isNull(model);
     }
 
@@ -253,7 +250,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
     @Override
     public boolean checkEmailUnique(SysUserModel param) {
         Long userId = Objects.isNull(param.getId()) ? -1L : param.getId();
-        SysUserModel model = lambdaQuery().eq(SysUserModel::getEmail, param.getEmail()).ne(SysUserModel::getId,userId).one();
+        SysUserModel model = lambdaQuery().eq(SysUserModel::getEmail, param.getEmail()).ne(SysUserModel::getId, userId).one();
         return Objects.isNull(model);
     }
 

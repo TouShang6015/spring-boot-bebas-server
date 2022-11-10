@@ -2,12 +2,12 @@ package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.bebas.module.base.mapper.SysPostMapper;
-import com.bebas.module.base.web.service.ISysUserPostService;
-import com.org.bebasWh.exception.BusinessException;
-import com.bebas.org.modules.model.base.model.SysPostModel;
 import com.bebas.module.base.web.service.ISysPostService;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.bebas.module.base.web.service.ISysUserPostService;
+import com.bebas.org.modules.model.base.model.SysPostModel;
 import com.bebas.org.modules.model.base.model.SysUserPostModel;
+import com.org.bebasWh.exception.BusinessException;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,13 +22,7 @@ import java.util.Objects;
  * @date 2022-05-25 22:01:16
  */
 @Service
-public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPostModel> implements ISysPostService {
-
-    @Resource
-    @Override
-    protected void setMapper(SysPostMapper mapper) {
-        super.mapper = mapper;
-    }
+public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPostModel> implements ISysPostService {
 
     @Resource
     private ISysUserPostService sysUserPostService;
@@ -36,7 +30,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPostModel> 
     @Override
     public boolean removeByIds(Collection<?> list) {
         List<SysUserPostModel> sysUserPostModelList = sysUserPostService.lambdaQuery().in(SysUserPostModel::getPostId, list).list();
-        if (!CollUtil.isEmpty(sysUserPostModelList)){
+        if (!CollUtil.isEmpty(sysUserPostModelList)) {
             throw new BusinessException("已分配用户，无法删除");
         }
         return super.removeByIds(list);
@@ -51,7 +45,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPostModel> 
     @Override
     public boolean checkPostNameUnique(SysPostModel model) {
         Long postId = Objects.isNull(model.getId()) ? -1L : model.getId();
-        List<SysPostModel> list = lambdaQuery().eq(SysPostModel::getPostName, model.getPostName()).ne(SysPostModel::getId,postId).list();
+        List<SysPostModel> list = lambdaQuery().eq(SysPostModel::getPostName, model.getPostName()).ne(SysPostModel::getId, postId).list();
         return CollUtil.isEmpty(list);
     }
 
@@ -64,7 +58,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper,SysPostModel> 
     @Override
     public boolean checkPostCodeUnique(SysPostModel model) {
         Long postId = Objects.isNull(model.getId()) ? -1L : model.getId();
-        List<SysPostModel> list = lambdaQuery().eq(SysPostModel::getPostCode, model.getPostCode()).ne(SysPostModel::getId,postId).list();
+        List<SysPostModel> list = lambdaQuery().eq(SysPostModel::getPostCode, model.getPostCode()).ne(SysPostModel::getId, postId).list();
         return CollUtil.isEmpty(list);
     }
 }

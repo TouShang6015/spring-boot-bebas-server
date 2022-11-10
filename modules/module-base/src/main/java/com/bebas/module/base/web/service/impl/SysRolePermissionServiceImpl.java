@@ -17,9 +17,4 @@ import javax.annotation.Resource;
 @Service
 public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper,SysRolePermissionModel> implements ISysRolePermissionService {
 
-    @Resource
-    protected void setMapper(SysRolePermissionMapper mapper) {
-        super.mapper = mapper;
-    }
-
 }

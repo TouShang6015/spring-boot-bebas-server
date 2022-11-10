@@ -2,14 +2,12 @@ package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.org.bebasWh.utils.OptionalUtil;
 import com.bebas.module.base.core.dataPermission.annotation.PermissionData;
 import com.bebas.module.base.mapper.SysDeptMapper;
+import com.bebas.module.base.web.service.ISysDeptService;
 import com.bebas.module.base.web.service.ISysRoleDeptService;
 import com.bebas.module.base.web.service.ISysRoleService;
 import com.bebas.module.base.web.service.ISysUserService;
-import com.org.bebasWh.exception.BusinessException;
-import com.org.bebasWh.utils.StringUtils;
 import com.bebas.org.common.constants.Constants;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.common.utils.MessageUtils;
@@ -18,16 +16,20 @@ import com.bebas.org.common.utils.tree.vo.TreeModel;
 import com.bebas.org.modules.convert.base.SysDeptConvert;
 import com.bebas.org.modules.model.base.dto.SysDeptDTO;
 import com.bebas.org.modules.model.base.model.SysDeptModel;
-import com.bebas.module.base.web.service.ISysDeptService;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.bebas.org.modules.model.base.model.SysRoleDeptModel;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
 import com.bebas.org.modules.model.base.model.SysUserModel;
+import com.org.bebasWh.exception.BusinessException;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.org.bebasWh.utils.OptionalUtil;
+import com.org.bebasWh.utils.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -38,12 +40,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel> implements ISysDeptService {
-
-    @Resource
-    @Override
-    protected void setMapper(SysDeptMapper mapper) {
-        super.mapper = mapper;
-    }
 
     @Resource
     private ISysRoleDeptService sysRoleDeptService;
@@ -70,7 +66,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
     @Override
     @PermissionData
     public IPage<SysDeptModel> listPageByParam(IPage<SysDeptModel> page, SysDeptModel param) {
-        return super.listPageByParam(page,param);
+        return super.listPageByParam(page, param);
     }
 
     /**
@@ -168,7 +164,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
      */
     @Override
     public int selectNormalChildrenDeptById(Long deptId) {
-        return mapper.selectNormalChildrenDeptById(deptId);
+        return baseMapper.selectNormalChildrenDeptById(deptId);
     }
 
     /**
@@ -179,7 +175,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
      */
     @Override
     public boolean hasChildByDeptId(List<Long> deptIdList) {
-        return lambdaQuery().eq(SysDeptModel::getDelFlag,Constants.DelFlag.NORMAL).in(SysDeptModel::getParentId,deptIdList).count() > 0;
+        return lambdaQuery().eq(SysDeptModel::getDelFlag, Constants.DelFlag.NORMAL).in(SysDeptModel::getParentId, deptIdList).count() > 0;
     }
 
     /**
@@ -190,7 +186,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
      */
     @Override
     public boolean checkDeptExistUser(List<Long> deptIdList) {
-        return sysUserService.lambdaQuery().eq(SysUserModel::getDelFlag,Constants.DelFlag.NORMAL).in(SysUserModel::getDeptId,deptIdList).count() > 0;
+        return sysUserService.lambdaQuery().eq(SysUserModel::getDelFlag, Constants.DelFlag.NORMAL).in(SysUserModel::getDeptId, deptIdList).count() > 0;
     }
 
     /**
@@ -235,7 +231,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
                 throw new BusinessException(MessageUtils.message("business.base.dept.status.no_normal"));
             }
             dept.setAncestors(parentDept.getAncestors() + StringPool.COMMA + dept.getParentId());
-        }else{
+        } else {
             dept.setAncestors(SysDeptModel.DEFAULT_ANCESTORS);
         }
         return super.save(dept);
@@ -286,7 +282,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
      * @param oldAncestors 旧的父ID集合
      */
     public List<SysDeptModel> updateDeptChildren(Long deptId, String newAncestors, String oldAncestors) {
-        List<SysDeptModel> list = OptionalUtil.ofNullList(mapper.selectChildrenDeptById(deptId));
+        List<SysDeptModel> list = OptionalUtil.ofNullList(baseMapper.selectChildrenDeptById(deptId));
         list.parallelStream().forEach(item -> {
             item.setAncestors(item.getAncestors().replaceFirst(oldAncestors, newAncestors));
         });
@@ -301,7 +297,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
     private void updateParentDeptStatusNormal(SysDeptModel dept) {
         String ancestors = dept.getAncestors();
         List<Long> deptIds = Arrays.stream(ancestors.split(StringPool.COMMA)).map(Long::valueOf).collect(Collectors.toList());
-        lambdaUpdate().set(SysDeptModel::getStatus,Constants.Status.NORMAL).in(SysDeptModel::getId,deptIds).update();
+        lambdaUpdate().set(SysDeptModel::getStatus, Constants.Status.NORMAL).in(SysDeptModel::getId, deptIds).update();
     }
 
 }

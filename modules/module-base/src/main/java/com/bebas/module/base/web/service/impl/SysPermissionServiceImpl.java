@@ -2,9 +2,6 @@ package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
-import com.org.bebasWh.exception.CommonException;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
-import com.org.bebasWh.utils.OptionalUtil;
 import com.bebas.module.base.mapper.SysPermissionMapper;
 import com.bebas.module.base.web.service.ISysPermissionService;
 import com.bebas.module.base.web.service.ISysRolePermissionService;
@@ -21,6 +18,9 @@ import com.bebas.org.modules.model.base.dto.SysPermissionDTO;
 import com.bebas.org.modules.model.base.model.SysPermissionModel;
 import com.bebas.org.modules.model.base.model.SysRolePermissionModel;
 import com.bebas.org.modules.webapi.base.ISysPermissionWebApi;
+import com.org.bebasWh.exception.CommonException;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.org.bebasWh.utils.OptionalUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,11 +48,6 @@ import java.util.stream.Collectors;
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermissionModel> implements ISysPermissionService, ISysPermissionWebApi {
 
-    @Resource
-    protected void setMapper(SysPermissionMapper mapper) {
-        super.mapper = mapper;
-    }
-
     @Autowired
     private SecurityService securityService;
     @Autowired
@@ -71,10 +66,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     /**
      * 非超级管理员查询列表
+     *
      * @param param
      * @return
      */
-    private List<SysPermissionModel> getPermissionList(SysPermissionModel param){
+    private List<SysPermissionModel> getPermissionList(SysPermissionModel param) {
         if (SecurityUtils.isAdmin(SecurityUtils.getUserId())) {
             return super.listByParam(param);
         }
@@ -84,11 +80,10 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                         .in(SysRolePermissionModel::getRoleId, roleIds)
                         .select(SysRolePermissionModel::getPermissionId).list()
         ).stream().map(SysRolePermissionModel::getPermissionId).distinct().collect(Collectors.toList());
-        final List<Long> finalPermissionIds = OptionalUtil.ofNullListDefault(permissionIds,-1L);
-        return super.init(param)
-                .action(wrapper -> wrapper.in(Constants.MAIN_ID, finalPermissionIds))
-                .afterModel(model -> model.setId(null))
-                .execute(mapper -> mapper.selectList(queryWrapper)).get();
+        List<Long> finalPermissionIds = OptionalUtil.ofNullListDefault(permissionIds, -1L);
+        String finalPermissionIdsStr = finalPermissionIds.stream().map(String::valueOf).collect(Collectors.joining(","));
+        param.queryParamIn(SysPermissionModel::getId, finalPermissionIdsStr);
+        return super.listByParam(param);
     }
 
     /**
@@ -193,6 +188,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     /**
      * 构建树结构列表
+     *
      * @param dtoList
      * @return
      */
@@ -205,6 +201,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     /**
      * 获取角色的路由列表
+     *
      * @param roleId
      * @return
      */
@@ -240,7 +237,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
      */
     @Override
     public List<SysPermissionModel> getRouteList() {
-        return super.lambdaQuery().eq(SysPermissionModel::getIfRoute,Constants.BOOLEAN.TRUE).list();
+        return super.lambdaQuery().eq(SysPermissionModel::getIfRoute, Constants.BOOLEAN.TRUE).list();
     }
 
     /**
@@ -251,9 +248,9 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
      */
     @Override
     public Set<String> getUserPermissionTag(Long userId) {
-        if (SecurityUtils.isAdmin(userId)){
+        if (SecurityUtils.isAdmin(userId)) {
             return CollUtil.newHashSet(SecurityConstant.PERMISSION_TAG);
         }
-        return OptionalUtil.ofNullList(mapper.selectListByUserId(userId)).stream().map(SysPermissionModel::getPermissionTag).collect(Collectors.toSet());
+        return OptionalUtil.ofNullList(baseMapper.selectListByUserId(userId)).stream().map(SysPermissionModel::getPermissionTag).collect(Collectors.toSet());
     }
 }

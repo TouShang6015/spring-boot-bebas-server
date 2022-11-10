@@ -19,12 +19,6 @@ import java.util.List;
 @Service
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper,SysUserRoleModel> implements ISysUserRoleService {
 
-    @Resource
-    @Override
-    protected void setMapper(SysUserRoleMapper mapper) {
-        super.mapper = mapper;
-    }
-
     /**
      * 查询角色通过用户名
      *
@@ -33,7 +27,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper,SysUse
      */
     @Override
     public List<SysRoleModel> selectRolesByUserName(String userName) {
-        return mapper.selectRolesByUserName(userName);
+        return baseMapper.selectRolesByUserName(userName);
     }
 
     @Override

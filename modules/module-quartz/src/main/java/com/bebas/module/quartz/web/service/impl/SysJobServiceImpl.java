@@ -30,11 +30,6 @@ import java.util.List;
 public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJobModel> implements ISysJobService {
 
     @Resource
-    protected void setMapper(SysJobMapper mapper) {
-        super.mapper = mapper;
-    }
-
-    @Resource
     private Scheduler scheduler;
 
     /**

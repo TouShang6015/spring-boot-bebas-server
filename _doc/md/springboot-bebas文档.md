@@ -44,6 +44,25 @@ public class SysNoticeController extends BaseController<ISysNoticeService,SysNot
   }
 
 }
+
+```
+分页查询，前端参数传递
+```json
+{
+  "page": 1,
+  "size": 10,
+  "queryCondition": {   // 查询关键字
+    "createTime": "GT",
+    "createTime_": "LT",
+    "name": "LIKE"
+  },
+  "sortCondition": {    // 排序参数
+    "updateTime": false
+  },
+  "name": "test",
+  "createTime": "2022-10-24",   // 创建开始时间
+  "createTime_": "2022-11-27"   // 创建结束时间
+}
 ```
 
 ### 目录结构

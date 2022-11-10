@@ -1,16 +1,16 @@
 package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.org.bebasWh.mapper.utils.ModelUtil;
-import com.org.bebasWh.utils.OptionalUtil;
 import com.bebas.module.base.mapper.BaseDictDataMapper;
-import com.org.bebasWh.constants.RedisConstant;
-import com.org.bebasWh.core.redis.RedisCache;
+import com.bebas.module.base.web.service.IBaseDictDataService;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.modules.model.base.model.BaseDictDataModel;
-import com.bebas.module.base.web.service.IBaseDictDataService;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.bebas.org.modules.model.base.vo.LabelOption;
+import com.org.bebasWh.constants.RedisConstant;
+import com.org.bebasWh.core.redis.RedisCache;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.org.bebasWh.mapper.utils.ModelUtil;
+import com.org.bebasWh.utils.OptionalUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,12 +31,6 @@ public class BaseDictDataServiceImpl extends ServiceImpl<BaseDictDataMapper, Bas
     private final String KEY_LIST = ModelUtil.modelMainKey(BaseDictDataModel.class) + RedisConstant.Keyword.LIST_PARAM;
 
     private final String KEY_KEYWORD = ModelUtil.modelMainKey(BaseDictDataModel.class) + RedisConstant.Keyword.ID;
-
-    @Resource
-    @Override
-    protected void setMapper(BaseDictDataMapper mapper) {
-        super.mapper = mapper;
-    }
 
     @Resource
     private RedisCache redisCache;
@@ -64,9 +58,9 @@ public class BaseDictDataServiceImpl extends ServiceImpl<BaseDictDataMapper, Bas
      * @return
      */
     @Override
-    public BaseDictDataModel selectOneByTypeAndValue(@NotNull(message = "字典类型不能为空") String dictType,@NotNull(message = "字典值不能为空")  String dictValue) {
+    public BaseDictDataModel selectOneByTypeAndValue(@NotNull(message = "字典类型不能为空") String dictType, @NotNull(message = "字典值不能为空") String dictValue) {
         List<BaseDictDataModel> list = this.selectListByDictType(dictType);
-        if (!CollUtil.isEmpty(list)){
+        if (!CollUtil.isEmpty(list)) {
             return list.parallelStream().filter(item -> item.getDictValue().equals(dictValue)).findFirst().orElse(null);
         }
         return null;
@@ -81,10 +75,10 @@ public class BaseDictDataServiceImpl extends ServiceImpl<BaseDictDataMapper, Bas
     @Override
     public List<BaseDictDataModel> selectListByDictType(String dictType) {
         List<BaseDictDataModel> list = redisCache.getCacheList(KEY_LIST + dictType);
-        if (CollUtil.isEmpty(list)){
+        if (CollUtil.isEmpty(list)) {
             list = super.listByParam(BaseDictDataModel.builder().dictType(dictType).build());
             if (!CollUtil.isEmpty(list))
-                redisCache.setCacheList(KEY_LIST + dictType,list);
+                redisCache.setCacheList(KEY_LIST + dictType, list);
         }
         return list;
     }
@@ -143,9 +137,9 @@ public class BaseDictDataServiceImpl extends ServiceImpl<BaseDictDataMapper, Bas
                         Optional.of(idsList.parallelStream().map(this::selectOneById).map(BaseDictDataModel::getDictType).distinct().collect(Collectors.toList()))
                 )
                 .ifPresent(dictTypeList -> {
-            dictTypeList.parallelStream().forEach(this::flushCache);
-            super.removeBatchByIds(ids);
-        });
+                    dictTypeList.parallelStream().forEach(this::flushCache);
+                    super.removeBatchByIds(ids);
+                });
         return 1;
     }
 

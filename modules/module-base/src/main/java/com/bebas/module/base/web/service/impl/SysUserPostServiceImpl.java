@@ -16,10 +16,4 @@ import javax.annotation.Resource;
  */
 @Service
 public class SysUserPostServiceImpl extends ServiceImpl<SysUserPostMapper,SysUserPostModel> implements ISysUserPostService {
-
-    @Resource
-    @Override
-    protected void setMapper(SysUserPostMapper mapper) {
-        super.mapper = mapper;
-    }
 }

@@ -1,15 +1,14 @@
 package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.bebas.module.base.mapper.SysUserTokenMapper;
-import com.bebas.module.base.web.service.*;
+import com.bebas.module.base.web.service.ISysUserTokenService;
 import com.bebas.org.modules.model.base.model.SysUserTokenModel;
 import com.bebas.org.modules.webapi.base.ISysUserTokenWebApi;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,16 +18,11 @@ import java.util.List;
  * @date 2022-06-01 11:19:47
  */
 @Service
-public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenMapper,SysUserTokenModel> implements ISysUserTokenService, ISysUserTokenWebApi {
-
-    @Resource
-    @Override
-    protected void setMapper(SysUserTokenMapper mapper) {
-        super.mapper = mapper;
-    }
+public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenMapper, SysUserTokenModel> implements ISysUserTokenService, ISysUserTokenWebApi {
 
     /**
      * 根据tokenKey删除
+     *
      * @param tokenKey
      * @return
      */

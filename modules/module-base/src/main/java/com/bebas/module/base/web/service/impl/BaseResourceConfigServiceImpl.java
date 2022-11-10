@@ -4,14 +4,14 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.org.bebasWh.mapper.utils.ModelUtil;
 import com.bebas.module.base.mapper.BaseResourceConfigMapper;
-import com.org.bebasWh.core.function.OpenRunnable;
-import com.org.bebasWh.core.redis.RedisCache;
+import com.bebas.module.base.web.service.IBaseResourceConfigService;
 import com.bebas.org.common.core.cache.InitCache;
 import com.bebas.org.modules.model.base.model.BaseResourceConfigModel;
-import com.bebas.module.base.web.service.IBaseResourceConfigService;
+import com.org.bebasWh.core.function.OpenRunnable;
+import com.org.bebasWh.core.redis.RedisCache;
 import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.org.bebasWh.mapper.utils.ModelUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,12 +28,6 @@ import java.util.stream.Collectors;
 public class BaseResourceConfigServiceImpl extends ServiceImpl<BaseResourceConfigMapper, BaseResourceConfigModel> implements IBaseResourceConfigService, InitCache {
 
     private final String CONFIG_KEY = ModelUtil.modelMainKey(BaseResourceConfigModel.class) + "@configKey-";
-
-    @Resource
-    @Override
-    protected void setMapper(BaseResourceConfigMapper mapper) {
-        super.mapper = mapper;
-    }
 
     @Resource
     private RedisCache redisCache;
@@ -76,16 +70,16 @@ public class BaseResourceConfigServiceImpl extends ServiceImpl<BaseResourceConfi
     }
 
     @Override
-    public <T> T queryValueByConfigKey(String configKey, Class<T> tClass,Boolean cache) {
+    public <T> T queryValueByConfigKey(String configKey, Class<T> tClass, Boolean cache) {
         String resourceValue;
-        if (cache){
+        if (cache) {
             resourceValue = this.queryValueByConfigKey(configKey);
-        }else{
-            resourceValue = this.lambdaQuery().eq(BaseResourceConfigModel::getConfigKey,configKey).select(BaseResourceConfigModel::getResourceValue).one().getResourceValue();
+        } else {
+            resourceValue = this.lambdaQuery().eq(BaseResourceConfigModel::getConfigKey, configKey).select(BaseResourceConfigModel::getResourceValue).one().getResourceValue();
         }
         if (StrUtil.isEmpty(resourceValue))
             return null;
-        return JSONObject.parseObject(resourceValue,tClass);
+        return JSONObject.parseObject(resourceValue, tClass);
     }
 
     /**
@@ -126,7 +120,7 @@ public class BaseResourceConfigServiceImpl extends ServiceImpl<BaseResourceConfi
         redisCache.deleteObject(redisConfigKeyList);
         // 刷新缓存
         list.forEach(item -> {
-            redisCache.setCacheObject(CONFIG_KEY + item.getConfigKey(),item);
+            redisCache.setCacheObject(CONFIG_KEY + item.getConfigKey(), item);
         });
     }
 

@@ -1,13 +1,6 @@
 package com.bebas.module.base.web.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.org.bebasWh.core.json.JSONObjectBuilder;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
-import com.org.bebasWh.utils.ServletUtils;
-import com.org.bebasWh.utils.StringUtils;
-import com.org.bebasWh.utils.ip.AddressUtils;
-import com.org.bebasWh.utils.ip.IpUtils;
-import com.org.bebasWh.utils.logs.LogUtil;
 import com.bebas.module.base.mapper.SysLogininforMapper;
 import com.bebas.module.base.web.service.ISysLogininforService;
 import com.bebas.org.common.constants.ChannelConstant;
@@ -15,6 +8,13 @@ import com.bebas.org.common.constants.Constants;
 import com.bebas.org.framework.asyncMessage.MessageService;
 import com.bebas.org.framework.asyncMessage.annotation.MessageListener;
 import com.bebas.org.modules.model.base.model.SysLogininforModel;
+import com.org.bebasWh.core.json.JSONObjectBuilder;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.org.bebasWh.utils.ServletUtils;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.ip.AddressUtils;
+import com.org.bebasWh.utils.ip.IpUtils;
+import com.org.bebasWh.utils.logs.LogUtil;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +30,6 @@ import java.util.Date;
  */
 @Service
 public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper, SysLogininforModel> implements ISysLogininforService {
-
-    @Resource
-    @Override
-    protected void setMapper(SysLogininforMapper mapper) {
-        super.mapper = mapper;
-    }
 
     @Resource
     private MessageService messageService;
@@ -94,6 +88,6 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper, S
 
     @Override
     public void clean() {
-        mapper.clean();
+        baseMapper.clean();
     }
 }

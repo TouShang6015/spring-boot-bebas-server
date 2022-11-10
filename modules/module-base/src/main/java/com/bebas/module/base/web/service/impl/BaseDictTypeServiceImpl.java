@@ -3,18 +3,18 @@ package com.bebas.module.base.web.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.org.bebasWh.mapper.utils.ModelUtil;
-import com.org.bebasWh.utils.OptionalUtil;
 import com.bebas.module.base.mapper.BaseDictTypeMapper;
 import com.bebas.module.base.web.service.IBaseDictDataService;
-import com.org.bebasWh.constants.RedisConstant;
-import com.org.bebasWh.core.redis.RedisCache;
+import com.bebas.module.base.web.service.IBaseDictTypeService;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.modules.model.base.model.BaseDictDataModel;
 import com.bebas.org.modules.model.base.model.BaseDictTypeModel;
-import com.bebas.module.base.web.service.IBaseDictTypeService;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.bebas.org.modules.model.base.vo.LabelOption;
+import com.org.bebasWh.constants.RedisConstant;
+import com.org.bebasWh.core.redis.RedisCache;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
+import com.org.bebasWh.mapper.utils.ModelUtil;
+import com.org.bebasWh.utils.OptionalUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,17 +30,11 @@ import java.util.stream.Collectors;
  * @date 2022-05-25 22:41:42
  */
 @Service
-public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper,BaseDictTypeModel> implements IBaseDictTypeService {
+public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper, BaseDictTypeModel> implements IBaseDictTypeService {
 
     private final String KEY_TYPE = ModelUtil.modelMainKey(BaseDictTypeModel.class) + "@dictType-";
 
     private final String KEY_KEYWORD = ModelUtil.modelMainKey(BaseDictTypeModel.class) + RedisConstant.Keyword.ID;
-
-    @Resource
-    @Override
-    protected void setMapper(BaseDictTypeMapper mapper) {
-        super.mapper = mapper;
-    }
 
     @Resource
     private RedisCache redisCache;
@@ -65,8 +59,8 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper,Base
                 .collect(Collectors.toList());
     }
 
-    public void test(){
-        List<BaseDictTypeModel> baseDictTypeModels = mapper.selectList(new QueryWrapper<>());
+    public void test() {
+        List<BaseDictTypeModel> baseDictTypeModels = baseMapper.selectList(new QueryWrapper<>());
         System.out.println(baseDictTypeModels);
     }
 
@@ -79,8 +73,8 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper,Base
     @Override
     public BaseDictTypeModel selectOneByType(String dictType) {
         BaseDictTypeModel data = cacheGetByDictType(dictType);
-        if (ObjectUtil.isNull(data)){
-            data = lambdaQuery().eq(BaseDictTypeModel::getDictType,dictType).one();
+        if (ObjectUtil.isNull(data)) {
+            data = lambdaQuery().eq(BaseDictTypeModel::getDictType, dictType).one();
             if (Objects.nonNull(data))
                 cacheAddByDictType(data);
         }
@@ -138,13 +132,13 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper,Base
     @Override
     public int deleteByIds(List<Long> ids) {
         List<BaseDictTypeModel> list = super.listByIds(ids);
-        if (CollUtil.isEmpty(list)){
+        if (CollUtil.isEmpty(list)) {
             return 0;
         }
         super.removeBatchByIds(ids);
         // 删除子表
         List<String> dictTypeList = list.parallelStream().map(BaseDictTypeModel::getDictType).distinct().collect(Collectors.toList());
-        dictDataService.lambdaUpdate().in(BaseDictDataModel::getDictType,dictTypeList).remove();
+        dictDataService.lambdaUpdate().in(BaseDictDataModel::getDictType, dictTypeList).remove();
         return 1;
     }
 
@@ -165,8 +159,8 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper,Base
      */
     @Override
     public void cacheAddByDictType(final BaseDictTypeModel param) {
-        super.cacheAddById(redisCache,param);
-        redisCache.setCacheObject(KEY_TYPE + param.getDictType(),param);
+        super.cacheAddById(redisCache, param);
+        redisCache.setCacheObject(KEY_TYPE + param.getDictType(), param);
     }
 
 
@@ -178,7 +172,7 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper,Base
     @Override
     public void cacheDeleteByDictType(final String dictType) {
         Optional.ofNullable(this.selectOneByType(dictType)).ifPresent(model -> {
-            super.cacheDeleteById(redisCache,model.getId());
+            super.cacheDeleteById(redisCache, model.getId());
             redisCache.deleteObject(KEY_TYPE + dictType);
         });
     }

@@ -2,6 +2,7 @@ package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.bebas.module.base.mapper.SysMenuMapper;
+import com.bebas.module.base.web.service.ISysMenuService;
 import com.bebas.module.base.web.service.ISysRoleMenuService;
 import com.bebas.module.base.web.service.ISysRoleService;
 import com.bebas.module.base.web.service.ISysUserRoleService;
@@ -9,15 +10,14 @@ import com.bebas.org.common.constants.Constants;
 import com.bebas.org.common.security.utils.SecurityUtils;
 import com.bebas.org.common.utils.tree.TreeService;
 import com.bebas.org.common.utils.tree.vo.TreeModel;
-import com.org.bebasWh.core.redis.RedisCache;
 import com.bebas.org.modules.convert.base.SysMenuConvert;
 import com.bebas.org.modules.model.base.dto.SysMenuDTO;
 import com.bebas.org.modules.model.base.model.SysMenuModel;
-import com.bebas.module.base.web.service.ISysMenuService;
-import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.bebas.org.modules.model.base.model.SysRoleMenuModel;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
 import com.bebas.org.modules.model.base.vo.menu.RouteMenuVo;
+import com.org.bebasWh.core.redis.RedisCache;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -38,12 +38,6 @@ import java.util.stream.Collectors;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuModel> implements ISysMenuService {
 
     @Resource
-    @Override
-    protected void setMapper(SysMenuMapper mapper) {
-        super.mapper = mapper;
-    }
-
-    @Resource
     private RedisCache redisCache;
 
     @Resource
@@ -57,17 +51,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuModel>
 
     @Override
     public List<SysMenuModel> listByParam(SysMenuModel param) {
-        return super.init(param)
-                .action(wrapper -> {
-                    if (!SecurityUtils.isAdmin(SecurityUtils.getUserId())){
-                        Set<Long> roleIds = CollUtil.isEmpty(SecurityUtils.getRoleIds()) ? CollUtil.newHashSet(-1L) : SecurityUtils.getRoleIds();
-                        List<Long> menuIds = sysRoleMenuService.lambdaQuery().in(SysRoleMenuModel::getRoleId, roleIds).list().stream().map(SysRoleMenuModel::getMenuId).distinct().collect(Collectors.toList());
-                        wrapper.in(Constants.MAIN_ID,menuIds);
-                    }
-                })
-                .afterModel(model -> model.setId(null))
-                .execute(mapper -> mapper.selectList(super.queryWrapper))
-                .get();
+        if (!SecurityUtils.isAdmin(SecurityUtils.getUserId())) {
+            Set<Long> roleIds = CollUtil.isEmpty(SecurityUtils.getRoleIds()) ? CollUtil.newHashSet(-1L) : SecurityUtils.getRoleIds();
+            List<Long> menuIds = sysRoleMenuService.lambdaQuery().in(SysRoleMenuModel::getRoleId, roleIds).list().stream().map(SysRoleMenuModel::getMenuId).distinct().collect(Collectors.toList());
+            param.queryParamIn(SysMenuModel::getId, menuIds);
+        }
+        return super.listByParam(param);
     }
 
     /**
@@ -97,8 +86,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuModel>
         if (SecurityUtils.isAdmin(userId)) {
             menuList = super.listByParam(menu);
         } else {
-            menu.getParamExtMap().put("userId",userId);
-            menuList = mapper.selectMenuListByUserId(menu);
+            menu.getParamExtMap().put("userId", userId);
+            menuList = baseMapper.selectMenuListByUserId(menu);
         }
         return menuList;
     }
@@ -145,7 +134,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuModel>
     @Override
     public List<TreeModel> buildMenuTreeSelect(List<SysMenuDTO> menus) {
         List<SysMenuDTO> list = treeService.convertTree(menus);
-        if (CollUtil.isEmpty(list)){
+        if (CollUtil.isEmpty(list)) {
             return CollUtil.newArrayList();
         }
         return list.stream().map(TreeModel::new).collect(Collectors.toList());
@@ -168,13 +157,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuModel>
 
     /**
      * 根据角色ID查询菜单树信息
+     *
      * @param roleId 角色ID
      * @return 选中菜单列表
      */
     @Override
     public List<Long> selectMenuListByRoleId(Long roleId) {
         SysRoleModel role = sysRoleService.getById(roleId);
-        return mapper.selectMenuListByRoleId(roleId, role.getMenuCheckStrictly());
+        return baseMapper.selectMenuListByRoleId(roleId, role.getMenuCheckStrictly());
     }
 
     /**
@@ -185,13 +175,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuModel>
      */
     private List<SysMenuModel> getPermissionMenuList(SysMenuModel param) {
         Long userId = SecurityUtils.getUserId();
-        List<SysMenuModel> menuList = super.init(param)
-                .action(wrapper -> wrapper.eq("status", Constants.Status.NORMAL).eq("visible",Constants.VISIBLE.SHOW))
-                .afterModel(m -> {
-                    m.setStatus(null);
-                    m.setVisible(null);
-                })
-                .execute(mapper -> mapper.selectList(super.queryWrapper)).get();
+        param.setStatus(Constants.Status.NORMAL);
+        param.setVisible(Constants.VISIBLE.SHOW);
+        List<SysMenuModel> menuList = super.listByParam(param);
         if (SecurityUtils.isAdmin(userId)) {
             return menuList;
         } else {

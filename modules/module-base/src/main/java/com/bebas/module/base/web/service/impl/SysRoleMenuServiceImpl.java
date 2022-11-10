@@ -17,10 +17,4 @@ import javax.annotation.Resource;
 @Service
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper,SysRoleMenuModel> implements ISysRoleMenuService {
 
-    @Resource
-    @Override
-    protected void setMapper(SysRoleMenuMapper mapper) {
-        super.mapper = mapper;
-    }
-
 }
