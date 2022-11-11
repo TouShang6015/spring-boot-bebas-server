@@ -1,8 +1,8 @@
 package com.bebas.org.modules.model.base.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.org.bebasWh.core.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
@@ -20,27 +20,27 @@ import lombok.*;
 @TableName("sys_notice")
 public class SysNoticeModel extends BaseModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 公告标题
-	 */
-	@ApiModelProperty(value = "公告标题", dataType = "String")
-	private String noticeTitle;
-	/**
-	 * 公告类型（1通知 2公告）
-	 */
-	@ApiModelProperty(value = "公告类型（1通知 2公告）", dataType = "String")
-	private String noticeType;
-	/**
-	 * 公告内容
-	 */
-	@ApiModelProperty(value = "公告内容", dataType = "String")
-	private String noticeContent;
-	/**
-	 * 公告状态（0正常 1关闭）
-	 */
-	@ApiModelProperty(value = "公告状态（0正常 1关闭）", dataType = "String")
-	private String status;
+    /**
+     * 公告标题
+     */
+    @ApiModelProperty(value = "公告标题", dataType = "String")
+    private String noticeTitle;
+    /**
+     * 公告类型（1通知 2公告）
+     */
+    @ApiModelProperty(value = "公告类型（1通知 2公告）", dataType = "String")
+    private String noticeType;
+    /**
+     * 公告内容
+     */
+    @ApiModelProperty(value = "公告内容", dataType = "String")
+    private String noticeContent;
+    /**
+     * 公告状态（0正常 1关闭）
+     */
+    @ApiModelProperty(value = "公告状态（0正常 1关闭）", dataType = "String")
+    private String status;
 
 }

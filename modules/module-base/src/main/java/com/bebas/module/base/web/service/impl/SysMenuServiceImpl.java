@@ -86,8 +86,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuModel>
         if (SecurityUtils.isAdmin(userId)) {
             menuList = super.listByParam(menu);
         } else {
-            menu.getParamExtMap().put("userId", userId);
-            menuList = baseMapper.selectMenuListByUserId(menu);
+            SysMenuDTO _queryParam = SysMenuConvert.INSTANCE.convertToDTO(menu);
+            _queryParam.setUserId(userId);
+            menuList = baseMapper.selectMenuListByUserId(_queryParam);
         }
         return menuList;
     }

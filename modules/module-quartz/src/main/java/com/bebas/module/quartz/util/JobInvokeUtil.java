@@ -1,9 +1,9 @@
 package com.bebas.module.quartz.util;
 
-import com.org.bebasWh.core.spring.SpringUtils;
-import com.org.bebasWh.utils.StringUtils;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.modules.model.quartz.model.SysJobModel;
+import com.org.bebasWh.core.spring.SpringUtils;
+import com.org.bebasWh.utils.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -153,7 +153,7 @@ public class JobInvokeUtil {
         Object[] classs = new Object[methodParams.size()];
         int index = 0;
         for (Object[] os : methodParams) {
-            classs[index] = (Object) os[0];
+            classs[index] = os[0];
             index++;
         }
         return classs;

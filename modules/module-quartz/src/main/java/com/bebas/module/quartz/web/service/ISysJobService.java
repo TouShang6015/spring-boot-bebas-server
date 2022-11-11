@@ -1,7 +1,7 @@
 package com.bebas.module.quartz.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.quartz.model.SysJobModel;
+import com.org.bebasWh.mapper.service.IService;
 import org.quartz.SchedulerException;
 
 /**
@@ -22,6 +22,7 @@ public interface ISysJobService extends IService<SysJobModel> {
 
     /**
      * 任务调度状态修改
+     *
      * @param newJob
      * @return
      */
@@ -45,6 +46,7 @@ public interface ISysJobService extends IService<SysJobModel> {
 
     /**
      * 立即执行任务
+     *
      * @param job
      */
     void run(SysJobModel job);

@@ -17,14 +17,12 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisLock {
 
-    @Autowired
-    private RedissonClient redissonClient;
-
     // 锁前缀，方便模糊查询
     public static final String PREFIX = "lock_";
-
     // 过期时间
     public static final long LOCK_TIMEOUT = 10;
+    @Autowired
+    private RedissonClient redissonClient;
 
     // 加锁
     public Boolean lock(String lockName) {

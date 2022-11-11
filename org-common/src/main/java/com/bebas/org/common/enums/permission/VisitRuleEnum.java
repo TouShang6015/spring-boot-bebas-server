@@ -11,12 +11,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum VisitRuleEnum {
 
-    /** 接口访问规则
-	 * 1 授权访问
-	 * 2 匿名访问（不携带token）
+    /**
+     * 接口访问规则
+     * 1 授权访问
+     * 2 匿名访问（不携带token）
      * 3 完全放行
-	 * 4 不可访问
-     * */
+     * 4 不可访问
+     */
 
     AUTH(1),
     ANONYMITY(2),

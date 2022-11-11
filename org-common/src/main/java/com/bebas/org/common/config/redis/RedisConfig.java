@@ -1,8 +1,8 @@
 package com.bebas.org.common.config.redis;
 
 import com.alibaba.fastjson.parser.ParserConfig;
-import com.org.bebasWh.utils.redis.FastJsonRedisSerializer;
 import com.org.bebasWh.constants.RedisConstant;
+import com.org.bebasWh.utils.redis.FastJsonRedisSerializer;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -55,11 +55,12 @@ public class RedisConfig {
 
     /**
      * redisson客户端
+     *
      * @return
      * @throws IOException
      */
     @Bean(destroyMethod = "shutdown")
-    public RedissonClient redissonClient(){
+    public RedissonClient redissonClient() {
         Config config = new Config();
         SingleServerConfig singleServerConfig = config.useSingleServer();
         StringBuilder address = new StringBuilder();

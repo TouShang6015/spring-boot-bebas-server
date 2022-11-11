@@ -1,8 +1,10 @@
 package com.bebas.org.common.constants;
 
 // todo 变更数据库同时此配置也需要更改
+
 /**
  * 系统配置常量类 (变更数据库同时此配置也需要更改)
+ *
  * @author WuHao
  * @date 2022/5/21 11:42
  */

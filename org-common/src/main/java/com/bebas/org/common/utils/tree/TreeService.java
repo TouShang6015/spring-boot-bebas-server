@@ -21,10 +21,11 @@ public interface TreeService<T extends TreeBaseModel> {
 
     /**
      * 根据父节点过滤
+     *
      * @param list
      * @param parentId
      * @return
      */
-    List<T> filterParent(List<T> list,Long parentId);
+    List<T> filterParent(List<T> list, Long parentId);
 
 }

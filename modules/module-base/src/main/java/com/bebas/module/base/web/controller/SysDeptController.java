@@ -1,32 +1,35 @@
 package com.bebas.module.base.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.org.bebasWh.utils.OptionalUtil;
+import com.bebas.module.base.web.service.ISysDeptService;
 import com.bebas.module.base.web.service.ISysRoleDeptService;
 import com.bebas.module.base.web.service.ISysRoleService;
-import com.org.bebasWh.enums.result.ResultEnum;
-import com.org.bebasWh.utils.MapperUtil;
-import com.org.bebasWh.utils.page.PageUtil;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.org.common.constants.Constants;
-import com.bebas.org.common.constants.StringPool;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.common.utils.tree.TreeService;
 import com.bebas.org.common.utils.tree.vo.TreeModel;
+import com.bebas.org.common.web.controller.BaseController;
 import com.bebas.org.framework.log.annotation.Log;
+import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.convert.base.SysDeptConvert;
 import com.bebas.org.modules.model.base.dto.SysDeptDTO;
 import com.bebas.org.modules.model.base.model.SysDeptModel;
-import com.bebas.module.base.web.service.ISysDeptService;
-import com.bebas.org.common.web.controller.BaseController;
-import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
+import com.org.bebasWh.enums.result.ResultEnum;
+import com.org.bebasWh.utils.MapperUtil;
+import com.org.bebasWh.utils.OptionalUtil;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.page.PageUtil;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -39,11 +42,6 @@ import java.util.stream.Collectors;
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/sysdept")
 @Api(value = "SysDeptModel", tags = "部门管理")
 public class SysDeptController extends BaseController<ISysDeptService, SysDeptModel> {
-
-    @Resource
-    public void setService(ISysDeptService service) {
-        super.service = service;
-    }
 
     @Resource
     private ISysRoleDeptService sysRoleDeptService;
@@ -75,7 +73,7 @@ public class SysDeptController extends BaseController<ISysDeptService, SysDeptMo
     protected Result baseQueryPageByParam(@RequestBody(required = false) SysDeptModel param) {
         Result result = Result.success();
         IPage<SysDeptModel> page = PageUtil.pageBean(param);
-        Optional.ofNullable(service.listPageByParam(page,param)).ifPresent(list -> {
+        Optional.ofNullable(service.listPageByParam(page, param)).ifPresent(list -> {
             List<SysDeptModel> records = list.getRecords();
             result.setData(SysDeptConvert.INSTANCE.convertToDTO(records));
         });
@@ -87,7 +85,7 @@ public class SysDeptController extends BaseController<ISysDeptService, SysDeptMo
     protected <DTO> Result baseAdd(@RequestBody DTO m) {
         SysDeptDTO param = MapperUtil.convert(m, SysDeptDTO.class);
         if (!service.checkDeptNameUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.dept.name.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Dept.DEPT_NAME_EXISTS_HANDLE_FAIL));
         }
         if (!service.insertDept(param)) {
             return Result.fail(ResultEnum.FAIL_INSERT);
@@ -102,11 +100,11 @@ public class SysDeptController extends BaseController<ISysDeptService, SysDeptMo
         Long deptId = param.getId();
         service.checkDeptDataScope(deptId);
         if (!service.checkDeptNameUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.dept.name.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Dept.DEPT_NAME_EXISTS_HANDLE_FAIL));
         } else if (param.getParentId().equals(deptId)) {
-            return Result.fail(MessageUtils.message("business.base.dept.parentid.no.self"));
+            return Result.fail(MessageUtils.message(MessageCode.Dept.PARENT_NOT_SELF_HANDLE_FAIL));
         } else if (Constants.Status.NO_NORMAL.equals(param.getStatus()) && service.selectNormalChildrenDeptById(deptId) > 0) {
-            return Result.fail(MessageUtils.message("business.base.dept.include.no_normal.dept"));
+            return Result.fail(MessageUtils.message(MessageCode.Dept.DEPT_INCLUDE_NOT_CLOSE_CHILDREN));
         }
         service.updateDept(param);
         return Result.success();
@@ -115,12 +113,12 @@ public class SysDeptController extends BaseController<ISysDeptService, SysDeptMo
     @Log(title = "部门删除")
     @Override
     protected Result baseDeleteByIds(@PathVariable("ids") String ids) {
-        List<Long> deptIdList = Arrays.stream(ids.split(StringPool.COMMA)).map(Long::valueOf).collect(Collectors.toList());
+        List<Long> deptIdList = StringUtils.splitToList(ids, Long::valueOf);
         if (service.hasChildByDeptId(deptIdList)) {
-            return Result.fail(MessageUtils.message("business.base.dept.include.lower.dept"));
+            return Result.fail(MessageUtils.message(MessageCode.Dept.EXISTS_CHILD_DEPT_NOT_HANDLE));
         }
         if (service.checkDeptExistUser(deptIdList)) {
-            return Result.fail(MessageUtils.message("business.base.dept.include.user.no.delete"));
+            return Result.fail(MessageUtils.message(MessageCode.Dept.EXISTS_CHILD_USER_NOT_HANDLE));
         }
         return super.baseDeleteByIds(ids);
     }
@@ -129,7 +127,7 @@ public class SysDeptController extends BaseController<ISysDeptService, SysDeptMo
     @GetMapping("/list/exclude/{deptId}")
     public Result excludeChild(@PathVariable Long deptId) {
         List<SysDeptModel> list = OptionalUtil.ofNullList(service.listByParam(new SysDeptModel())).stream()
-                .filter(item -> !(item.getId().equals(deptId) || Arrays.stream(item.getAncestors().split(StringPool.COMMA)).collect(Collectors.toList()).contains(deptId.toString())))
+                .filter(item -> !(item.getId().equals(deptId) || StringUtils.splitToList(item.getAncestors(), String::valueOf).contains(deptId.toString())))
                 .collect(Collectors.toList());
         return Result.success(list);
     }

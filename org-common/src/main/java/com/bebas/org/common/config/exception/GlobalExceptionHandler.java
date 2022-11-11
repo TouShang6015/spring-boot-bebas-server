@@ -39,8 +39,8 @@ public class GlobalExceptionHandler {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',权限校验失败'{}'", requestURI, e.getMessage());
         ServletUtils.renderString(response
-                ,HttpStatus.ERROR
-                ,JSON.toJSONString(Result.fail(HttpStatus.FORBIDDEN, "没有权限，请联系管理员授权"))
+                , HttpStatus.ERROR
+                , JSON.toJSONString(Result.fail(HttpStatus.FORBIDDEN, "没有权限，请联系管理员授权"))
         );
     }
 
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     public void handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request, HttpServletResponse response) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(StringUtils.format("不支持的{}请求",e.getMethod()))));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(StringUtils.format("不支持的{}请求", e.getMethod()))));
     }
 
     /**
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
     public void handleRuntimeException(RuntimeException e, HttpServletRequest request, HttpServletResponse response) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',发生未知异常.", requestURI, e);
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(ResultEnum.FAIL)));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(ResultEnum.FAIL)));
     }
 
     /**
@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
     public void handleException(Exception e, HttpServletRequest request, HttpServletResponse response) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',发生系统异常.", requestURI, e);
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(ResultEnum.FAIL)));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(ResultEnum.FAIL)));
     }
 
     /**
@@ -81,7 +81,7 @@ public class GlobalExceptionHandler {
     public void handleBindException(BindException e, HttpServletResponse response) {
         log.error(e.getMessage(), e);
         String message = e.getAllErrors().get(0).getDefaultMessage();
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(message)));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(message)));
     }
 
     /**
@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
     public void handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletResponse response) {
         log.error(e.getMessage(), e);
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(message)));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(message)));
     }
 
     /**
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public void handleServiceException(BusinessException e, HttpServletRequest request, HttpServletResponse response) {
         log.error(e.getMessage(), e);
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(e.getCode(), e.getMessage())));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(e.getCode(), e.getMessage())));
     }
 
     /**
@@ -109,7 +109,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CommonException.class)
     public void handleCommonException(CommonException e, HttpServletRequest request, HttpServletResponse response) {
         log.error(e.getMessage(), e);
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(e.getCode(), e.getMessage())));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(e.getCode(), e.getMessage())));
     }
 
     /**
@@ -118,7 +118,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserException.class)
     public void handleUserException(UserException e, HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.error(e.getMessage(), e);
-        ServletUtils.renderString(response,HttpStatus.SUCCESS,JSON.toJSONString(Result.fail(e.getCode(), e.getMessage())));
+        ServletUtils.renderString(response, HttpStatus.SUCCESS, JSON.toJSONString(Result.fail(e.getCode(), e.getMessage())));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.bebas.module.quartz.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.quartz.model.SysJobLogModel;
+import com.org.bebasWh.mapper.service.IService;
 
 /**
  * 定时任务调度日志表 业务接口

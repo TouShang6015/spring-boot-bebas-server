@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.bebas.module.base.mapper.BaseMaterialTypeMapper;
 import com.bebas.module.base.web.service.IBaseMaterialTypeService;
 import com.bebas.org.common.constants.Constants;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.modules.model.base.model.BaseMaterialTypeModel;
@@ -14,10 +15,8 @@ import com.org.bebasWh.utils.OptionalUtil;
 import com.org.bebasWh.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 素材分类 业务实现类
@@ -34,7 +33,7 @@ public class BaseMaterialTypeServiceImpl extends ServiceImpl<BaseMaterialTypeMap
         if (Objects.nonNull(parentModel)) {
             // 如果父节点不为正常状态,则不允许新增子节点
             if (Constants.Status.NO_NORMAL.equals(parentModel.getStatus())) {
-                throw new BusinessException(MessageUtils.message("common.status.no_normal"));
+                throw new BusinessException(MessageUtils.message(MessageCode.System.STATUS_DISABLE_OPEN_FAIL));
             }
             entity.setAncestors(parentModel.getAncestors() + StringPool.COMMA + entity.getParentId());
         } else {
@@ -85,7 +84,7 @@ public class BaseMaterialTypeServiceImpl extends ServiceImpl<BaseMaterialTypeMap
      */
     private void updateParentStatusNormal(BaseMaterialTypeModel model) {
         String ancestors = model.getAncestors();
-        List<Long> deptIds = Arrays.stream(ancestors.split(StringPool.COMMA)).map(Long::valueOf).collect(Collectors.toList());
+        List<Long> deptIds = StringUtils.splitToList(ancestors, Long::valueOf);
         lambdaUpdate().set(BaseMaterialTypeModel::getStatus, Constants.Status.NORMAL).in(BaseMaterialTypeModel::getId, deptIds).update();
     }
 

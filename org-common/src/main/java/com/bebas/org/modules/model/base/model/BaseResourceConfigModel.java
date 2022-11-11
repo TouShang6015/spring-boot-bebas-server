@@ -1,8 +1,8 @@
 package com.bebas.org.modules.model.base.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.org.bebasWh.core.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
@@ -20,17 +20,17 @@ import lombok.*;
 @TableName("base_resource_config")
 public class BaseResourceConfigModel extends BaseModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 参数键
-	 */
-	@ApiModelProperty(value = "参数键", dataType = "String")
-	private String configKey;
-	/**
-	 * 资源值
-	 */
-	@ApiModelProperty(value = "资源值", dataType = "String")
-	private String resourceValue;
+    /**
+     * 参数键
+     */
+    @ApiModelProperty(value = "参数键", dataType = "String")
+    private String configKey;
+    /**
+     * 资源值
+     */
+    @ApiModelProperty(value = "资源值", dataType = "String")
+    private String resourceValue;
 
 }

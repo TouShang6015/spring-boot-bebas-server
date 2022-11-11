@@ -15,36 +15,40 @@ import java.util.List;
  * @date 2022-10-14 15:13:02
  */
 @Mapper(builder = @Builder(disableBuilder = true))
-public interface BaseMaterialTypeConvert{
+public interface BaseMaterialTypeConvert {
 
     BaseMaterialTypeConvert INSTANCE = Mappers.getMapper(BaseMaterialTypeConvert.class);
 
     /**
-    * dto 转换 model
-    * @param dto
-    * @return
-    */
+     * dto 转换 model
+     *
+     * @param dto
+     * @return
+     */
     BaseMaterialTypeModel convertToModel(BaseMaterialTypeDTO dto);
 
     /**
-    * dtoList 转换 modelList
-    * @param dto
-    * @return
-    */
+     * dtoList 转换 modelList
+     *
+     * @param dto
+     * @return
+     */
     List<BaseMaterialTypeModel> convertToModel(List<BaseMaterialTypeDTO> dto);
 
     /**
-    * model 转换 dto
-    * @param model
-    * @return
-    */
+     * model 转换 dto
+     *
+     * @param model
+     * @return
+     */
     BaseMaterialTypeDTO convertToDTO(BaseMaterialTypeModel model);
 
     /**
-    * modelList 转换 dtoList
-    * @param model
-    * @return
-    */
+     * modelList 转换 dtoList
+     *
+     * @param model
+     * @return
+     */
     List<BaseMaterialTypeDTO> convertToDTO(List<BaseMaterialTypeModel> model);
 
 }

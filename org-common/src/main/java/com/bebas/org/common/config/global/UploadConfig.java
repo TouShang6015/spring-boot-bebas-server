@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 文件上传参数实体
+ *
  * @author wuhao
  * @date 2022/5/7 21:13
  */
@@ -23,15 +24,15 @@ public class UploadConfig {
         return maxUploadSize;
     }
 
+    public void setMaxUploadSize(Integer maxUploadSize) {
+        UploadConfig.maxUploadSize = maxUploadSize;
+    }
+
     public static Integer getMaxFileNameLength() {
         return maxFileNameLength;
     }
 
     public void setMaxFileNameLength(Integer maxFileNameLength) {
         UploadConfig.maxFileNameLength = maxFileNameLength;
-    }
-
-    public void setMaxUploadSize(Integer maxUploadSize) {
-        UploadConfig.maxUploadSize = maxUploadSize;
     }
 }

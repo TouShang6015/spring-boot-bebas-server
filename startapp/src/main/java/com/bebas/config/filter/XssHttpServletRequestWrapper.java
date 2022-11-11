@@ -8,10 +8,27 @@ import java.util.regex.Pattern;
  * xss请求适配器
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
-	
-   
-	public XssHttpServletRequestWrapper(HttpServletRequest request) {
+
+
+    public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
+    }
+
+    /**
+     * 转义字符,使用该方法存在一定的弊端
+     *
+     * @param value
+     * @return
+     */
+    private static String cleanXSS2(String value) {
+        // 移除特殊标签
+        value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        // value = value.replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;");
+        value = value.replaceAll("'", "&#39;");
+        value = value.replaceAll("eval\\((.*)\\)", "");
+        value = value.replaceAll("[\\\"\\'][\\s]*javascript:(.*)[\\\"\\']", "\"\"");
+        value = value.replaceAll("script", "");
+        return value;
     }
 
     /**
@@ -23,7 +40,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (values == null) {
             return null;
         }
-     
+
         int count = values.length;
         String[] encodedValues = new String[count];
         for (int i = 0; i < count; i++) {
@@ -38,11 +55,11 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String name) {
         String value = super.getParameter(name);
-        
+
         if (value == null) {
             return null;
         }
-        
+
         return cleanXSS(value);
     }
 
@@ -51,10 +68,10 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     @Override
     public Object getAttribute(String name) {
-    	Object value = super.getAttribute(name);
-       
+        Object value = super.getAttribute(name);
+
         if (value != null && value instanceof String) {
-        	
+
             cleanXSS((String) value);
         }
         return value;
@@ -72,28 +89,11 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         return cleanXSS(value);
     }
 
-    /**
-     * 转义字符,使用该方法存在一定的弊端
-     * 
-     * @param value
-     * @return
-     */
-    private static String cleanXSS2(String value) {
-        // 移除特殊标签
-        value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-       // value = value.replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;");
-        value = value.replaceAll("'", "&#39;");
-        value = value.replaceAll("eval\\((.*)\\)", "");
-        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-        value = value.replaceAll("script", "");
-        return value;
-    }
-
     private String cleanXSS(String value) {
         if (value != null) {
             //推荐使用ESAPI库来避免脚本攻击,value = ESAPI.encoder().canonicalize(value);
             // 避免空字符串
-         /*   value = value.replaceAll(" ", "");*/
+            /*   value = value.replaceAll(" ", "");*/
             // 避免script 标签
             Pattern scriptPattern = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
             value = scriptPattern.matcher(value).replaceAll("");
@@ -129,8 +129,8 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             scriptPattern = Pattern.compile("onload(.*?)=",
                     Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
             value = scriptPattern.matcher(value).replaceAll("");
-            
-            value=cleanXSS2(value);
+
+            value = cleanXSS2(value);
         }
         return value;
     }

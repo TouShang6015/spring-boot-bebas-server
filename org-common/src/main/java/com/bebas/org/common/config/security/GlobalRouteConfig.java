@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * 全局路由
+ *
  * @author wuhao
  * @date 2022/10/3 15:21
  */
@@ -102,7 +103,7 @@ public class GlobalRouteConfig {
     /**
      * 初始化路由列表
      */
-    public static void initRouteList(){
+    public static void initRouteList() {
         GlobalRouteConfig.setAuthRoute(null);
         GlobalRouteConfig.setAuthRoutePath(null);
         GlobalRouteConfig.setAnonymousRoute(null);
@@ -116,7 +117,7 @@ public class GlobalRouteConfig {
     /**
      * 初始化安全配置Map
      */
-    public static void initConfigAttributeMap(){
+    public static void initConfigAttributeMap() {
         GlobalRouteConfig.setConfigAttributeMap(null);
     }
 

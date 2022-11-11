@@ -15,6 +15,7 @@ public interface SysPermissionMapper extends BaseMapper<SysPermissionModel> {
 
     /**
      * 获取用户的已授权路由列表
+     *
      * @param userId
      * @return
      */

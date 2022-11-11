@@ -58,6 +58,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     private ISysUserRoleService sysUserRoleService;
     @Resource
     private TreeService<SysPermissionDTO> treeService;
+    @Autowired
+    private HttpSecurity httpSecurity;
 
     @Override
     public List<SysPermissionModel> listByParam(SysPermissionModel param) {
@@ -81,8 +83,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                         .select(SysRolePermissionModel::getPermissionId).list()
         ).stream().map(SysRolePermissionModel::getPermissionId).distinct().collect(Collectors.toList());
         List<Long> finalPermissionIds = OptionalUtil.ofNullListDefault(permissionIds, -1L);
-        String finalPermissionIdsStr = finalPermissionIds.stream().map(String::valueOf).collect(Collectors.joining(","));
-        param.queryParamIn(SysPermissionModel::getId, finalPermissionIdsStr);
+        param.queryParamIn(SysPermissionModel::getId, finalPermissionIds);
         return super.listByParam(param);
     }
 
@@ -213,9 +214,6 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                 .list();
         return OptionalUtil.ofNullList(resultList).parallelStream().map(SysRolePermissionModel::getPermissionId).distinct().collect(Collectors.toList());
     }
-
-    @Autowired
-    private HttpSecurity httpSecurity;
 
     /**
      * 刷新security动态权限

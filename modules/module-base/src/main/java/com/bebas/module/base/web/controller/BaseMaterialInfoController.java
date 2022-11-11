@@ -1,18 +1,17 @@
 package com.bebas.module.base.web.controller;
 
-import com.org.bebasWh.utils.MapperUtil;
-import com.org.bebasWh.utils.result.Result;
-import com.bebas.org.modules.model.base.dto.BaseMaterialInfoDTO;
-import com.bebas.org.modules.model.base.model.BaseMaterialInfoModel;
 import com.bebas.module.base.web.service.IBaseMaterialInfoService;
 import com.bebas.org.common.web.controller.BaseController;
 import com.bebas.org.modules.constants.ApiPrefixConstant;
+import com.bebas.org.modules.model.base.dto.BaseMaterialInfoDTO;
+import com.bebas.org.modules.model.base.model.BaseMaterialInfoModel;
+import com.org.bebasWh.utils.MapperUtil;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,13 +23,8 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/basematerialinfo")
-@Api(value = "BaseMaterialInfoModel",tags = "素材管理")
-public class BaseMaterialInfoController extends BaseController<IBaseMaterialInfoService,BaseMaterialInfoModel> {
-
-    @Resource
-    public void setService(IBaseMaterialInfoService service) {
-        super.service = service;
-    }
+@Api(value = "BaseMaterialInfoModel", tags = "素材管理")
+public class BaseMaterialInfoController extends BaseController<IBaseMaterialInfoService, BaseMaterialInfoModel> {
 
     @Override
     protected <DTO> Result baseAdd(@RequestBody DTO m) {

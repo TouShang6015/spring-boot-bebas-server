@@ -15,36 +15,40 @@ import java.util.List;
  * @date 2022-10-14 15:13:02
  */
 @Mapper(builder = @Builder(disableBuilder = true))
-public interface SysNoticeConvert{
+public interface SysNoticeConvert {
 
     SysNoticeConvert INSTANCE = Mappers.getMapper(SysNoticeConvert.class);
 
     /**
-    * dto 转换 model
-    * @param dto
-    * @return
-    */
+     * dto 转换 model
+     *
+     * @param dto
+     * @return
+     */
     SysNoticeModel convertToModel(SysNoticeDTO dto);
 
     /**
-    * dtoList 转换 modelList
-    * @param dto
-    * @return
-    */
+     * dtoList 转换 modelList
+     *
+     * @param dto
+     * @return
+     */
     List<SysNoticeModel> convertToModel(List<SysNoticeDTO> dto);
 
     /**
-    * model 转换 dto
-    * @param model
-    * @return
-    */
+     * model 转换 dto
+     *
+     * @param model
+     * @return
+     */
     SysNoticeDTO convertToDTO(SysNoticeModel model);
 
     /**
-    * modelList 转换 dtoList
-    * @param model
-    * @return
-    */
+     * modelList 转换 dtoList
+     *
+     * @param model
+     * @return
+     */
     List<SysNoticeDTO> convertToDTO(List<SysNoticeModel> model);
 
 }

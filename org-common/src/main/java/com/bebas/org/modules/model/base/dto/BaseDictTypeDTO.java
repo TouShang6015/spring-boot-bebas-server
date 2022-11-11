@@ -1,7 +1,8 @@
 package com.bebas.org.modules.model.base.dto;
 
 import com.bebas.org.modules.model.base.model.BaseDictTypeModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 字典类型表 Dto

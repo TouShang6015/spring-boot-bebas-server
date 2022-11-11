@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
-@Profile({"local","test"})        // 只在local test环境下开启 swagger
+@Profile({"local", "test"})        // 只在local test环境下开启 swagger
 public class SwaggerConfig {
 
     /**

@@ -1,7 +1,7 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.model.SysNoticeModel;
+import com.org.bebasWh.mapper.service.IService;
 
 /**
  * 通知公告表 业务接口

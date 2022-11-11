@@ -16,43 +16,48 @@ import java.util.List;
  * @date 2022-10-14 15:13:02
  */
 @Mapper(builder = @Builder(disableBuilder = true))
-public interface SysPermissionConvert{
+public interface SysPermissionConvert {
 
     SysPermissionConvert INSTANCE = Mappers.getMapper(SysPermissionConvert.class);
 
     /**
      * 转换routeInfo
+     *
      * @param modelList
      * @return
      */
     List<RouteInfo> convertToRouteInfo(List<SysPermissionModel> modelList);
 
     /**
-    * dto 转换 model
-    * @param dto
-    * @return
-    */
+     * dto 转换 model
+     *
+     * @param dto
+     * @return
+     */
     SysPermissionModel convertToModel(SysPermissionDTO dto);
 
     /**
-    * dtoList 转换 modelList
-    * @param dto
-    * @return
-    */
+     * dtoList 转换 modelList
+     *
+     * @param dto
+     * @return
+     */
     List<SysPermissionModel> convertToModel(List<SysPermissionDTO> dto);
 
     /**
-    * model 转换 dto
-    * @param model
-    * @return
-    */
+     * model 转换 dto
+     *
+     * @param model
+     * @return
+     */
     SysPermissionDTO convertToDTO(SysPermissionModel model);
 
     /**
-    * modelList 转换 dtoList
-    * @param model
-    * @return
-    */
+     * modelList 转换 dtoList
+     *
+     * @param model
+     * @return
+     */
     List<SysPermissionDTO> convertToDTO(List<SysPermissionModel> model);
 
 }

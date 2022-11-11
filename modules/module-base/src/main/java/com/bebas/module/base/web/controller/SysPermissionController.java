@@ -1,12 +1,8 @@
 package com.bebas.module.base.web.controller;
 
-import com.org.bebasWh.core.validator.group.Update;
-import com.org.bebasWh.utils.MapperUtil;
-import com.org.bebasWh.utils.OptionalUtil;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.module.base.web.service.ISysPermissionService;
 import com.bebas.org.common.constants.Constants;
-import com.bebas.org.common.constants.StringPool;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.common.utils.tree.vo.TreeModel;
 import com.bebas.org.common.web.controller.BaseController;
@@ -16,18 +12,23 @@ import com.bebas.org.modules.convert.base.SysPermissionConvert;
 import com.bebas.org.modules.model.base.dto.SysPermissionDTO;
 import com.bebas.org.modules.model.base.model.SysPermissionModel;
 import com.bebas.org.modules.model.base.vo.permission.AllocationModuleParamVO;
+import com.org.bebasWh.core.validator.group.Update;
+import com.org.bebasWh.utils.MapperUtil;
+import com.org.bebasWh.utils.OptionalUtil;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.bebas.org.common.constants.MessageCode.Permission.NOT_ADD_ROUTE;
 
 /**
  * @author Wuhao
@@ -37,12 +38,6 @@ import java.util.stream.Collectors;
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/syspermission")
 @Api(value = "SysPermissionModel", tags = "权限管理")
 public class SysPermissionController extends BaseController<ISysPermissionService, SysPermissionModel> {
-
-    @Resource
-    @Override
-    protected void setService(ISysPermissionService service) {
-        super.service = service;
-    }
 
     @Override
     protected Result baseQueryByParam(@RequestBody SysPermissionModel param) {
@@ -71,7 +66,7 @@ public class SysPermissionController extends BaseController<ISysPermissionServic
     @Log(title = "改变接口访问规则")
     @ApiOperation(value = "改变接口访问规则", httpMethod = "PUT", response = Result.class)
     @PutMapping("/changeRouteVisitRule")
-    public Result changeRouteVisitRule(@RequestBody @Validated({Update.class}) SysPermissionModel param){
+    public Result changeRouteVisitRule(@RequestBody @Validated({Update.class}) SysPermissionModel param) {
         if (service.updateById(param)) {
             return Result.success(param);
         }
@@ -83,7 +78,7 @@ public class SysPermissionController extends BaseController<ISysPermissionServic
     protected <DTO> Result baseAdd(@RequestBody DTO m) {
         SysPermissionModel model = MapperUtil.convert(m, SysPermissionModel.class);
         if (model.getIfRoute().equals(Integer.valueOf(Constants.BOOLEAN.TRUE))) {
-            return Result.fail(MessageUtils.message("business.base.permission.add.if.route"));
+            return Result.fail(MessageUtils.message(NOT_ADD_ROUTE));
         }
         return super.baseAdd(model);
     }
@@ -100,16 +95,16 @@ public class SysPermissionController extends BaseController<ISysPermissionServic
 
     @Override
     protected Result baseDeleteByIds(@PathVariable String ids) {
-        List<Long> idList = Arrays.stream(ids.split(StringPool.COMMA)).map(Long::valueOf).distinct().collect(Collectors.toList());
+        List<Long> idList = StringUtils.splitToList(ids, Long::valueOf);
         if (service.lambdaQuery().in(SysPermissionModel::getParentId, idList).count() > 0) {
-            return Result.fail(MessageUtils.message("common.include.no.handle"));
+            return Result.fail(MessageUtils.message(MessageCode.System.EXISTS_DOWN_TYPE_NOT_HANDLE));
         }
         return super.baseDeleteByIds(ids);
     }
 
     @GetMapping("/rolePermissionTreeList")
     @ApiOperation(value = "获取路由树列表（根据角色）", httpMethod = "GET", response = Result.class)
-    public Result rolePermissionTreeList(SysPermissionModel param){
+    public Result rolePermissionTreeList(SysPermissionModel param) {
         List<SysPermissionDTO> dtoList = SysPermissionConvert.INSTANCE.convertToDTO(OptionalUtil.ofNullList(service.listByParam(param)));
         List<TreeModel> treeModelList = service.buildTreePermissionList(dtoList);
         return Result.success(treeModelList);
@@ -117,7 +112,7 @@ public class SysPermissionController extends BaseController<ISysPermissionServic
 
     @GetMapping("/rolePermissionByRoleId/{roleId}")
     @ApiOperation(value = "获取角色拥有的路由id", httpMethod = "GET", response = Result.class)
-    public Result rolePermissionByRoleId(@PathVariable("roleId") Long roleId){
+    public Result rolePermissionByRoleId(@PathVariable("roleId") Long roleId) {
         List<Long> permissionIds = service.rolePermissionByRoleId(roleId);
         return Result.success(permissionIds);
     }
@@ -125,7 +120,7 @@ public class SysPermissionController extends BaseController<ISysPermissionServic
     @Log(title = "刷新路由动态权限")
     @ApiOperation(value = "刷新路由动态权限", httpMethod = "GET", response = Result.class)
     @GetMapping("/flushPermissionConfig")
-    public Result flushPermissionConfig(){
+    public Result flushPermissionConfig() {
         service.flushPermissionConfig();
         return Result.success();
     }

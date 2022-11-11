@@ -6,8 +6,6 @@ import ${packageModuleName}.module.${moduleName}.web.service.I${className}Servic
 import com.org.bebasWh.mapper.cache.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 /**
  * ${comments} 业务实现类
  *
@@ -16,10 +14,5 @@ import javax.annotation.Resource;
  */
 @Service
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper,${className}Model> implements I${className}Service {
-
-    @Resource
-    protected void setMapper(${className}Mapper mapper) {
-        super.mapper = mapper;
-    }
 
 }

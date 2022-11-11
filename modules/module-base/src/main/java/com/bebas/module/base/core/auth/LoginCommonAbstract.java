@@ -6,10 +6,11 @@ import com.bebas.org.modules.webapi.base.ResourceConfigWebApi;
 
 /**
  * 登陆抽象接口
+ *
  * @author WuHao
  * @date 2022/5/31 19:06
  */
-public abstract class LoginCommonAbstract<LoginUser,LoginResponse> implements LoginCommonService<LoginUser,LoginResponse> {
+public abstract class LoginCommonAbstract<LoginUser, LoginResponse> implements LoginCommonService<LoginUser, LoginResponse> {
 
     protected ResourceMainVO mainVO;
 
@@ -19,12 +20,13 @@ public abstract class LoginCommonAbstract<LoginUser,LoginResponse> implements Lo
         this.resourceConfigWebApi = resourceConfigWebApi;
     }
 
-    protected void flushConfig(){
-        this.mainVO = resourceConfigWebApi.queryValueByConfigKey(ResourceConfigConstant.MAIN_KEY, ResourceMainVO.class,false);
+    protected void flushConfig() {
+        this.mainVO = resourceConfigWebApi.queryValueByConfigKey(ResourceConfigConstant.MAIN_KEY, ResourceMainVO.class, false);
     }
 
     /**
      * 登陆操作，获取实体
+     *
      * @param loginUser
      * @return
      */
@@ -32,6 +34,7 @@ public abstract class LoginCommonAbstract<LoginUser,LoginResponse> implements Lo
 
     /**
      * 获取token
+     *
      * @param loginUser
      * @return
      */
@@ -39,6 +42,7 @@ public abstract class LoginCommonAbstract<LoginUser,LoginResponse> implements Lo
 
     /**
      * 获取最大登陆人数
+     *
      * @return
      */
     protected abstract Integer getMaxLogin();

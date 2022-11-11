@@ -1,6 +1,5 @@
 package com.bebas.module.quartz.web.service.impl;
 
-import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.bebas.module.quartz.constants.ScheduleConstants;
 import com.bebas.module.quartz.exception.TaskException;
 import com.bebas.module.quartz.mapper.SysJobMapper;
@@ -8,6 +7,7 @@ import com.bebas.module.quartz.util.CronUtils;
 import com.bebas.module.quartz.util.ScheduleUtils;
 import com.bebas.module.quartz.web.service.ISysJobService;
 import com.bebas.org.modules.model.quartz.model.SysJobModel;
+import com.org.bebasWh.mapper.cache.ServiceImpl;
 import lombok.SneakyThrows;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
@@ -143,6 +143,7 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJobModel> im
 
     /**
      * 立即执行任务
+     *
      * @param job
      */
     @SneakyThrows

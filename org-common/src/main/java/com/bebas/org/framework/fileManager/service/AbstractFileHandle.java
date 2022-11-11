@@ -1,12 +1,12 @@
 package com.bebas.org.framework.fileManager.service;
 
-import com.org.bebasWh.exception.CommonException;
-import com.org.bebasWh.utils.StringUtils;
-import com.org.bebasWh.utils.uuid.IdUtils;
 import com.bebas.org.common.constants.ResourceConfigConstant;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.modules.model.base.vo.baseResource.ResourceMainVO;
 import com.bebas.org.modules.webapi.base.ResourceConfigWebApi;
+import com.org.bebasWh.exception.CommonException;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.uuid.IdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,15 +21,15 @@ import java.io.*;
 public abstract class AbstractFileHandle extends AbstractFillUtil implements FileService {
 
     protected ResourceMainVO mainVO;
-    
+
     protected ResourceConfigWebApi resourceConfigWebApi;
 
     public AbstractFileHandle(ResourceConfigWebApi resourceConfigWebApi) {
         this.resourceConfigWebApi = resourceConfigWebApi;
     }
 
-    protected void flushConfig(){
-        this.mainVO = resourceConfigWebApi.queryValueByConfigKey(ResourceConfigConstant.MAIN_KEY, ResourceMainVO.class,false);
+    protected void flushConfig() {
+        this.mainVO = resourceConfigWebApi.queryValueByConfigKey(ResourceConfigConstant.MAIN_KEY, ResourceMainVO.class, false);
     }
 
     /**
@@ -44,13 +44,13 @@ public abstract class AbstractFileHandle extends AbstractFillUtil implements Fil
         this.flushConfig();
         try {
             // 文件校验
-            super.assertAllowed(file,allowedType);
+            super.assertAllowed(file, allowedType);
             // 将文件流转为字符串
             String md5 = IdUtils.fastUUID();
             // 文件后缀
             String fileSuffix = super.getFileSuffix(file.getOriginalFilename());
             // 文件名称
-            String fileName = super.extractFilename(md5,fileSuffix);
+            String fileName = super.extractFilename(md5, fileSuffix);
             // 获取文件路径
             String filePath = this.getFilePath(prefix, fileName);
             if (!exists(filePath)) {
@@ -67,13 +67,13 @@ public abstract class AbstractFileHandle extends AbstractFillUtil implements Fil
     public String upload(String prefix, String suffix, InputStream inputStream) {
         this.flushConfig();
         try {
-            if (StringUtils.isEmpty(suffix)){
+            if (StringUtils.isEmpty(suffix)) {
                 throw new IOException("文件后缀为空！");
             }
             // 将文件流转为字符串
             String md5 = IdUtils.fastSimpleUUID();
             // 文件名称
-            String fileName = super.extractFilename(md5,suffix);
+            String fileName = super.extractFilename(md5, suffix);
             // 获取文件路径
             String filePath = this.getFilePath(prefix, fileName);
             if (!exists(filePath)) {

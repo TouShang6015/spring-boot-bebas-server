@@ -1,8 +1,8 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.model.BaseDictTypeModel;
 import com.bebas.org.modules.webapi.base.IDictTypeWebApi;
+import com.org.bebasWh.mapper.service.IService;
 
 /**
  * 字典类型表 业务接口

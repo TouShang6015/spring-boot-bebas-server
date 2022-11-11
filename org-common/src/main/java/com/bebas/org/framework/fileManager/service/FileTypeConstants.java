@@ -41,7 +41,7 @@ public interface FileTypeConstants {
     /**
      * 全部允许
      */
-    String[] ALL_EXTENSION = { StringPool.ASTERISK };
+    String[] ALL_EXTENSION = {StringPool.ASTERISK};
 
 
 }

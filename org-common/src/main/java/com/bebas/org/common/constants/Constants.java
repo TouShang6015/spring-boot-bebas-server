@@ -8,7 +8,7 @@ package com.bebas.org.common.constants;
  */
 public interface Constants extends com.org.bebasWh.constants.Constants {
 
-    interface DelFlag{
+    interface DelFlag {
         /**
          * 未删除
          */
@@ -19,7 +19,7 @@ public interface Constants extends com.org.bebasWh.constants.Constants {
         String DEL = "1";
     }
 
-    interface Disable{
+    interface Disable {
         /**
          * 正常
          */
@@ -30,7 +30,7 @@ public interface Constants extends com.org.bebasWh.constants.Constants {
         String DISABLE = "1";
     }
 
-    interface Status{
+    interface Status {
         /**
          * 正常
          */
@@ -77,7 +77,7 @@ public interface Constants extends com.org.bebasWh.constants.Constants {
     /**
      * 菜单类型（M目录 C菜单 F按钮）
      */
-    interface MENU_TYPE{
+    interface MENU_TYPE {
         /**
          * 目录
          */
@@ -89,16 +89,24 @@ public interface Constants extends com.org.bebasWh.constants.Constants {
     }
 
     interface MENU_INFO {
-        /** 是否菜单外链（否） */
+        /**
+         * 是否菜单外链（否）
+         */
         String NO_FRAME = "1";
 
-        /** Layout组件标识 */
+        /**
+         * Layout组件标识
+         */
         String LAYOUT = "Layout";
 
-        /** InnerLink组件标识 */
+        /**
+         * InnerLink组件标识
+         */
         String INNER_LINK = "InnerLink";
 
-        /** ParentView组件标识 */
+        /**
+         * ParentView组件标识
+         */
         String PARENT_VIEW = "ParentView";
     }
 

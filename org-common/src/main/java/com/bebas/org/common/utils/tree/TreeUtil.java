@@ -17,9 +17,10 @@ import java.util.Objects;
  *     </ul>
  * <p>* 构建树形结构Util</p>
  * <p></p>
- * @deprecated 通过反射实现，效率非常低！不推荐使用
+ *
  * @author WuHao
  * @date 2022/5/30 11:32
+ * @deprecated 通过反射实现，效率非常低！不推荐使用
  */
 public class TreeUtil {
 
@@ -41,10 +42,10 @@ public class TreeUtil {
     public static <T> List<T> convertTree(List<T> list) {
         List<T> returnList = CollUtil.newArrayList();
         List<Long> tempList = CollUtil.newArrayList();
-        if (CollUtil.isEmpty(list)){
+        if (CollUtil.isEmpty(list)) {
             return CollUtil.newArrayList();
         }
-        list.forEach(item -> tempList.add(ReflectUtils.invokeGetter(item,ID)));
+        list.forEach(item -> tempList.add(ReflectUtils.invokeGetter(item, ID)));
         for (T temp : list) {
             // 如果是顶级节点, 遍历该父节点的所有子节点
             if (!tempList.contains(ReflectUtils.invokeGetter(temp, PARENT_ID))) {
@@ -67,7 +68,7 @@ public class TreeUtil {
     private static <T> void recursionFn(List<T> list, T t) {
         // 得到子节点列表
         List<T> childList = getChildList(list, t);
-        ReflectUtils.invokeSetter(t,CHILDREN,childList);
+        ReflectUtils.invokeSetter(t, CHILDREN, childList);
         for (T tChild : childList) {
             if (hasChild(list, tChild)) {
                 recursionFn(list, tChild);
@@ -78,6 +79,7 @@ public class TreeUtil {
 
     /**
      * 得到子节点列表
+     *
      * @param list
      * @param t
      * @param <T>
@@ -95,6 +97,7 @@ public class TreeUtil {
 
     /**
      * 判断是否有子节点
+     *
      * @param list
      * @param t
      * @param <T>

@@ -2,6 +2,7 @@ package com.bebas.org.common.constants;
 
 /**
  * 安全常量类
+ *
  * @author WuHao
  * @date 2022/5/22 22:44
  */

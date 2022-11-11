@@ -1,8 +1,8 @@
 package com.bebas.org.modules.model.base.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.org.bebasWh.core.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
@@ -20,12 +20,12 @@ import lombok.*;
 @TableName("sys_test")
 public class SysTestModel extends BaseModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 姓名
-	 */
-	@ApiModelProperty(value = "姓名", dataType = "String")
-	private String name;
+    /**
+     * 姓名
+     */
+    @ApiModelProperty(value = "姓名", dataType = "String")
+    private String name;
 
 }

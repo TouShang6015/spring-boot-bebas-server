@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 
 /**
  * 文件扩展名枚举
+ *
  * @author wuhao
  * @date 2022/9/23 10:49
  */
@@ -30,12 +31,11 @@ public enum FileExtEnum implements BaseEnums {
     /**
      * md文件
      */
-    MD(".md","markdown文件"),
+    MD(".md", "markdown文件"),
     /**
      * txt文件
      */
-    TXT(".txt","txt文件");
-    ;
+    TXT(".txt", "txt文件");
 
     private final String key;
 

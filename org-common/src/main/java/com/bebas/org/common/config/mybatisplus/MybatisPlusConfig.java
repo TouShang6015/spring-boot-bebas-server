@@ -23,14 +23,15 @@ public class MybatisPlusConfig {
 
     /**
      * mybatis-plus 插件配置
+     *
      * @return
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         LogUtil.consoleInfo(log, "- mybatis-plus 插件配置"
-                , Tuple.of("- 分页插件配置",() -> interceptor.addInnerInterceptor(new PaginationInnerInterceptor()))
-                , Tuple.of("- 乐观锁配置完成",() -> interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor()))
+                , Tuple.of("- 分页插件配置", () -> interceptor.addInnerInterceptor(new PaginationInnerInterceptor()))
+                , Tuple.of("- 乐观锁配置完成", () -> interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor()))
         );
         return interceptor;
     }

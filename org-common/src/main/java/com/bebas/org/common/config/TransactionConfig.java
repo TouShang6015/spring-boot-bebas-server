@@ -57,6 +57,7 @@ public class TransactionConfig {
 
     /**
      * 回滚事务配置
+     *
      * @return
      */
     private Map<String, TransactionAttribute> handleMap() {
@@ -80,6 +81,7 @@ public class TransactionConfig {
 
     /**
      * 只读事务
+     *
      * @return
      */
     private Map<String, TransactionAttribute> readMap() {

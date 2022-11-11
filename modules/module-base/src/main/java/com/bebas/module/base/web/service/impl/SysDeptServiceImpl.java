@@ -9,6 +9,7 @@ import com.bebas.module.base.web.service.ISysRoleDeptService;
 import com.bebas.module.base.web.service.ISysRoleService;
 import com.bebas.module.base.web.service.ISysUserService;
 import com.bebas.org.common.constants.Constants;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.common.utils.tree.TreeService;
@@ -27,7 +28,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -228,7 +228,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
         if (Objects.nonNull(parentDept)) {
             // 如果父节点不为正常状态,则不允许新增子节点
             if (Constants.Status.NO_NORMAL.equals(parentDept.getStatus())) {
-                throw new BusinessException(MessageUtils.message("business.base.dept.status.no_normal"));
+                throw new BusinessException(MessageUtils.message(MessageCode.Dept.DEPT_CLOSE));
             }
             dept.setAncestors(parentDept.getAncestors() + StringPool.COMMA + dept.getParentId());
         } else {
@@ -296,7 +296,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptModel>
      */
     private void updateParentDeptStatusNormal(SysDeptModel dept) {
         String ancestors = dept.getAncestors();
-        List<Long> deptIds = Arrays.stream(ancestors.split(StringPool.COMMA)).map(Long::valueOf).collect(Collectors.toList());
+        List<Long> deptIds = StringUtils.splitToList(ancestors, Long::valueOf);
         lambdaUpdate().set(SysDeptModel::getStatus, Constants.Status.NORMAL).in(SysDeptModel::getId, deptIds).update();
     }
 

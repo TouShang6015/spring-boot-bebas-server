@@ -15,36 +15,40 @@ import java.util.List;
  * @date 2022-10-14 15:13:02
  */
 @Mapper(builder = @Builder(disableBuilder = true))
-public interface SysUserTokenConvert{
+public interface SysUserTokenConvert {
 
     SysUserTokenConvert INSTANCE = Mappers.getMapper(SysUserTokenConvert.class);
 
     /**
-    * dto 转换 model
-    * @param dto
-    * @return
-    */
+     * dto 转换 model
+     *
+     * @param dto
+     * @return
+     */
     SysUserTokenModel convertToModel(SysUserTokenDTO dto);
 
     /**
-    * dtoList 转换 modelList
-    * @param dto
-    * @return
-    */
+     * dtoList 转换 modelList
+     *
+     * @param dto
+     * @return
+     */
     List<SysUserTokenModel> convertToModel(List<SysUserTokenDTO> dto);
 
     /**
-    * model 转换 dto
-    * @param model
-    * @return
-    */
+     * model 转换 dto
+     *
+     * @param model
+     * @return
+     */
     SysUserTokenDTO convertToDTO(SysUserTokenModel model);
 
     /**
-    * modelList 转换 dtoList
-    * @param model
-    * @return
-    */
+     * modelList 转换 dtoList
+     *
+     * @param model
+     * @return
+     */
     List<SysUserTokenDTO> convertToDTO(List<SysUserTokenModel> model);
 
 }

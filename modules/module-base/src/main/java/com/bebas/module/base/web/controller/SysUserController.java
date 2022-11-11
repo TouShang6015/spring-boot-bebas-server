@@ -1,14 +1,10 @@
 package com.bebas.module.base.web.controller;
 
-import com.org.bebasWh.enums.result.ResultEnum;
-import com.org.bebasWh.utils.MapperUtil;
-import com.org.bebasWh.utils.OptionalUtil;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.module.base.web.service.ISysPostService;
 import com.bebas.module.base.web.service.ISysRoleService;
 import com.bebas.module.base.web.service.ISysUserRoleService;
 import com.bebas.module.base.web.service.ISysUserService;
-import com.bebas.org.common.constants.StringPool;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.security.utils.SecurityUtils;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.common.web.controller.BaseController;
@@ -21,6 +17,11 @@ import com.bebas.org.modules.model.base.model.SysRoleModel;
 import com.bebas.org.modules.model.base.model.SysUserModel;
 import com.bebas.org.modules.model.base.model.SysUserRoleModel;
 import com.bebas.org.modules.model.base.vo.excel.SysUserExcelVo;
+import com.org.bebasWh.enums.result.ResultEnum;
+import com.org.bebasWh.utils.MapperUtil;
+import com.org.bebasWh.utils.OptionalUtil;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,11 +44,6 @@ import java.util.stream.Collectors;
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/sysuser")
 @Api(value = "SysUserModel", tags = "用户信息")
 public class SysUserController extends BaseController<ISysUserService, SysUserModel> {
-
-    @Resource
-    public void setService(ISysUserService service) {
-        super.service = service;
-    }
 
     @Resource
     private ISysRoleService sysRoleService;
@@ -78,13 +73,13 @@ public class SysUserController extends BaseController<ISysUserService, SysUserMo
     protected <DTO> Result baseAdd(@RequestBody DTO m) {
         SysUserDTO param = MapperUtil.convert(m, SysUserDTO.class);
         if (!service.checkUserNameUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.name.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.USER_NAME_EXISTS_HANDLE_FAIL));
         }
         if (!service.checkPhoneUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.phonenumber.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.PHONE_EXISTS_HANDLE_FAIL));
         }
         if (!service.checkEmailUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.email.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.EMAIL_EXISTS_HANDLE_FAIL));
         }
         service.insertUser(param);
         return Result.success(ResultEnum.SUCCESS_INSERT);
@@ -95,16 +90,16 @@ public class SysUserController extends BaseController<ISysUserService, SysUserMo
     protected <DTO> Result baseEdit(@RequestBody DTO m) {
         SysUserDTO param = MapperUtil.convert(m, SysUserDTO.class);
         if (SecurityUtils.isAdmin(param.getId())) {
-            return Result.fail(MessageUtils.message("business.base.role.admin.not.handle"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.SYSTEM_ROLE_NOT_HANDLE));
         }
         if (!service.checkUserNameUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.name.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.USER_NAME_EXISTS_HANDLE_FAIL));
         }
         if (!service.checkPhoneUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.phonenumber.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.PHONE_EXISTS_HANDLE_FAIL));
         }
         if (!service.checkEmailUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.email.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.EMAIL_EXISTS_HANDLE_FAIL));
         }
         param.setPassword(null);
         service.updateUser(param);
@@ -114,10 +109,10 @@ public class SysUserController extends BaseController<ISysUserService, SysUserMo
     @Log(title = "用户删除")
     @Override
     protected Result baseDeleteByIds(@PathVariable("ids") String ids) {
-        List<Long> idList = Arrays.stream(ids.split(StringPool.COMMA)).map(Long::valueOf).collect(Collectors.toList());
+        List<Long> idList = StringUtils.splitToList(ids, Long::valueOf);
         Long adminUserId = idList.parallelStream().filter(SecurityUtils::isAdmin).findFirst().orElse(null);
         if (Objects.nonNull(adminUserId)) {
-            return Result.fail(MessageUtils.message("business.base.role.remove.not.admin"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.SYSTEM_ROLE_NOT_REMOVE));
         }
         return Result.successBoolean(service.removeByIds(idList));
     }
@@ -177,6 +172,6 @@ public class SysUserController extends BaseController<ISysUserService, SysUserMo
     protected void executeExcelExport(SysUserModel param, HttpServletResponse response) throws IOException {
         List<SysUserDTO> userModelList = service.selectDetailList(SysUserConvert.INSTANCE.convertToDTO(param));
         List<SysUserExcelVo> excelList = userModelList.stream().map(SysUserConvert.INSTANCE::convertToExcel).collect(Collectors.toList());
-        super.executeExcelExportDownload("用户导出",excelList,SysUserExcelVo.class,response);
+        super.executeExcelExportDownload("用户导出", excelList, SysUserExcelVo.class, response);
     }
 }

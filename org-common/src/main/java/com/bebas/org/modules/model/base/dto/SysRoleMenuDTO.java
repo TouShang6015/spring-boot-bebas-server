@@ -1,7 +1,8 @@
 package com.bebas.org.modules.model.base.dto;
 
 import com.bebas.org.modules.model.base.model.SysRoleMenuModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 角色和菜单关联表 Dto

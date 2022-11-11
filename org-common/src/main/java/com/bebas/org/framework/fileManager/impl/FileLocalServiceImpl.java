@@ -1,11 +1,11 @@
 package com.bebas.org.framework.fileManager.impl;
 
-import com.org.bebasWh.exception.CommonException;
-import com.org.bebasWh.utils.DateUtils;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.common.enums.file.FileExtEnum;
 import com.bebas.org.framework.fileManager.service.AbstractFileHandle;
 import com.bebas.org.modules.webapi.base.ResourceConfigWebApi;
+import com.org.bebasWh.exception.CommonException;
+import com.org.bebasWh.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.util.Locale;
 import java.util.Objects;
 
-import static com.bebas.org.common.enums.file.FileExtEnum.*;
+import static com.bebas.org.common.enums.file.FileExtEnum.values;
 
 /**
  * @author wuhao
@@ -35,6 +35,7 @@ public class FileLocalServiceImpl extends AbstractFileHandle {
 
     /**
      * 文件上传操作
+     *
      * @param prefix
      * @param fileName
      * @param inputStream
@@ -86,9 +87,9 @@ public class FileLocalServiceImpl extends AbstractFileHandle {
     @Override
     protected String getPath() {
         String osName = applicationContext.getEnvironment().getProperty("os.name").toLowerCase(Locale.ROOT);
-        if (osName.contains("window")){
+        if (osName.contains("window")) {
             return this.mainVO.getFileSavePathWin();
-        }else if (osName.contains("linux")){
+        } else if (osName.contains("linux")) {
             return this.mainVO.getFileSavePathLinux();
         }
         return super.getPath();
@@ -108,12 +109,12 @@ public class FileLocalServiceImpl extends AbstractFileHandle {
     /**
      * 获取文件访问url
      *
-     * @param prefix 前缀
+     * @param prefix   前缀
      * @param filePath 文件路径
      * @return {@link String}
      */
     @Override
-    public String getFileAccessUrl(String prefix,String filePath) {
+    public String getFileAccessUrl(String prefix, String filePath) {
         return StringPool.SLASH + prefix + StringPool.SLASH + filePath;
     }
 }

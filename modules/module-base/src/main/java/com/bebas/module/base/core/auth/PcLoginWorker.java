@@ -1,20 +1,20 @@
 package com.bebas.module.base.core.auth;
 
-import com.org.bebasWh.utils.ServletUtils;
-import com.org.bebasWh.utils.ip.IpUtils;
 import com.bebas.module.base.web.service.ISysLogininforService;
 import com.bebas.module.base.web.service.ISysUserTokenService;
-import com.org.bebasWh.exception.UserException;
-import com.org.bebasWh.utils.DateUtils;
 import com.bebas.org.common.config.global.security.RsaConfig;
 import com.bebas.org.common.security.service.TokenService;
 import com.bebas.org.common.security.vo.LoginUser;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.common.utils.RsaUtils;
-import com.org.bebasWh.core.redis.RedisCache;
 import com.bebas.org.modules.model.base.model.SysUserTokenModel;
 import com.bebas.org.modules.model.base.vo.LoginPcRequest;
 import com.bebas.org.modules.webapi.base.ResourceConfigWebApi;
+import com.org.bebasWh.core.redis.RedisCache;
+import com.org.bebasWh.exception.UserException;
+import com.org.bebasWh.utils.DateUtils;
+import com.org.bebasWh.utils.ServletUtils;
+import com.org.bebasWh.utils.ip.IpUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +25,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.bebas.org.common.constants.MessageCode.User.*;
 
 /**
  * @author WuHao
@@ -73,7 +75,7 @@ public abstract class PcLoginWorker extends LoginCommonAbstract<LoginPcRequest, 
             // 解密前端加密后的密码
             password = RsaUtils.decryptByPrivateKey(RsaConfig.getPrivateKey(), loginPcRequest.getPassword());
         } catch (Exception e) {
-            throw new UserException(MessageUtils.message("user.login.fail.password.and.username"));
+            throw new UserException(MessageUtils.message(LOGIN_FAIL_PARAM_NO_MATCH));
         }
         // 用户验证
         Authentication authentication = null;
@@ -82,14 +84,14 @@ public abstract class PcLoginWorker extends LoginCommonAbstract<LoginPcRequest, 
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginPcRequest.getUserName(), password));
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
-                sysLogininforService.insertLoginLog(loginPcRequest.getUserName(), sysLogininforService.LOGIN_FAIL, MessageUtils.message("user.password.not.match"));
-                throw new UserException(MessageUtils.message("user.password.not.match"));
+                sysLogininforService.insertLoginLog(loginPcRequest.getUserName(), sysLogininforService.LOGIN_FAIL, MessageUtils.message(USER_NOT_FOUND_PASSWORD_NOT_MATCH));
+                throw new UserException(MessageUtils.message(USER_NOT_FOUND_PASSWORD_NOT_MATCH));
             } else {
                 sysLogininforService.insertLoginLog(loginPcRequest.getUserName(), sysLogininforService.LOGIN_FAIL, e.getMessage());
                 throw new UserException(e.getMessage());
             }
         }
-        sysLogininforService.insertLoginLog(loginPcRequest.getUserName(), sysLogininforService.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        sysLogininforService.insertLoginLog(loginPcRequest.getUserName(), sysLogininforService.LOGIN_SUCCESS, MessageUtils.message(LOGIN_SUCCESS));
         LoginUser principal = (LoginUser) authentication.getPrincipal();
         principal.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
         return (LoginUser) authentication.getPrincipal();
@@ -123,7 +125,7 @@ public abstract class PcLoginWorker extends LoginCommonAbstract<LoginPcRequest, 
                 .build();
         sysUserTokenService.save(sysUserToken);
         // 删除redis存放的token，重新插入
-        List<SysUserTokenModel> modelList = sysUserTokenService.lambdaQuery().eq(SysUserTokenModel::getUserId,sysUserToken.getUserId()).list();
+        List<SysUserTokenModel> modelList = sysUserTokenService.lambdaQuery().eq(SysUserTokenModel::getUserId, sysUserToken.getUserId()).list();
         Optional.ofNullable(modelList).ifPresent(list -> {
             int maxLogin = this.getMaxLogin();
             int count = list.size();

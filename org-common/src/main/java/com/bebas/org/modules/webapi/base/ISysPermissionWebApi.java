@@ -13,12 +13,14 @@ public interface ISysPermissionWebApi {
 
     /**
      * 获取所有控制器信息列表
+     *
      * @return
      */
     List<SysPermissionModel> getRouteList();
 
     /**
      * 获取用户的权限标识
+     *
      * @return
      */
     Set<String> getUserPermissionTag(Long userId);

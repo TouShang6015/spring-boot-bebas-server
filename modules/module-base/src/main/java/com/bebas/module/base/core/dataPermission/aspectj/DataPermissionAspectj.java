@@ -18,6 +18,7 @@ import java.util.Optional;
 
 /**
  * 数据权限过滤切面
+ *
  * @author wuhao
  * @date 2022/8/29 17:51
  */
@@ -40,7 +41,7 @@ public class DataPermissionAspectj {
                     roleList.forEach(role -> {
                         PerRangeStrategy perRangeService = perRangeContext.getPerRangeService(role.getDataScope());
                         if (Objects.nonNull(perRangeService)) {
-                            perRangeService.scopeFilter(point, loginUser,role);
+                            perRangeService.scopeFilter(point, loginUser, role);
                         }
                     });
                 });

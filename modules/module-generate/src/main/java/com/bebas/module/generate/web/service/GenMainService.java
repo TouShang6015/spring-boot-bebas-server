@@ -2,10 +2,6 @@ package com.bebas.module.generate.web.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.org.bebasWh.exception.BusinessException;
-import com.org.bebasWh.mapper.utils.ModelUtil;
-import com.org.bebasWh.utils.DateUtils;
-import com.org.bebasWh.utils.StringUtils;
 import com.bebas.module.generate.config.GeneratorConfig;
 import com.bebas.module.generate.config.TemplateEnum;
 import com.bebas.module.generate.model.GenerateModel;
@@ -13,6 +9,10 @@ import com.bebas.module.generate.model.TableColumnsModel;
 import com.bebas.module.generate.model.TableInfoModel;
 import com.bebas.module.generate.model.gen.ColumnEntity;
 import com.bebas.module.generate.model.gen.TableEntity;
+import com.org.bebasWh.exception.BusinessException;
+import com.org.bebasWh.mapper.utils.ModelUtil;
+import com.org.bebasWh.utils.DateUtils;
+import com.org.bebasWh.utils.StringUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -39,7 +39,38 @@ public class GenMainService {
     private GeneratorConfig generatorConfig;
 
     /**
+     * 表名转换为类名
+     *
+     * @param tableName
+     * @param tablePrefixList
+     * @return
+     */
+    public static String tableToClassName(String tableName, List<String> tablePrefixList) {
+        if (CollUtil.isNotEmpty(tablePrefixList)) {
+            for (String tablePrefix : tablePrefixList) {
+                if (tableName.startsWith(tablePrefix)) {
+                    tableName = tableName.replaceFirst(tablePrefix, "");
+                }
+            }
+        }
+        return columnToAttribute(tableName);
+    }
+
+    /**
+     * 列名转换为属性名
+     *
+     * @param column
+     * @return
+     */
+    private static String columnToAttribute(String column) {
+        String value = ModelUtil.lineToHump(column);
+        String first = value.substring(0, 1);
+        return first.toUpperCase(Locale.ROOT) + value.substring(1);
+    }
+
+    /**
      * 代码生成
+     *
      * @param tableInfoModels
      * @param tableColumnsModels
      * @param param
@@ -49,9 +80,9 @@ public class GenMainService {
         Optional.ofNullable(param.getTableNames()).ifPresent(tableNames -> {
             tableNames.forEach(tableName -> {
                 TableInfoModel tableInfoModel = tableInfoModels.stream().filter(item -> item.getTableName().equals(tableName)).findFirst().orElse(null);
-                if (Objects.nonNull(tableInfoModel)){
+                if (Objects.nonNull(tableInfoModel)) {
                     List<TableColumnsModel> columnsModelList = tableColumnsModels.stream().filter(item -> item.getTableName().equals(tableName)).collect(Collectors.toList());
-                    this.generator(tableInfoModel,columnsModelList,param,zip);
+                    this.generator(tableInfoModel, columnsModelList, param, zip);
                 }
             });
         });
@@ -60,6 +91,7 @@ public class GenMainService {
 
     /**
      * 代码生成
+     *
      * @param tableInfo
      * @param columnsList
      * @param param
@@ -107,17 +139,18 @@ public class GenMainService {
         }
         _tableEntity.setColumns(_columnEntityList);
         Map<String, Object> map = this.handleTableInfoToMap(_tableEntity, param);
-        this.handleDataZip(zip,map);
+        this.handleDataZip(zip, map);
         return map;
 
     }
 
     /**
      * 数据处理转换为zip
+     *
      * @param zip
      * @param map
      */
-    private void handleDataZip(ZipOutputStream zip,Map<String, Object> map){
+    private void handleDataZip(ZipOutputStream zip, Map<String, Object> map) {
         VelocityContext context = new VelocityContext(map);
         TemplateEnum[] templateBaseEnums = TemplateEnum.values();
         for (TemplateEnum templateBaseEnum : templateBaseEnums) {
@@ -128,7 +161,7 @@ public class GenMainService {
             tpl.merge(context, sw);
             try {
                 //添加到zip
-                String fileName = getFileName(template,map);
+                String fileName = getFileName(template, map);
                 ZipEntry zipEntry = new ZipEntry(fileName);
                 zip.putNextEntry(zipEntry);
                 IOUtils.write(sw.toString(), zip, "UTF-8");
@@ -146,20 +179,20 @@ public class GenMainService {
         String arg2 = (String) map.get("moduleName");
         String arg3 = (String) map.get("className");
         for (TemplateEnum value : TemplateEnum.values()) {
-            if (template.equals(value.getTemplateName())){
-                return StringUtils.format(value.getTemplatePath(),arg1,arg2,arg3);
+            if (template.equals(value.getTemplateName())) {
+                return StringUtils.format(value.getTemplatePath(), arg1, arg2, arg3);
             }
         }
         return null;
     }
 
-    private Map<String, Object> handleTableInfoToMap(TableEntity tableEntity,GenerateModel param) {
+    private Map<String, Object> handleTableInfoToMap(TableEntity tableEntity, GenerateModel param) {
         //设置velocity资源加载器
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
         String packageModuleName = param.getPackageModuleName();
-        if (StrUtil.isEmpty(packageModuleName)){
+        if (StrUtil.isEmpty(packageModuleName)) {
             throw new BusinessException("packageModuleName is not null");
         }
         Map<String, Object> map = new HashMap<>();
@@ -177,35 +210,6 @@ public class GenMainService {
         map.put("moduleName", param.getModuleName());
         map.put("ModuleName", param.getModuleName().toUpperCase(Locale.ROOT));
         return map;
-    }
-
-
-    /**
-     * 表名转换为类名
-     * @param tableName
-     * @param tablePrefixList
-     * @return
-     */
-    public static String tableToClassName(String tableName, List<String> tablePrefixList) {
-        if (CollUtil.isNotEmpty(tablePrefixList)) {
-            for (String tablePrefix : tablePrefixList) {
-                if (tableName.startsWith(tablePrefix)){
-                    tableName = tableName.replaceFirst(tablePrefix, "");
-                }
-            }
-        }
-        return columnToAttribute(tableName);
-    }
-
-    /**
-     * 列名转换为属性名
-     * @param column
-     * @return
-     */
-    private static String columnToAttribute(String column) {
-        String value = ModelUtil.lineToHump(column);
-        String first = value.substring(0, 1);
-        return first.toUpperCase(Locale.ROOT) + value.substring(1,value.length());
     }
 
 

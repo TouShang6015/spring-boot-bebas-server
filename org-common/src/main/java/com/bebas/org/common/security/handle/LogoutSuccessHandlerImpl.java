@@ -1,13 +1,14 @@
 package com.bebas.org.common.security.handle;
 
 import com.alibaba.fastjson.JSON;
-import com.org.bebasWh.utils.ServletUtils;
-import com.org.bebasWh.utils.StringUtils;
-import com.org.bebasWh.utils.result.Result;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.security.service.TokenService;
 import com.bebas.org.common.security.vo.LoginUser;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.modules.webapi.base.ISysLogininforWebApi;
+import com.org.bebasWh.utils.ServletUtils;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.result.Result;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -42,7 +43,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             // 删除用户缓存记录
             tokenService.delLoginUser(loginUser.getToken());
             // 记录用户退出日志
-            sysLogininforWebApi.insertLoginLog(userName, sysLogininforWebApi.LOGOUT, MessageUtils.message("user.logout.success"));
+            sysLogininforWebApi.insertLoginLog(userName, sysLogininforWebApi.LOGOUT, MessageUtils.message(MessageCode.System.LOGOUT_SUCCESS));
         }
         ServletUtils.renderString(response, JSON.toJSONString(Result.success("退出成功")));
     }

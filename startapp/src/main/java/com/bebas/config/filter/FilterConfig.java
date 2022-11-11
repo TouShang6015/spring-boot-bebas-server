@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class FilterConfig {
 
     @Bean("sqlFilter")
-    public FilterRegistrationBean sqlFilterRegistrationBean(){
+    public FilterRegistrationBean sqlFilterRegistrationBean() {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(new SqlFilter());
         bean.addUrlPatterns("/*");
@@ -17,7 +17,7 @@ public class FilterConfig {
     }
 
     @Bean("xssFilter")
-    public FilterRegistrationBean xssFilterRegistrationBean(){
+    public FilterRegistrationBean xssFilterRegistrationBean() {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(new XssFilter());
         bean.addUrlPatterns("/*");

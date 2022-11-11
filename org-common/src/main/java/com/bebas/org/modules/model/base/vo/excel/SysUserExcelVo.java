@@ -20,17 +20,17 @@ public class SysUserExcelVo {
     /**
      * 用户昵称
      */
-    @ExcelProperty(value = "用户昵称",order = 1)
+    @ExcelProperty(value = "用户昵称", order = 1)
     private String nickName;
     /**
      * 用户账号
      */
-    @ExcelProperty(value = "用户账号",order = 2)
+    @ExcelProperty(value = "用户账号", order = 2)
     private String userName;
     /**
      * 部门名称
      */
-    @ExcelProperty(value = "部门名称",order = 3)
+    @ExcelProperty(value = "部门名称", order = 3)
     private String deptName;
     /**
      * 用户邮箱

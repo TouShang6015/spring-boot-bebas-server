@@ -1,35 +1,37 @@
 package com.bebas.module.base.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.org.bebasWh.utils.OptionalUtil;
+import com.bebas.module.base.web.service.ISysRoleService;
 import com.bebas.module.base.web.service.ISysUserRoleService;
 import com.bebas.module.base.web.service.ISysUserService;
-import com.org.bebasWh.enums.result.ResultEnum;
-import com.org.bebasWh.utils.MapperUtil;
-import com.org.bebasWh.utils.page.PageUtil;
-import com.org.bebasWh.utils.result.Result;
-import com.bebas.org.common.constants.StringPool;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.security.service.TokenService;
 import com.bebas.org.common.security.utils.SecurityUtils;
 import com.bebas.org.common.security.vo.LoginUser;
+import com.bebas.org.common.utils.LabelUtil;
 import com.bebas.org.common.utils.MessageUtils;
+import com.bebas.org.common.web.controller.BaseController;
 import com.bebas.org.framework.log.annotation.Log;
+import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.model.base.dto.SysRoleDTO;
 import com.bebas.org.modules.model.base.dto.SysUserDTO;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
-import com.bebas.module.base.web.service.ISysRoleService;
-import com.bebas.org.common.web.controller.BaseController;
-import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.model.base.model.SysUserRoleModel;
 import com.bebas.org.modules.model.base.vo.LabelOption;
 import com.bebas.org.modules.webapi.base.ISysPermissionWebApi;
 import com.bebas.org.modules.webapi.base.ISysUserWebApi;
+import com.org.bebasWh.enums.result.ResultEnum;
+import com.org.bebasWh.utils.MapperUtil;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.page.PageUtil;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -44,11 +46,6 @@ import java.util.stream.Collectors;
 public class SysRoleController extends BaseController<ISysRoleService, SysRoleModel> {
 
     @Resource
-    public void setService(ISysRoleService service) {
-        super.service = service;
-    }
-
-    @Resource
     private TokenService tokenService;
     @Resource
     private ISysUserWebApi sysUserWebApi;
@@ -61,7 +58,7 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRoleMo
 
     @Override
     protected Result baseDeleteByIds(@PathVariable String ids) {
-        List<Long> idList = Arrays.stream(ids.split(StringPool.COMMA)).map(Long::valueOf).collect(Collectors.toList());
+        List<Long> idList = StringUtils.splitToList(ids, Long::valueOf);
         return Result.success(service.deleteByIds(idList));
     }
 
@@ -70,10 +67,10 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRoleMo
     protected <DTO> Result baseAdd(@RequestBody DTO m) {
         SysRoleDTO param = MapperUtil.convert(m, SysRoleDTO.class);
         if (!service.checkRoleNameUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.role.rolename.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.ROLE_NAME_EXISTS));
         }
         if (!service.checkRoleKeyUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.role.rolekey.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.ROLE_PERMISSION_EXISTS));
         }
         return Result.successBoolean(service.insertRole(param));
     }
@@ -83,13 +80,13 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRoleMo
     protected <DTO> Result baseEdit(@RequestBody DTO m) {
         SysRoleDTO param = MapperUtil.convert(m, SysRoleDTO.class);
         if (SecurityUtils.isAdmin(param.getId())) {
-            return Result.fail(MessageUtils.message("business.base.role.admin.not.handle"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.SYSTEM_ROLE_NOT_HANDLE));
         }
         if (!service.checkRoleNameUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.role.rolename.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.ROLE_NAME_EXISTS));
         }
         if (!service.checkRoleKeyUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.role.rolekey.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.ROLE_PERMISSION_EXISTS));
         }
         if (service.updateRole(param) > 0) {
             // 刷新权限
@@ -106,13 +103,13 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRoleMo
     @PutMapping("/editRole")
     public Result editRole(@RequestBody SysRoleDTO param) {
         if (SecurityUtils.isAdmin(param.getId())) {
-            return Result.fail(MessageUtils.message("business.base.role.admin.not.handle"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.SYSTEM_ROLE_NOT_HANDLE));
         }
         if (!service.checkRoleNameUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.role.rolename.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.ROLE_NAME_EXISTS));
         }
         if (!service.checkRoleKeyUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.role.rolekey.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.Role.ROLE_PERMISSION_EXISTS));
         }
         if (service.updateById(param)) {
             return Result.success(ResultEnum.SUCCESS_UPDATE);
@@ -123,18 +120,10 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRoleMo
     @ApiOperation(value = "角色下拉列表", httpMethod = "GET", response = Result.class)
     @GetMapping("/optionselect")
     public Result optionselect() {
-        List<LabelOption<Long, String>> result = OptionalUtil.ofNullList(service.list())
-                .parallelStream()
-                .sorted(Comparator.comparing(SysRoleModel::getRoleSort))
-                .map(item -> {
-                    LabelOption<Long, String> option = new LabelOption<>();
-                    option.setValue(item.getId());
-                    option.setLabel(item.getRoleName());
-                    return option;
-                }).collect(Collectors.toList());
-        return Result.success(result);
+        List<SysRoleModel> list = service.list();
+        List<LabelOption<String, String>> labelOptions = LabelUtil.setValue(list).buildSelect(SysRoleModel::getRoleName, SysRoleModel::getId);
+        return Result.success(labelOptions);
     }
-
 
     /**
      * 修改保存数据权限
@@ -208,7 +197,7 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRoleMo
     public Result roleAllocationRoute(@RequestBody SysRoleDTO param) {
         Long roleId = param.getId();
         List<Long> permissionIds = param.getPermissionIds();
-        return Result.successBoolean(service.handleRoleAllocationRoute(roleId,permissionIds));
+        return Result.successBoolean(service.handleRoleAllocationRoute(roleId, permissionIds));
     }
 
 }

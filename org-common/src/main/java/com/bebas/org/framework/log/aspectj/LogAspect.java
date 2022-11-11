@@ -1,10 +1,6 @@
 package com.bebas.org.framework.log.aspectj;
 
 import com.alibaba.fastjson.JSON;
-import com.org.bebasWh.utils.ServletUtils;
-import com.org.bebasWh.utils.StringUtils;
-import com.org.bebasWh.utils.ip.AddressUtils;
-import com.org.bebasWh.utils.ip.IpUtils;
 import com.bebas.org.common.constants.ChannelConstant;
 import com.bebas.org.common.constants.Constants;
 import com.bebas.org.common.constants.StringPool;
@@ -13,6 +9,10 @@ import com.bebas.org.common.security.vo.LoginUser;
 import com.bebas.org.framework.asyncMessage.MessageService;
 import com.bebas.org.framework.log.annotation.Log;
 import com.bebas.org.modules.model.base.model.SysOperLogModel;
+import com.org.bebasWh.utils.ServletUtils;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.ip.AddressUtils;
+import com.org.bebasWh.utils.ip.IpUtils;
 import io.swagger.annotations.Api;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -98,7 +98,7 @@ public class LogAspect {
             // 设置操作地点
             operLog.setOperLocation(AddressUtils.getRealAddressByIP(operLog.getOperIp()));
             // 保存数据库
-            messageService.send(ChannelConstant.Log.HANDEL,JSON.toJSONString(operLog));
+            messageService.send(ChannelConstant.Log.HANDEL, JSON.toJSONString(operLog));
         } catch (Exception exp) {
             // 记录本地异常日志
             log.error("==前置通知异常==");
@@ -118,7 +118,7 @@ public class LogAspect {
         StringBuilder title = new StringBuilder(StringUtils.EMPTY);
         Annotation[] annotations = joinPoint.getTarget().getClass().getAnnotations();
         for (Annotation annotation : annotations) {
-            if (annotation instanceof Api){
+            if (annotation instanceof Api) {
                 String[] tags = ((Api) annotation).tags();
                 title.append(tags[0]);
             }

@@ -2,36 +2,27 @@
 
 ## 简介
 
-### 框架介绍
+SpringBoot轻量级快速开发框架，用来接私活、学习都是不错的选择。提供BaseController控制器，使CRUD更加简化，专注业务代码即可
 
-前端采用vue2 + elementUI，后端采用springboot2.7，安全框架使用springSecurity，redis作为缓存数据库...
-
-javaWeb快速开发框架，持久层使用mybatisPlus，封装BaseController进一步简化单表的增删改查，无需看到控制器中代码生成的冗余代码。springboot使用2.7+版本，结合了新版本的特性修改了部分配置。整体模块分层明确、耦合度低，跨模块调用无需强依赖模块，使开发者只需要专注业务代码即可。
-
->  后台框架从零搭建，前端使用的优秀开源框架若依（作者前端不擅长）
-
-### 平台特点
+### 特点
 
 - 简化单表增删改查，通过传递指定规则参数完成条件查询，无需添加动态sql
-- SpringSecurity动态权限控制，统一接口路由管理，无需重启项目可实现接口的访问控制
+- 优化字段引用，大量lambda写法，易于维护
+- 接口权限细化到路由，统一接口路由管理，无需重启服务实现权限刷新
 - 统一配置管理，框架迁移减小代码改动
-- 自定义注解实现异步任务执行，代码解耦
+- 声明式异步任务执行，代码解耦
 - 模块间通过接口形式实现跨模块调用，无需强依赖
 - 全局事务配置
 - 主键缓存
 - TreeBuild类，简化树模型构建
-- 策略器模式实现部门、角色权限范围管理，文件上传
+- 策略模式实现部门、角色权限范围管理，文件上传
+- 结合SpringBoot2.7新版本的特性优化部分配置
 
+>  后台框架从零搭建，前端使用的优秀开源框架若依（前端不擅长）
 
 最终controller代码
 
 ```java
-/**
- * 通知公告表 控制器
- *
- * @author WuHao
- * @date 2022-05-25 22:41:42
- */
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/sysnotice")
 @Api(value = "SysNoticeModel",tags = "通知公告")
@@ -46,7 +37,7 @@ public class SysNoticeController extends BaseController<ISysNoticeService,SysNot
 }
 
 ```
-分页查询，前端参数传递
+前端参数传递规则，提供后台查询
 ```json
 {
   "page": 1,
@@ -82,6 +73,8 @@ SpringBoot-bebas
 - Java 1.8
 - MySql 8.0
 - SpringBoot 2.7.4
+- vue2
+- element-UI
 - SpringSecurity
 - Mybatis-Plus 3.5.2
 - swagger 3.0.0
@@ -115,12 +108,12 @@ SpringBoot-bebas
 
 后续需要完善的内容：
 
-|   功能    |                描述                 |
-| :-------: | :---------------------------------: |
-| excel导出 | 使用easyExcel框架，实现导入到出功能 |
-|  国际化   |          前后端国际化配置           |
-| 主键缓存  |    并发下主键缓存保证数据一致性     |
-|  .......  |                                     |
+|     功能      |             描述             |
+|:-----------:|:--------------------------:|
+| ~~excel导出~~ | ~~使用easyExcel框架，实现导入导出功能~~ |
+|     国际化     |          前后端国际化配置          |
+|    主键缓存     |       并发下主键缓存保证数据一致性       |
+|   .......   |                            |
 
 ## 使用文档
 
@@ -193,6 +186,8 @@ SpringBoot-bebas
 ``` shell
 默认端口7001
 ```
+
+*如果对你有帮助帮忙点一下小星星，也是对我的一种鼓励，感谢你的支持*
 
 **我的个人博客** ： [equinox-blog](https://www.equinoxblog.site)
 

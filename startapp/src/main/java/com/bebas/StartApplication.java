@@ -17,7 +17,7 @@ import java.util.TimeZone;
 public class StartApplication {
 
     public static void main(String[] args) {
-        LogUtil.consoleInfo(LoggerFactory.getLogger(StartApplication.class),"- 关闭druid日志警告",() -> System.setProperty("druid.mysql.usePingMethod","false"));
+        LogUtil.consoleInfo(LoggerFactory.getLogger(StartApplication.class), "- 关闭druid日志警告", () -> System.setProperty("druid.mysql.usePingMethod", "false"));
         SpringApplication.run(StartApplication.class, args);
     }
 

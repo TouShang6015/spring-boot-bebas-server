@@ -1,8 +1,8 @@
 package com.bebas.org.modules.model.base.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.org.bebasWh.core.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.util.Date;
@@ -22,50 +22,50 @@ import java.util.Date;
 @TableName("sys_logininfor")
 public class SysLogininforModel extends BaseModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Integer LOGIN_SUCCESS = 0;
-	private static final Integer LOGIN_FAIL = 1;
+    private static final Integer LOGIN_SUCCESS = 0;
+    private static final Integer LOGIN_FAIL = 1;
 
-	/**
-	 * 用户账号
-	 */
-	@ApiModelProperty(value = "用户账号", dataType = "String")
-	private String userName;
-	/**
-	 * 登录IP地址
-	 */
-	@ApiModelProperty(value = "登录IP地址", dataType = "String")
-	private String ipaddr;
-	/**
-	 * 登录地点
-	 */
-	@ApiModelProperty(value = "登录地点", dataType = "String")
-	private String loginLocation;
-	/**
-	 * 浏览器类型
-	 */
-	@ApiModelProperty(value = "浏览器类型", dataType = "String")
-	private String browser;
-	/**
-	 * 操作系统
-	 */
-	@ApiModelProperty(value = "操作系统", dataType = "String")
-	private String os;
-	/**
-	 * 登录状态（0成功 1失败）
-	 */
-	@ApiModelProperty(value = "登录状态（0成功 1失败）", dataType = "Integer")
-	private Integer status;
-	/**
-	 * 提示消息
-	 */
-	@ApiModelProperty(value = "提示消息", dataType = "String")
-	private String msg;
-	/**
-	 * 访问时间
-	 */
-	@ApiModelProperty(value = "访问时间", dataType = "Date")
-	private Date loginTime;
+    /**
+     * 用户账号
+     */
+    @ApiModelProperty(value = "用户账号", dataType = "String")
+    private String userName;
+    /**
+     * 登录IP地址
+     */
+    @ApiModelProperty(value = "登录IP地址", dataType = "String")
+    private String ipaddr;
+    /**
+     * 登录地点
+     */
+    @ApiModelProperty(value = "登录地点", dataType = "String")
+    private String loginLocation;
+    /**
+     * 浏览器类型
+     */
+    @ApiModelProperty(value = "浏览器类型", dataType = "String")
+    private String browser;
+    /**
+     * 操作系统
+     */
+    @ApiModelProperty(value = "操作系统", dataType = "String")
+    private String os;
+    /**
+     * 登录状态（0成功 1失败）
+     */
+    @ApiModelProperty(value = "登录状态（0成功 1失败）", dataType = "Integer")
+    private Integer status;
+    /**
+     * 提示消息
+     */
+    @ApiModelProperty(value = "提示消息", dataType = "String")
+    private String msg;
+    /**
+     * 访问时间
+     */
+    @ApiModelProperty(value = "访问时间", dataType = "Date")
+    private Date loginTime;
 
 }

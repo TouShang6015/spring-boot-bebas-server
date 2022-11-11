@@ -4,7 +4,8 @@ import com.bebas.org.modules.model.base.model.SysDeptModel;
 import com.bebas.org.modules.model.base.model.SysPostModel;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
 import com.bebas.org.modules.model.base.model.SysUserModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 

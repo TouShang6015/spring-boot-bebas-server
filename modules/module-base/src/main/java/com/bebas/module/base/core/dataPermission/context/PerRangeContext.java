@@ -1,7 +1,7 @@
 package com.bebas.module.base.core.dataPermission.context;
 
-import com.org.bebasWh.exception.CommonException;
 import com.bebas.module.base.core.dataPermission.range.PerRangeStrategy;
+import com.org.bebasWh.exception.CommonException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -17,7 +17,7 @@ public class PerRangeContext {
     @Resource
     private List<PerRangeStrategy> preRangeStrategyList;
 
-    public PerRangeStrategy getPerRangeService(String value){
+    public PerRangeStrategy getPerRangeService(String value) {
         return preRangeStrategyList.stream()
                 .filter(p -> p.getRangeSign().equals(value))
                 .findFirst()

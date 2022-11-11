@@ -1,9 +1,9 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
 import com.bebas.org.modules.model.base.model.SysUserRoleModel;
 import com.bebas.org.modules.webapi.base.ISysUserRoleWebApi;
+import com.org.bebasWh.mapper.service.IService;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ public interface ISysUserRoleService extends IService<SysUserRoleModel>, ISysUse
 
     /**
      * 查询角色通过用户名
+     *
      * @param userName
      * @return
      */

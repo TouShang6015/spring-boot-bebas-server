@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 字典值Webapi
+ *
  * @author Wuhao
  * @date 2022/7/13 21:09
  */
@@ -14,20 +15,23 @@ public interface IDictDataWebApi {
 
     /**
      * 获取下拉
+     *
      * @return
      */
-    List<LabelOption<String,String>> optionSelect(String dictType);
+    List<LabelOption<String, String>> optionSelect(String dictType);
 
     /**
      * 通过字典类型跟值获取对象
+     *
      * @param dictType
      * @param dictValue
      * @return
      */
-    BaseDictDataModel selectOneByTypeAndValue(String dictType,String dictValue);
+    BaseDictDataModel selectOneByTypeAndValue(String dictType, String dictValue);
 
     /**
      * 通过字典类型获取列表
+     *
      * @param dictType
      * @return
      */
@@ -35,6 +39,7 @@ public interface IDictDataWebApi {
 
     /**
      * 根据id获取单个结果
+     *
      * @param id
      * @return
      */
@@ -42,6 +47,7 @@ public interface IDictDataWebApi {
 
     /**
      * 修改
+     *
      * @param param
      * @return
      */
@@ -49,6 +55,7 @@ public interface IDictDataWebApi {
 
     /**
      * 新增
+     *
      * @param param
      * @return
      */
@@ -56,6 +63,7 @@ public interface IDictDataWebApi {
 
     /**
      * 删除
+     *
      * @param ids
      * @return
      */

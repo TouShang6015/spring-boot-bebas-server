@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ErrorController {
 
     @RequestMapping("/error/print")
-    public Result printError(HttpServletRequest request){
+    public Result printError(HttpServletRequest request) {
         String errorMessage = (String) request.getAttribute("error.message");
         return Result.fail(errorMessage);
     }

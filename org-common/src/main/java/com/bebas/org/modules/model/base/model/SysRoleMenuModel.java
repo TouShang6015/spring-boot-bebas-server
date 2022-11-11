@@ -1,8 +1,8 @@
 package com.bebas.org.modules.model.base.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.org.bebasWh.core.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
@@ -20,17 +20,17 @@ import lombok.*;
 @TableName("sys_role_menu")
 public class SysRoleMenuModel extends BaseModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 角色ID
-	 */
-	@ApiModelProperty(value = "角色ID", dataType = "Long")
-	private Long roleId;
-	/**
-	 * 菜单ID
-	 */
-	@ApiModelProperty(value = "菜单ID", dataType = "Long")
-	private Long menuId;
+    /**
+     * 角色ID
+     */
+    @ApiModelProperty(value = "角色ID", dataType = "Long")
+    private Long roleId;
+    /**
+     * 菜单ID
+     */
+    @ApiModelProperty(value = "菜单ID", dataType = "Long")
+    private Long menuId;
 
 }

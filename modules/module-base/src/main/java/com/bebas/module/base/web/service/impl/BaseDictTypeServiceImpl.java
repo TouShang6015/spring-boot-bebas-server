@@ -2,19 +2,16 @@ package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bebas.module.base.mapper.BaseDictTypeMapper;
 import com.bebas.module.base.web.service.IBaseDictDataService;
 import com.bebas.module.base.web.service.IBaseDictTypeService;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.modules.model.base.model.BaseDictDataModel;
 import com.bebas.org.modules.model.base.model.BaseDictTypeModel;
-import com.bebas.org.modules.model.base.vo.LabelOption;
 import com.org.bebasWh.constants.RedisConstant;
 import com.org.bebasWh.core.redis.RedisCache;
 import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.org.bebasWh.mapper.utils.ModelUtil;
-import com.org.bebasWh.utils.OptionalUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -40,29 +37,6 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper, Bas
     private RedisCache redisCache;
     @Resource
     private IBaseDictDataService dictDataService;
-
-    /**
-     * 获取下拉
-     *
-     * @return
-     */
-    @Override
-    public List<LabelOption<String, String>> optionSelect() {
-        return OptionalUtil.ofNullList(super.list())
-                .parallelStream()
-                .map(item -> {
-                    LabelOption<String, String> option = new LabelOption<>();
-                    option.setValue(item.getDictType());
-                    option.setLabel(item.getDictName());
-                    return option;
-                })
-                .collect(Collectors.toList());
-    }
-
-    public void test() {
-        List<BaseDictTypeModel> baseDictTypeModels = baseMapper.selectList(new QueryWrapper<>());
-        System.out.println(baseDictTypeModels);
-    }
 
     /**
      * 根据字典类型获取

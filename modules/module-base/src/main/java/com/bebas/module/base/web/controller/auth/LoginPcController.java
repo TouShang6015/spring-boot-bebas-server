@@ -4,8 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.bebas.module.base.core.auth.PcLoginWorker;
 import com.bebas.module.base.web.service.ISysUserService;
 import com.bebas.module.base.web.service.login.IRegisterService;
-import com.org.bebasWh.exception.UserException;
-import com.org.bebasWh.utils.result.Result;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.security.utils.SecurityUtils;
 import com.bebas.org.common.security.vo.LoginUser;
 import com.bebas.org.common.utils.MessageUtils;
@@ -14,6 +13,8 @@ import com.bebas.org.modules.model.base.vo.LoginPcRequest;
 import com.bebas.org.modules.model.base.vo.RegisterBodyVo;
 import com.bebas.org.modules.model.base.vo.user.UserInfo;
 import com.bebas.org.modules.webapi.base.ResourceConfigWebApi;
+import com.org.bebasWh.exception.UserException;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 /**
  * 登陆控制器
+ *
  * @author WuHao
  * @date 2022/5/31 21:44
  */
@@ -48,7 +50,7 @@ public class LoginPcController extends PcLoginWorker {
         this.flushConfig();
         // 123456
         // aIpYMEwSEoTZSdktaVHCE2Bf8sKH+7pRtae5iOheeIVP+xtBwfOLn7xGqrc2ZMuPlic3lUWalmxmg7svnHEHU6Pe3Ag91+RSOzRKHTGFIqkbo3PBabVhOCg+P4Sn4Q/q+Uz5ArqQFeGk0KCFRVPs1vvya9qvV9voKRw2siMQzQQ=
-        if (openAuthCode()){
+        if (openAuthCode()) {
             // todo 验证码 校验逻辑
         }
         LoginUser loginUser = super.doLogin(param);
@@ -64,13 +66,13 @@ public class LoginPcController extends PcLoginWorker {
     public Result register(@RequestBody RegisterBodyVo param) {
         this.flushConfig();
         if (!this.mainVO.getRegisterOpen())
-            return Result.fail(MessageUtils.message("system.function.status.noregister"));
+            return Result.fail(MessageUtils.message(MessageCode.System.SYSTEM_NOT_OPEN_REGISTER));
         return registerService.doRegister(param);
     }
 
     @GetMapping("/info")
     @ApiOperation(value = "获取用户详细信息", httpMethod = "GET", response = Result.class)
-    public Result info(){
+    public Result info() {
         this.flushConfig();
         UserInfo userInfo = sysUserService.selectUserInfo(SecurityUtils.getUserId());
         Optional.ofNullable(userInfo.getUser()).ifPresent(item -> {

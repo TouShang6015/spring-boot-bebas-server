@@ -1,22 +1,21 @@
 package com.bebas.module.base.web.controller;
 
-import com.org.bebasWh.utils.MapperUtil;
-import com.org.bebasWh.utils.result.Result;
-import com.bebas.org.common.constants.StringPool;
-import com.bebas.org.framework.log.annotation.Log;
-import com.bebas.org.modules.model.base.model.BaseDictTypeModel;
 import com.bebas.module.base.web.service.IBaseDictTypeService;
+import com.bebas.org.common.utils.LabelUtil;
 import com.bebas.org.common.web.controller.BaseController;
+import com.bebas.org.framework.log.annotation.Log;
 import com.bebas.org.modules.constants.ApiPrefixConstant;
+import com.bebas.org.modules.model.base.model.BaseDictTypeModel;
+import com.bebas.org.modules.model.base.vo.LabelOption;
+import com.org.bebasWh.utils.MapperUtil;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiOperationSupport;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 字典类型表 控制器
@@ -26,25 +25,22 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/basedicttype")
-@Api(value = "BaseDictTypeModel",tags = "字典类型")
-public class BaseDictTypeController extends BaseController<IBaseDictTypeService,BaseDictTypeModel> {
-
-    @Resource
-    public void setService(IBaseDictTypeService service) {
-        super.service = service;
-    }
+@Api(value = "BaseDictTypeModel", tags = "字典类型")
+public class BaseDictTypeController extends BaseController<IBaseDictTypeService, BaseDictTypeModel> {
 
     @ApiOperation(value = "获取下拉", notes = "获取下拉", httpMethod = "GET", response = Result.class)
     @ApiOperationSupport(order = 11)
     @GetMapping("/optionSelect")
-    public Result optionSelect(){
-        return Result.success(service.optionSelect());
+    public Result optionSelect() {
+        List<BaseDictTypeModel> list = service.list();
+        List<LabelOption<String, String>> labelOptions = LabelUtil.setValue(list).buildSelect(BaseDictTypeModel::getDictName, BaseDictTypeModel::getDictType);
+        return Result.success(labelOptions);
     }
 
     @ApiOperation(value = "刷新缓存", httpMethod = "GET", response = Result.class)
     @ApiOperationSupport(order = 12)
     @DeleteMapping("/flushCache")
-    public Result flushCache(){
+    public Result flushCache() {
         service.flushCache();
         return Result.success();
     }
@@ -71,7 +67,7 @@ public class BaseDictTypeController extends BaseController<IBaseDictTypeService,
     @Log(title = "字典类型删除")
     @Override
     protected Result baseDeleteByIds(@PathVariable String ids) {
-        List<Long> idsList = Arrays.stream(ids.split(StringPool.COMMA)).collect(Collectors.toList()).stream().map(Long::valueOf).collect(Collectors.toList());
+        List<Long> idsList = StringUtils.splitToList(ids, Long::valueOf);
         return Result.success(service.deleteByIds(idsList));
     }
 }

@@ -1,7 +1,8 @@
 package com.bebas.org.modules.model.base.dto;
 
 import com.bebas.org.modules.model.base.model.SysPermissionModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 权限管理 Dto

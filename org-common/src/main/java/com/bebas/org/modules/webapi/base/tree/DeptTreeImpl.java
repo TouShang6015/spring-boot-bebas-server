@@ -1,10 +1,10 @@
 package com.bebas.org.modules.webapi.base.tree;
 
-import com.org.bebasWh.core.model.TreeBaseModel;
 import com.bebas.org.common.utils.tree.TreeBuild;
 import com.bebas.org.modules.convert.base.SysDeptConvert;
 import com.bebas.org.modules.model.base.dto.SysDeptDTO;
 import com.bebas.org.modules.model.base.model.SysDeptModel;
+import com.org.bebasWh.core.model.TreeBaseModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

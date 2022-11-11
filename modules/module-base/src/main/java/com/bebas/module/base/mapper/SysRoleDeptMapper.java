@@ -18,9 +18,9 @@ public interface SysRoleDeptMapper extends BaseMapper<SysRoleDeptModel> {
      * 获取部门id根据roleId
      *
      * @param roleId
-     * @param b 部门树选择项是否关联显示
+     * @param b      部门树选择项是否关联显示
      * @return
      */
-    List<Long> selectDeptIdsByRoleId(@Param("roleId") Long roleId,@Param("deptCheckStrictly") Integer deptCheckStrictly);
+    List<Long> selectDeptIdsByRoleId(@Param("roleId") Long roleId, @Param("deptCheckStrictly") Integer deptCheckStrictly);
 
 }

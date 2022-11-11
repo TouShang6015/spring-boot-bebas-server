@@ -26,12 +26,12 @@ public class BaseInfoConfig {
         return name;
     }
 
-    public static String getVersion() {
-        return version;
-    }
-
     public void setName(String name) {
         BaseInfoConfig.name = name;
+    }
+
+    public static String getVersion() {
+        return version;
     }
 
     public void setVersion(String version) {

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bebas.module.base.core.dataPermission.annotation.PermissionData;
 import com.bebas.module.base.mapper.SysRoleMapper;
 import com.bebas.module.base.web.service.*;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.constants.SecurityConstant;
 import com.bebas.org.common.security.utils.SecurityUtils;
 import com.bebas.org.common.utils.MessageUtils;
@@ -187,10 +188,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleModel>
     @Override
     public boolean deleteByIds(List<Long> idList) {
         if (idList.contains(SecurityConstant.SYSTEM_ID)) {
-            throw new BusinessException(MessageUtils.message("business.base.role.remove.not.admin"));
+            throw new BusinessException(MessageUtils.message(MessageCode.Role.SYSTEM_ROLE_NOT_REMOVE));
         }
         if (sysUserRoleService.lambdaQuery().in(SysUserRoleModel::getRoleId, idList).count() > 0) {
-            throw new BusinessException(MessageUtils.message("business.base.role.remove.already.allot"));
+            throw new BusinessException(MessageUtils.message(MessageCode.Role.ROLE_ALREADY_ALLOT_NOT_REMOVE));
         }
         // 删除角色菜单关联表
         sysRoleMenuService.lambdaUpdate().in(SysRoleMenuModel::getRoleId, idList).remove();

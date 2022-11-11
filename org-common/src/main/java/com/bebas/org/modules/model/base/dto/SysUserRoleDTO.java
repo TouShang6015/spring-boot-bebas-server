@@ -1,7 +1,8 @@
 package com.bebas.org.modules.model.base.dto;
 
 import com.bebas.org.modules.model.base.model.SysUserRoleModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 用户和角色关联表 Dto

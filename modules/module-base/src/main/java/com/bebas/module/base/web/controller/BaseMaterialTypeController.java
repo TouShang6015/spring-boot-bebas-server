@@ -1,26 +1,29 @@
 package com.bebas.module.base.web.controller;
 
-import com.org.bebasWh.utils.OptionalUtil;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.module.base.web.service.IBaseMaterialInfoService;
+import com.bebas.module.base.web.service.IBaseMaterialTypeService;
 import com.bebas.org.common.constants.Constants;
-import com.bebas.org.common.constants.StringPool;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.utils.MessageUtils;
 import com.bebas.org.common.utils.tree.TreeService;
 import com.bebas.org.common.utils.tree.vo.TreeModel;
+import com.bebas.org.common.web.controller.BaseController;
+import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.convert.base.BaseMaterialTypeConvert;
 import com.bebas.org.modules.model.base.dto.BaseMaterialTypeDTO;
 import com.bebas.org.modules.model.base.model.BaseMaterialInfoModel;
 import com.bebas.org.modules.model.base.model.BaseMaterialTypeModel;
-import com.bebas.module.base.web.service.IBaseMaterialTypeService;
-import com.bebas.org.common.web.controller.BaseController;
-import com.bebas.org.modules.constants.ApiPrefixConstant;
+import com.org.bebasWh.utils.OptionalUtil;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -31,13 +34,8 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/basematerialtype")
-@Api(value = "BaseMaterialTypeModel",tags = "素材分类")
-public class BaseMaterialTypeController extends BaseController<IBaseMaterialTypeService,BaseMaterialTypeModel> {
-
-    @Resource
-    public void setService(IBaseMaterialTypeService service) {
-        super.service = service;
-    }
+@Api(value = "BaseMaterialTypeModel", tags = "素材分类")
+public class BaseMaterialTypeController extends BaseController<IBaseMaterialTypeService, BaseMaterialTypeModel> {
 
     @Resource
     private TreeService<BaseMaterialTypeDTO> treeService;
@@ -65,9 +63,9 @@ public class BaseMaterialTypeController extends BaseController<IBaseMaterialType
 
     @Override
     protected Result baseDeleteByIds(@PathVariable("ids") String ids) {
-        List<String> idList = Arrays.stream(ids.split(StringPool.COMMA)).distinct().collect(Collectors.toList());
-        if (baseMaterialInfoService.lambdaQuery().in(BaseMaterialInfoModel::getMaterialTypeId,idList).count() > 0){
-            return Result.fail(MessageUtils.message("common.include.no.handle"));
+        List<Long> idList = StringUtils.splitToList(ids, Long::valueOf);
+        if (baseMaterialInfoService.lambdaQuery().in(BaseMaterialInfoModel::getMaterialTypeId, idList).count() > 0) {
+            return Result.fail(MessageUtils.message(MessageCode.System.EXISTS_DOWN_TYPE_NOT_HANDLE));
         }
         return super.baseDeleteByIds(ids);
     }
@@ -77,7 +75,7 @@ public class BaseMaterialTypeController extends BaseController<IBaseMaterialType
     @GetMapping("/list/exclude/{id}")
     public Result excludeChild(@PathVariable Long id) {
         List<BaseMaterialTypeModel> list = OptionalUtil.ofNullList(service.list()).stream()
-                .filter(item -> !(item.getId().equals(id) || Arrays.stream(item.getAncestors().split(StringPool.COMMA)).collect(Collectors.toList()).contains(id.toString())))
+                .filter(item -> !(item.getId().equals(id) || StringUtils.splitToList(item.getAncestors(), String::valueOf).contains(id.toString())))
                 .collect(Collectors.toList());
         return Result.success(list);
     }

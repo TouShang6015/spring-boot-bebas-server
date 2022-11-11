@@ -1,8 +1,8 @@
 package com.bebas.org.common.utils.file;
 
-import com.org.bebasWh.utils.StringUtils;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.framework.fileManager.service.FileTypeConstants;
+import com.org.bebasWh.utils.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,12 +48,9 @@ public class FileUtil {
         }
 
         // 检查允许下载的文件规则
-        if (ArrayUtils.contains(FileTypeConstants.DEFAULT_ALLOWED_EXTENSION, getFileType(resource))) {
-            return true;
-        }
+        return ArrayUtils.contains(FileTypeConstants.DEFAULT_ALLOWED_EXTENSION, getFileType(resource));
 
         // 不在允许下载的文件规则
-        return false;
     }
 
     /**

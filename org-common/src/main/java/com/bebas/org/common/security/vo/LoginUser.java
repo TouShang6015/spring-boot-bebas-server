@@ -1,14 +1,15 @@
 package com.bebas.org.common.security.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.org.bebasWh.core.security.model.BaseSecurityUser;
 import com.bebas.org.modules.model.base.model.SysUserModel;
+import com.org.bebasWh.core.security.model.BaseSecurityUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * 登录用户身份权限

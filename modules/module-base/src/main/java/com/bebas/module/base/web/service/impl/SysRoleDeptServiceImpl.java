@@ -21,7 +21,7 @@ public class SysRoleDeptServiceImpl extends ServiceImpl<SysRoleDeptMapper, SysRo
      * 获取部门id根据roleId
      *
      * @param roleId
-     * @param deptCheckStrictly      部门树选择项是否关联显示
+     * @param deptCheckStrictly 部门树选择项是否关联显示
      * @return
      */
     @Override

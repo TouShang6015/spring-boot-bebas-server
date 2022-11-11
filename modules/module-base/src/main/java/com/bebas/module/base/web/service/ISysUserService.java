@@ -1,10 +1,10 @@
 package com.bebas.module.base.web.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.dto.SysUserDTO;
 import com.bebas.org.modules.model.base.model.SysUserModel;
 import com.bebas.org.modules.model.base.vo.user.UserInfo;
+import com.org.bebasWh.mapper.service.IService;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,12 +19,14 @@ public interface ISysUserService extends IService<SysUserModel> {
 
     /**
      * 获取当前登录人的信息
+     *
      * @return
      */
     UserInfo selectUserInfo(Long id);
 
     /**
      * 查询用户详细列表
+     *
      * @param param
      * @return
      */
@@ -32,12 +34,13 @@ public interface ISysUserService extends IService<SysUserModel> {
 
     /**
      * 通过id获取用户详细信息
+     *
      * @param id
      * @return
      */
     SysUserDTO selectUserDetailById(Long id);
 
-    IPage<SysUserDTO> selectAllocatedList(IPage<SysUserDTO> page,SysUserDTO user);
+    IPage<SysUserDTO> selectAllocatedList(IPage<SysUserDTO> page, SysUserDTO user);
 
     /**
      * 根据条件分页查询未分配用户角色列表-分页
@@ -45,7 +48,7 @@ public interface ISysUserService extends IService<SysUserModel> {
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    IPage<SysUserDTO> selectUnallocatedList(IPage<SysUserDTO> page,SysUserDTO user);
+    IPage<SysUserDTO> selectUnallocatedList(IPage<SysUserDTO> page, SysUserDTO user);
 
     /**
      * 通过用户名查询用户
@@ -154,6 +157,7 @@ public interface ISysUserService extends IService<SysUserModel> {
 
     /**
      * 通过主键删除关联子表
+     *
      * @param ids
      * @return
      */

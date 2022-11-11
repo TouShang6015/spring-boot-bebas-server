@@ -1,7 +1,7 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.model.SysRolePermissionModel;
+import com.org.bebasWh.mapper.service.IService;
 
 /**
  * 角色和权限关联表 业务接口

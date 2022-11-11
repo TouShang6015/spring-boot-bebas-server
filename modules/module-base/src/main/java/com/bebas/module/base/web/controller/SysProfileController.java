@@ -1,9 +1,8 @@
 package com.bebas.module.base.web.controller;
 
-import com.org.bebasWh.enums.result.ResultEnum;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.module.base.web.service.IBaseResourceConfigService;
 import com.bebas.module.base.web.service.ISysUserService;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.constants.ResourceConfigConstant;
 import com.bebas.org.common.enums.BaseEnums;
 import com.bebas.org.common.enums.file.FileHeaderImageEnum;
@@ -18,6 +17,8 @@ import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.model.base.dto.SysUserDTO;
 import com.bebas.org.modules.model.base.model.SysUserModel;
 import com.bebas.org.modules.model.base.vo.baseResource.ResourceMainVO;
+import com.org.bebasWh.enums.result.ResultEnum;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -70,10 +71,10 @@ public class SysProfileController {
         LoginUser loginUser = SecurityUtils.getLoginUser();
         SysUserModel userModel = loginUser.getUserModel();
         if (!userService.checkPhoneUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.phonenumber.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.PHONE_EXISTS_HANDLE_FAIL));
         }
         if (!userService.checkEmailUnique(param)) {
-            return Result.fail(MessageUtils.message("business.base.user.add.email.unique"));
+            return Result.fail(MessageUtils.message(MessageCode.User.EMAIL_EXISTS_HANDLE_FAIL));
         }
         param.setId(userModel.getId());
         param.setPassword(null);
@@ -134,7 +135,7 @@ public class SysProfileController {
         if (!file.isEmpty()) {
             LoginUser loginUser = SecurityUtils.getLoginUser();
             String suffix = BaseEnums.getValueByKey.apply(FileHeaderImageEnum.values(), file.getContentType());
-            String path = fileService.upload(FilePrefixEnum.UPLOAD.getKey(),suffix,file.getInputStream());
+            String path = fileService.upload(FilePrefixEnum.UPLOAD.getKey(), suffix, file.getInputStream());
             SysUserModel model = userService.getById(SecurityUtils.getUserId());
             model.setAvatar(path);
             if (userService.updateById(model)) {

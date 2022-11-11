@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class CommonConfig {
 
     @Bean
-    public PermissionSecurityFilter dynamicSecurityFilter(){
+    public PermissionSecurityFilter dynamicSecurityFilter() {
         return new PermissionSecurityFilter();
     }
 

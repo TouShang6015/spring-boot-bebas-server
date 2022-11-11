@@ -15,36 +15,40 @@ import java.util.List;
  * @date 2022-10-14 15:13:02
  */
 @Mapper(builder = @Builder(disableBuilder = true))
-public interface BaseDictDataConvert{
+public interface BaseDictDataConvert {
 
     BaseDictDataConvert INSTANCE = Mappers.getMapper(BaseDictDataConvert.class);
 
     /**
-    * dto 转换 model
-    * @param dto
-    * @return
-    */
+     * dto 转换 model
+     *
+     * @param dto
+     * @return
+     */
     BaseDictDataModel convertToModel(BaseDictDataDTO dto);
 
     /**
-    * dtoList 转换 modelList
-    * @param dto
-    * @return
-    */
+     * dtoList 转换 modelList
+     *
+     * @param dto
+     * @return
+     */
     List<BaseDictDataModel> convertToModel(List<BaseDictDataDTO> dto);
 
     /**
-    * model 转换 dto
-    * @param model
-    * @return
-    */
+     * model 转换 dto
+     *
+     * @param model
+     * @return
+     */
     BaseDictDataDTO convertToDTO(BaseDictDataModel model);
 
     /**
-    * modelList 转换 dtoList
-    * @param model
-    * @return
-    */
+     * modelList 转换 dtoList
+     *
+     * @param model
+     * @return
+     */
     List<BaseDictDataDTO> convertToDTO(List<BaseDictDataModel> model);
 
 }

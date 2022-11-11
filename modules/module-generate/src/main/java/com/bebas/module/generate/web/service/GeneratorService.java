@@ -2,13 +2,13 @@ package com.bebas.module.generate.web.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.org.bebasWh.exception.BusinessException;
-import com.org.bebasWh.utils.page.PageUtil;
 import com.bebas.module.generate.mapper.GeneratorMapper;
 import com.bebas.module.generate.model.GenerateModel;
 import com.bebas.module.generate.model.TableColumnsModel;
 import com.bebas.module.generate.model.TableInfoModel;
 import com.bebas.module.generate.model.TableQueryModel;
+import com.org.bebasWh.exception.BusinessException;
+import com.org.bebasWh.utils.page.PageUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -39,7 +39,7 @@ public class GeneratorService {
         TableQueryModel _queryParam = new TableQueryModel();
         _queryParam.setTableNames(tableNames);
         List<TableInfoModel> tableInfoList = mapper.selectTableList(_queryParam);
-        if (CollectionUtils.isEmpty(tableInfoList)){
+        if (CollectionUtils.isEmpty(tableInfoList)) {
             throw new BusinessException("获取表数据异常！");
         }
         // 获取列信息

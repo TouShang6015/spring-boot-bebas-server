@@ -1,7 +1,8 @@
 package com.bebas.org.modules.model.base.dto;
 
 import com.bebas.org.modules.model.base.model.SysLogininforModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 系统访问记录 Dto

@@ -1,8 +1,8 @@
 package com.bebas.org.common.config.global;
 
+import com.bebas.org.common.constants.StringPool;
 import com.github.yitter.contract.IdGeneratorOptions;
 import com.github.yitter.idgen.YitIdHelper;
-import com.bebas.org.common.constants.StringPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -54,77 +54,6 @@ public class IdGenerateConfig {
      * 最大漂移次数（含）,默认2000，推荐范围500-10000（与计算能力有关）
      */
     private static short topOverCostCount;
-
-    public static short getWorkerId() {
-        return workerId;
-    }
-
-    public static short getMethod() {
-        return method;
-    }
-
-    public static long getBaseTime() {
-        return baseTime;
-    }
-
-    public static byte getWorkerIdBitLength() {
-        return workerIdBitLength;
-    }
-
-    public static byte getSeqBitLength() {
-        return seqBitLength;
-    }
-
-    public static short getMaxSeqNumber() {
-        return maxSeqNumber;
-    }
-
-    public static short getMinSeqNumber() {
-        return minSeqNumber;
-    }
-
-    public static short getTopOverCostCount() {
-        return topOverCostCount;
-    }
-
-    public void setWorkerId(short workerId) {
-        IdGenerateConfig.workerId = workerId;
-    }
-
-    public void setMethod(short method) {
-        IdGenerateConfig.method = method;
-    }
-
-    public void setBaseTime(long baseTime) {
-        IdGenerateConfig.baseTime = baseTime;
-    }
-
-    public void setWorkerIdBitLength(byte workerIdBitLength) {
-        IdGenerateConfig.workerIdBitLength = workerIdBitLength;
-    }
-
-    public void setSeqBitLength(byte seqBitLength) {
-        IdGenerateConfig.seqBitLength = seqBitLength;
-    }
-
-    public void setMaxSeqNumber(short maxSeqNumber) {
-        IdGenerateConfig.maxSeqNumber = maxSeqNumber;
-    }
-
-    public void setMinSeqNumber(short minSeqNumber) {
-        IdGenerateConfig.minSeqNumber = minSeqNumber;
-    }
-
-    public void setTopOverCostCount(short topOverCostCount) {
-        IdGenerateConfig.topOverCostCount = topOverCostCount;
-    }
-
-    @Bean("idGenerateBean")
-    public IdGenerateConfig idGenerateBean(){
-        initIdGenerateBean.run();
-        return null;
-    }
-
     public Runnable initIdGenerateBean = () -> {
         IdGeneratorOptions idOptions = new IdGeneratorOptions(workerId);
         idOptions.WorkerIdBitLength = workerIdBitLength;
@@ -136,7 +65,77 @@ public class IdGenerateConfig {
         idOptions.SeqBitLength = seqBitLength;
         idOptions.MinSeqNumber = minSeqNumber;
         YitIdHelper.setIdGenerator(idOptions);
-        log.info("{} {}", StringPool.DASH,"初始化数据库唯一id配置信息");
+        log.info("{} {}", StringPool.DASH, "初始化数据库唯一id配置信息");
     };
+
+    public static short getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(short workerId) {
+        IdGenerateConfig.workerId = workerId;
+    }
+
+    public static short getMethod() {
+        return method;
+    }
+
+    public void setMethod(short method) {
+        IdGenerateConfig.method = method;
+    }
+
+    public static long getBaseTime() {
+        return baseTime;
+    }
+
+    public void setBaseTime(long baseTime) {
+        IdGenerateConfig.baseTime = baseTime;
+    }
+
+    public static byte getWorkerIdBitLength() {
+        return workerIdBitLength;
+    }
+
+    public void setWorkerIdBitLength(byte workerIdBitLength) {
+        IdGenerateConfig.workerIdBitLength = workerIdBitLength;
+    }
+
+    public static byte getSeqBitLength() {
+        return seqBitLength;
+    }
+
+    public void setSeqBitLength(byte seqBitLength) {
+        IdGenerateConfig.seqBitLength = seqBitLength;
+    }
+
+    public static short getMaxSeqNumber() {
+        return maxSeqNumber;
+    }
+
+    public void setMaxSeqNumber(short maxSeqNumber) {
+        IdGenerateConfig.maxSeqNumber = maxSeqNumber;
+    }
+
+    public static short getMinSeqNumber() {
+        return minSeqNumber;
+    }
+
+    public void setMinSeqNumber(short minSeqNumber) {
+        IdGenerateConfig.minSeqNumber = minSeqNumber;
+    }
+
+    public static short getTopOverCostCount() {
+        return topOverCostCount;
+    }
+
+    public void setTopOverCostCount(short topOverCostCount) {
+        IdGenerateConfig.topOverCostCount = topOverCostCount;
+    }
+
+    @Bean("idGenerateBean")
+    public IdGenerateConfig idGenerateBean() {
+        initIdGenerateBean.run();
+        return null;
+    }
 
 }

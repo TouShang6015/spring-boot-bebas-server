@@ -13,9 +13,7 @@ public enum FilePrefixEnum {
 
     UPLOAD("upload"),
 
-    DOWNLOAD("download")
-
-    ;
+    DOWNLOAD("download");
 
     private final String key;
 

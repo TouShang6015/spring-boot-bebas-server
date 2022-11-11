@@ -1,12 +1,12 @@
 package com.bebas.module.generate.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.module.generate.model.GenerateModel;
 import com.bebas.module.generate.model.TableInfoModel;
 import com.bebas.module.generate.model.TableQueryModel;
 import com.bebas.module.generate.web.service.GeneratorService;
 import com.bebas.org.modules.constants.ApiPrefixConstant;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -24,15 +24,15 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.GENERATE)
-@Api(value = "Generate",tags = "代码生成")
-public class GenerateController{
+@Api(value = "Generate", tags = "代码生成")
+public class GenerateController {
 
     @Autowired
     private GeneratorService generatorService;
 
     @ApiOperation(value = "queryList", httpMethod = "GET", response = Result.class)
     @GetMapping("/queryList")
-    public Result queryList(TableQueryModel param){
+    public Result queryList(TableQueryModel param) {
         IPage<TableInfoModel> tableInfoModelIPage = generatorService.queryList(param);
         return Result.success(tableInfoModelIPage);
     }

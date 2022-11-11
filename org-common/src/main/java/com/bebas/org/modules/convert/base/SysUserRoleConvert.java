@@ -15,36 +15,40 @@ import java.util.List;
  * @date 2022-10-14 15:13:02
  */
 @Mapper(builder = @Builder(disableBuilder = true))
-public interface SysUserRoleConvert{
+public interface SysUserRoleConvert {
 
     SysUserRoleConvert INSTANCE = Mappers.getMapper(SysUserRoleConvert.class);
 
     /**
-    * dto 转换 model
-    * @param dto
-    * @return
-    */
+     * dto 转换 model
+     *
+     * @param dto
+     * @return
+     */
     SysUserRoleModel convertToModel(SysUserRoleDTO dto);
 
     /**
-    * dtoList 转换 modelList
-    * @param dto
-    * @return
-    */
+     * dtoList 转换 modelList
+     *
+     * @param dto
+     * @return
+     */
     List<SysUserRoleModel> convertToModel(List<SysUserRoleDTO> dto);
 
     /**
-    * model 转换 dto
-    * @param model
-    * @return
-    */
+     * model 转换 dto
+     *
+     * @param model
+     * @return
+     */
     SysUserRoleDTO convertToDTO(SysUserRoleModel model);
 
     /**
-    * modelList 转换 dtoList
-    * @param model
-    * @return
-    */
+     * modelList 转换 dtoList
+     *
+     * @param model
+     * @return
+     */
     List<SysUserRoleDTO> convertToDTO(List<SysUserRoleModel> model);
 
 }

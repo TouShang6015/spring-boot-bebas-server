@@ -34,20 +34,20 @@ public class TokenConfig {
         return header;
     }
 
-    public static String getSecret() {
-        return secret;
-    }
-
-    public static long getExpireTime() {
-        return expireTime;
-    }
-
     public void setHeader(String header) {
         TokenConfig.header = header;
     }
 
+    public static String getSecret() {
+        return secret;
+    }
+
     public void setSecret(String secret) {
         TokenConfig.secret = secret;
+    }
+
+    public static long getExpireTime() {
+        return expireTime;
     }
 
     public void setExpireTime(int expireTime) {

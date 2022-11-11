@@ -4,13 +4,13 @@ import cn.hutool.core.collection.CollUtil;
 import com.bebas.module.base.mapper.BaseDictDataMapper;
 import com.bebas.module.base.web.service.IBaseDictDataService;
 import com.bebas.org.common.constants.StringPool;
+import com.bebas.org.common.utils.LabelUtil;
 import com.bebas.org.modules.model.base.model.BaseDictDataModel;
 import com.bebas.org.modules.model.base.vo.LabelOption;
 import com.org.bebasWh.constants.RedisConstant;
 import com.org.bebasWh.core.redis.RedisCache;
 import com.org.bebasWh.mapper.cache.ServiceImpl;
 import com.org.bebasWh.mapper.utils.ModelUtil;
-import com.org.bebasWh.utils.OptionalUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,12 +42,8 @@ public class BaseDictDataServiceImpl extends ServiceImpl<BaseDictDataMapper, Bas
      */
     @Override
     public List<LabelOption<String, String>> optionSelect(String dictType) {
-        return OptionalUtil.ofNullList(this.selectListByDictType(dictType)).stream().map(item -> {
-            LabelOption<String, String> option = new LabelOption<>();
-            option.setValue(item.getDictValue());
-            option.setLabel(item.getDictLabel());
-            return option;
-        }).collect(Collectors.toList());
+        List<BaseDictDataModel> list = this.selectListByDictType(dictType);
+        return LabelUtil.setValue(list).buildSelect(BaseDictDataModel::getDictLabel, BaseDictDataModel::getDictValue);
     }
 
     /**

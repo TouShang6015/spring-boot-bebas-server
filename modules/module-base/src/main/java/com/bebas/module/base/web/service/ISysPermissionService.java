@@ -1,9 +1,9 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.common.utils.tree.vo.TreeModel;
 import com.bebas.org.modules.model.base.dto.SysPermissionDTO;
 import com.bebas.org.modules.model.base.model.SysPermissionModel;
+import com.org.bebasWh.mapper.service.IService;
 
 import java.util.List;
 
@@ -17,18 +17,21 @@ public interface ISysPermissionService extends IService<SysPermissionModel> {
 
     /**
      * 获取项目路由地址
+     *
      * @return
      */
     List<SysPermissionModel> getProjectRequestMapping();
 
     /**
      * 接口路由同步
+     *
      * @return
      */
     boolean handleMappingSync();
 
     /**
      * 分配路由模块
+     *
      * @param parentId
      * @param permissionModelList
      * @return
@@ -37,6 +40,7 @@ public interface ISysPermissionService extends IService<SysPermissionModel> {
 
     /**
      * 构建树结构列表
+     *
      * @param dtoList
      * @return
      */
@@ -44,6 +48,7 @@ public interface ISysPermissionService extends IService<SysPermissionModel> {
 
     /**
      * 获取角色的路由列表
+     *
      * @param roleId
      * @return
      */

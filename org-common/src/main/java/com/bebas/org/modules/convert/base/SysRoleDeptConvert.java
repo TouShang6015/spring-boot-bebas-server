@@ -15,36 +15,40 @@ import java.util.List;
  * @date 2022-10-14 15:13:02
  */
 @Mapper(builder = @Builder(disableBuilder = true))
-public interface SysRoleDeptConvert{
+public interface SysRoleDeptConvert {
 
     SysRoleDeptConvert INSTANCE = Mappers.getMapper(SysRoleDeptConvert.class);
 
     /**
-    * dto 转换 model
-    * @param dto
-    * @return
-    */
+     * dto 转换 model
+     *
+     * @param dto
+     * @return
+     */
     SysRoleDeptModel convertToModel(SysRoleDeptDTO dto);
 
     /**
-    * dtoList 转换 modelList
-    * @param dto
-    * @return
-    */
+     * dtoList 转换 modelList
+     *
+     * @param dto
+     * @return
+     */
     List<SysRoleDeptModel> convertToModel(List<SysRoleDeptDTO> dto);
 
     /**
-    * model 转换 dto
-    * @param model
-    * @return
-    */
+     * model 转换 dto
+     *
+     * @param model
+     * @return
+     */
     SysRoleDeptDTO convertToDTO(SysRoleDeptModel model);
 
     /**
-    * modelList 转换 dtoList
-    * @param model
-    * @return
-    */
+     * modelList 转换 dtoList
+     *
+     * @param model
+     * @return
+     */
     List<SysRoleDeptDTO> convertToDTO(List<SysRoleDeptModel> model);
 
 }

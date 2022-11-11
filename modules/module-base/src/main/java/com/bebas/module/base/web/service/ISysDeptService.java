@@ -1,9 +1,9 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.common.utils.tree.vo.TreeModel;
 import com.bebas.org.modules.model.base.dto.SysDeptDTO;
 import com.bebas.org.modules.model.base.model.SysDeptModel;
+import com.org.bebasWh.mapper.service.IService;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ public interface ISysDeptService extends IService<SysDeptModel> {
 
     /**
      * 获取详情根据id
+     *
      * @param id
      * @return
      */

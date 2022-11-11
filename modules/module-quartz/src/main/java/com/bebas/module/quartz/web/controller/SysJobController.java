@@ -1,8 +1,5 @@
 package com.bebas.module.quartz.web.controller;
 
-import com.org.bebasWh.utils.MapperUtil;
-import com.org.bebasWh.utils.StringUtils;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.module.quartz.constants.QuartzConstant;
 import com.bebas.module.quartz.util.CronUtils;
 import com.bebas.module.quartz.util.ScheduleUtils;
@@ -12,11 +9,15 @@ import com.bebas.org.common.web.controller.BaseController;
 import com.bebas.org.framework.log.annotation.Log;
 import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.model.quartz.model.SysJobModel;
+import com.org.bebasWh.utils.MapperUtil;
+import com.org.bebasWh.utils.StringUtils;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import org.quartz.SchedulerException;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 定时任务调度表 控制器
@@ -28,11 +29,6 @@ import javax.annotation.Resource;
 @RequestMapping(ApiPrefixConstant.Modules.QUARTZ + "/sysjob")
 @Api(value = "SysJobModel", tags = "定时任务调度表")
 public class SysJobController extends BaseController<ISysJobService, SysJobModel> {
-
-    @Resource
-    public void setService(ISysJobService service) {
-        super.service = service;
-    }
 
     @Log(title = "新增")
     @Override
@@ -76,8 +72,7 @@ public class SysJobController extends BaseController<ISysJobService, SysJobModel
 
     @Log(title = "修改任务状态")
     @PutMapping("/changeStatus")
-    public Result changeStatus(@RequestBody SysJobModel job) throws SchedulerException
-    {
+    public Result changeStatus(@RequestBody SysJobModel job) throws SchedulerException {
         SysJobModel newJob = service.getById(job.getId());
         newJob.setStatus(job.getStatus());
         return Result.successBoolean(service.changeStatus(newJob));
@@ -85,8 +80,7 @@ public class SysJobController extends BaseController<ISysJobService, SysJobModel
 
     @Log(title = "立即执行任务")
     @PutMapping("/run")
-    public Result run(@RequestBody SysJobModel job) throws SchedulerException
-    {
+    public Result run(@RequestBody SysJobModel job) throws SchedulerException {
         service.run(job);
         return Result.success();
     }

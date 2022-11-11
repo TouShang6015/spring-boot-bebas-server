@@ -22,6 +22,7 @@ public interface SysUserMapper extends BaseMapper<SysUserModel> {
 
     /**
      * 通过userId获取用户详细信息
+     *
      * @param userId
      * @return
      */

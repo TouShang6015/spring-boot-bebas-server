@@ -1,44 +1,38 @@
 package com.bebas.module.base.web.controller;
 
 import com.bebas.module.base.web.service.IBaseResourceConfigService;
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.org.common.web.controller.BaseController;
 import com.bebas.org.framework.log.annotation.Log;
 import com.bebas.org.modules.constants.ApiPrefixConstant;
 import com.bebas.org.modules.model.base.model.BaseResourceConfigModel;
+import com.org.bebasWh.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.annotation.Resource;
-
 /**
  * 系统参数配置表 控制层
+ *
  * @author WuHao
  * @date 2022/5/21 11:18
  */
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/baseresourceconfig")
-@Api(value = "BaseResourceConfigModel",tags = "系统参数配置")
+@Api(value = "BaseResourceConfigModel", tags = "系统参数配置")
 public class ResourceConfigController extends BaseController<IBaseResourceConfigService, BaseResourceConfigModel> {
 
-    @Resource
-    protected void setService(IBaseResourceConfigService service) {
-        super.service = service;
-    }
-
-    @ApiOperation(value="根据configKey获取信息",httpMethod="GET",response= Result.class)
+    @ApiOperation(value = "根据configKey获取信息", httpMethod = "GET", response = Result.class)
     @GetMapping("/queryByConfigKey/{configKey}")
-    public Result queryByConfigKey(@PathVariable String configKey){
+    public Result queryByConfigKey(@PathVariable String configKey) {
         BaseResourceConfigModel model = service.queryByConfigKey(configKey);
         return Result.success(model);
     }
 
     @Log(title = "编辑系统参数配置信息")
-    @ApiOperation(value="根据configKey编辑信息",httpMethod="PUT",response= Result.class)
+    @ApiOperation(value = "根据configKey编辑信息", httpMethod = "PUT", response = Result.class)
     @PutMapping("/editByConfigKey")
-    public Result editByConfigKey(@RequestBody BaseResourceConfigModel param){
+    public Result editByConfigKey(@RequestBody BaseResourceConfigModel param) {
         if (!service.editByConfigKey(param))
             return Result.fail();
         return Result.success();

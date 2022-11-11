@@ -1,7 +1,7 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.model.BaseMaterialTypeModel;
+import com.org.bebasWh.mapper.service.IService;
 
 /**
  * 素材分类 业务接口

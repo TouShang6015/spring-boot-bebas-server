@@ -1,6 +1,5 @@
 package com.bebas.module.base.core.dataPermission.range;
 
-import com.org.bebasWh.utils.StringUtils;
 import com.bebas.module.base.core.dataPermission.enums.PermissionRangeEnums;
 import com.bebas.module.base.web.service.ISysDeptService;
 import com.bebas.module.base.web.service.ISysRoleDeptService;
@@ -11,6 +10,7 @@ import com.bebas.org.modules.model.base.model.SysDeptModel;
 import com.bebas.org.modules.model.base.model.SysRoleDeptModel;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
 import com.bebas.org.modules.model.base.model.SysUserModel;
+import com.org.bebasWh.utils.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.stereotype.Service;
 

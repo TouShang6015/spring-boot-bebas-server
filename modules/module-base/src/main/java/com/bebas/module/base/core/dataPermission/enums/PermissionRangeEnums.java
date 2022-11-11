@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * 权限范围类型
+ *
  * @author Wuhao
  * @date 2022/8/28 22:33
  */
@@ -14,6 +15,6 @@ public enum PermissionRangeEnums {
     CUSTOM,     // 自定义
     DEPT_MY,    // 本部门
     DEPT,       // 本部门以及以下
-    MY;         // 本人
+    MY         // 本人
 
 }

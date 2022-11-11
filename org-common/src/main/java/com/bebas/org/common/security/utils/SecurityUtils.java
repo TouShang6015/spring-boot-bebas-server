@@ -1,9 +1,9 @@
 package com.bebas.org.common.security.utils;
 
-import com.org.bebasWh.constants.HttpStatus;
-import com.org.bebasWh.exception.UserException;
 import com.bebas.org.common.constants.SecurityConstant;
 import com.bebas.org.common.security.vo.LoginUser;
+import com.org.bebasWh.constants.HttpStatus;
+import com.org.bebasWh.exception.UserException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +23,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getUserId();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new UserException("获取用户ID异常", HttpStatus.UNAUTHORIZED);
         }
     }

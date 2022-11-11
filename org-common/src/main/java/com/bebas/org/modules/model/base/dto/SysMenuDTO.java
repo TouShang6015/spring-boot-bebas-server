@@ -1,7 +1,8 @@
 package com.bebas.org.modules.model.base.dto;
 
 import com.bebas.org.modules.model.base.model.SysMenuModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 菜单权限表 Dto
@@ -13,5 +14,7 @@ import lombok.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysMenuDTO extends SysMenuModel {
+
+    private Long userId;
 
 }

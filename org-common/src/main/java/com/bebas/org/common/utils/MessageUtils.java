@@ -11,7 +11,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 public class MessageUtils {
 
-    private static MessageSource messageSource;
+    private static final MessageSource messageSource;
 
     static {
         messageSource = SpringUtils.getBean("messageSource");
@@ -26,5 +26,9 @@ public class MessageUtils {
      */
     public static String message(String code, Object... args) {
         return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+    }
+
+    public static String message(int code, Object... args) {
+        return message(code + "", args);
     }
 }

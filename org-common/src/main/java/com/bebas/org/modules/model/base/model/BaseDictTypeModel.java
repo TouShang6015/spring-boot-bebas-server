@@ -1,8 +1,8 @@
 package com.bebas.org.modules.model.base.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.org.bebasWh.core.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
@@ -20,27 +20,27 @@ import lombok.*;
 @TableName("base_dict_type")
 public class BaseDictTypeModel extends BaseModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 字典类型
-	 */
-	@ApiModelProperty(value = "字典类型", dataType = "String")
-	private String dictType;
-	/**
-	 * 字典名称
-	 */
-	@ApiModelProperty(value = "字典名称", dataType = "String")
-	private String dictName;
-	/**
-	 * 状态（0正常 1停用）
-	 */
-	@ApiModelProperty(value = "状态（0正常 1停用）", dataType = "String")
-	private String status;
-	/**
-	 * 备注
-	 */
-	@ApiModelProperty(value = "备注", dataType = "String")
-	private String remark;
+    /**
+     * 字典类型
+     */
+    @ApiModelProperty(value = "字典类型", dataType = "String")
+    private String dictType;
+    /**
+     * 字典名称
+     */
+    @ApiModelProperty(value = "字典名称", dataType = "String")
+    private String dictName;
+    /**
+     * 状态（0正常 1停用）
+     */
+    @ApiModelProperty(value = "状态（0正常 1停用）", dataType = "String")
+    private String status;
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "备注", dataType = "String")
+    private String remark;
 
 }

@@ -2,6 +2,7 @@ package com.bebas.org.modules.constants;
 
 /**
  * api请求前缀常量类
+ *
  * @author WuHao
  * @date 2022/5/18 17:56
  */
@@ -9,13 +10,13 @@ public interface ApiPrefixConstant {
 
     String MODEL_API = "/module";
 
-    interface Auth{
+    interface Auth {
 
         String SYSTEM = "/auth/system";
 
     }
 
-    interface Modules{
+    interface Modules {
 
         String BASE = MODEL_API + "/base";
 
@@ -25,7 +26,7 @@ public interface ApiPrefixConstant {
 
     }
 
-    interface Common{
+    interface Common {
 
         String COMMON = "/common";
 

@@ -15,6 +15,7 @@ public interface ISysUserWebApi {
 
     /**
      * 通过id获取用户详细信息
+     *
      * @param id
      * @return
      */

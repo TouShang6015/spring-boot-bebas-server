@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 客户端登陆实体
+ *
  * @author WuHao
  * @date 2022/5/31 14:19
  */

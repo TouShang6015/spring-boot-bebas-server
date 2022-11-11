@@ -18,7 +18,7 @@ public interface GeneratorMapper {
 
     List<TableInfoModel> selectTableList(TableQueryModel param);
 
-    IPage<TableInfoModel> selectTableListPage(IPage<TableInfoModel> page,@Param("param") TableQueryModel param);
+    IPage<TableInfoModel> selectTableListPage(IPage<TableInfoModel> page, @Param("param") TableQueryModel param);
 
     List<TableColumnsModel> selectColumnsList(@Param("tableNames") List<String> tableNames);
 }

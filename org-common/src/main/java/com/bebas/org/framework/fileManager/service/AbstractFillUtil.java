@@ -1,10 +1,10 @@
 package com.bebas.org.framework.fileManager.service;
 
+import com.bebas.org.common.config.global.UploadConfig;
+import com.bebas.org.common.constants.StringPool;
 import com.org.bebasWh.exception.CommonException;
 import com.org.bebasWh.utils.DateUtils;
 import com.org.bebasWh.utils.StringUtils;
-import com.bebas.org.common.config.global.UploadConfig;
-import com.bebas.org.common.constants.StringPool;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,11 +67,11 @@ public abstract class AbstractFillUtil {
      * @param file 上传的文件
      * @return
      */
-    public void assertAllowed(MultipartFile file, String[] allowedExtension)  {
+    public void assertAllowed(MultipartFile file, String[] allowedExtension) {
         int maxSize = UploadConfig.getMaxUploadSize() * 1024 * 1024;
         long size = file.getSize();
         if (size > maxSize) {
-            throw new CommonException(StringUtils.format("文件大小不能大约{}M",maxSize));
+            throw new CommonException(StringUtils.format("文件大小不能大约{}M", maxSize));
         }
         int fileNamelength = Objects.requireNonNull(file.getOriginalFilename()).length();
         if (fileNamelength > UploadConfig.getMaxFileNameLength()) {
@@ -82,15 +82,15 @@ public abstract class AbstractFillUtil {
         String suffix = getFileSuffix(file.getOriginalFilename());
         if (allowedExtension != null && !isAllowedExtension(suffix, allowedExtension) && allowedExtension != FileTypeConstants.ALL_EXTENSION) {
             if (allowedExtension == FileTypeConstants.IMAGE_EXTENSION) {
-                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[bmp, gif, jpg, jpeg, png]",fileName,suffix));
+                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[bmp, gif, jpg, jpeg, png]", fileName, suffix));
             } else if (allowedExtension == FileTypeConstants.FLASH_EXTENSION) {
-                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[swf, flv]",fileName,suffix));
+                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[swf, flv]", fileName, suffix));
             } else if (allowedExtension == FileTypeConstants.MEDIA_EXTENSION) {
-                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[swf, flv, mp3, wav, wma, wmv, mid, avi, mpg,asf, rm, rmvb]",fileName,suffix));
+                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[swf, flv, mp3, wav, wma, wmv, mid, avi, mpg,asf, rm, rmvb]", fileName, suffix));
             } else if (allowedExtension == FileTypeConstants.VIDEO_EXTENSION) {
-                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[mp4, avi, rmvb]",fileName,suffix));
+                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}] 图片可使用格式：[mp4, avi, rmvb]", fileName, suffix));
             } else {
-                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}]",fileName,suffix));
+                throw new CommonException(StringUtils.format("file异常-文件名：[{}.{}]", fileName, suffix));
             }
         }
 
@@ -115,7 +115,7 @@ public abstract class AbstractFillUtil {
     /**
      * 编码文件名
      */
-    public String extractFilename(String fileName,String suffix) throws IOException {
+    public String extractFilename(String fileName, String suffix) throws IOException {
         return StringUtils.format("{}/{}{}", DateUtils.datePath(), fileName, suffix);
     }
 

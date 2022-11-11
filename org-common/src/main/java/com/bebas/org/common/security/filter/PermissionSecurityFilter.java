@@ -1,8 +1,8 @@
 package com.bebas.org.common.security.filter;
 
+import com.bebas.org.common.config.security.GlobalRouteConfig;
 import com.org.bebasWh.utils.OptionalUtil;
 import com.org.bebasWh.utils.ServletUtils;
-import com.bebas.org.common.config.security.GlobalRouteConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * 鉴权过滤器
+ *
  * @author Wuhao
  * @date 2022/9/5 20:29
  */
@@ -41,7 +42,7 @@ public class PermissionSecurityFilter extends AbstractSecurityInterceptor implem
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         FilterInvocation fi = new FilterInvocation(servletRequest, servletResponse, filterChain);
         //OPTIONS请求直接放行
-        if(request.getMethod().equals(HttpMethod.OPTIONS.toString())){
+        if (request.getMethod().equals(HttpMethod.OPTIONS.toString())) {
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
             return;
         }
@@ -58,7 +59,7 @@ public class PermissionSecurityFilter extends AbstractSecurityInterceptor implem
         List<String> ignoreRoutePath = OptionalUtil.ofNullList(GlobalRouteConfig.getIgnoreRoutePath());
         for (String path : ignoreRoutePath) {
             if (pathMatcher.match(path, request.getRequestURI())) {
-                ServletUtils.redirectErrorRequest(fi.getRequest(), fi.getResponse(),"请求拒绝访问");
+                ServletUtils.redirectErrorRequest(fi.getRequest(), fi.getResponse(), "请求拒绝访问");
                 return;
             }
         }

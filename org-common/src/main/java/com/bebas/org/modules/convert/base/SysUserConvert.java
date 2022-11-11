@@ -22,12 +22,13 @@ public interface SysUserConvert {
     SysUserConvert INSTANCE = Mappers.getMapper(SysUserConvert.class);
 
     @Mappings({
-            @Mapping(source = "dto.dept.deptName",target = "deptName")
+            @Mapping(source = "dto.dept.deptName", target = "deptName")
     })
     SysUserExcelVo convertToExcel(SysUserDTO dto);
 
     /**
      * 注册实体转换userDto
+     *
      * @param register
      * @return
      */
@@ -35,6 +36,7 @@ public interface SysUserConvert {
 
     /**
      * dto 转换 model
+     *
      * @param dto
      * @return
      */
@@ -42,6 +44,7 @@ public interface SysUserConvert {
 
     /**
      * dtoList 转换 modelList
+     *
      * @param dto
      * @return
      */

@@ -18,6 +18,7 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRoleModel> {
 
     /**
      * 通过用户id获取用户信息
+     *
      * @param userId
      * @return
      */
@@ -26,6 +27,7 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRoleModel> {
 
     /**
      * 通过用户帐号查找角色信息
+     *
      * @param userName
      * @return
      */

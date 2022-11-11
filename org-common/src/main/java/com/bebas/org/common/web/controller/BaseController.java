@@ -9,14 +9,15 @@ import com.alibaba.excel.write.metadata.style.WriteFont;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.bebas.org.common.constants.StringPool;
+import com.bebas.org.framework.log.annotation.Log;
 import com.org.bebasWh.core.model.BaseModel;
 import com.org.bebasWh.core.validator.group.Update;
 import com.org.bebasWh.enums.result.ResultEnum;
 import com.org.bebasWh.mapper.service.IService;
+import com.org.bebasWh.utils.StringUtils;
 import com.org.bebasWh.utils.page.PageUtil;
 import com.org.bebasWh.utils.result.Result;
-import com.bebas.org.common.constants.StringPool;
-import com.bebas.org.framework.log.annotation.Log;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiOperationSupport;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -25,15 +26,14 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 公共控制器-基本增删改查
@@ -45,9 +45,8 @@ public abstract class BaseController<S extends IService<M>, M extends BaseModel>
 
     protected final Logger log = LoggerFactory.getLogger(BaseController.class);
 
+    @Autowired
     protected S service;
-
-    protected abstract void setService(S service);
 
     @ResponseBody
     @GetMapping("/baseQueryById/{id}")
@@ -124,7 +123,8 @@ public abstract class BaseController<S extends IService<M>, M extends BaseModel>
         if (idsArr.length > 1000) {
             return Result.fail("不能批量删除超过1000个数据");
         }
-        if (service.removeByIds(Arrays.stream(idsArr).map(Long::valueOf).collect(Collectors.toList()))) {
+        List<Long> idList = StringUtils.splitToList(ids, Long::valueOf);
+        if (service.removeByIds(idList)) {
             return Result.success(ResultEnum.SUCCESS_DELETE);
         }
         return Result.success(ResultEnum.FAIL_DELETE);
@@ -132,6 +132,7 @@ public abstract class BaseController<S extends IService<M>, M extends BaseModel>
 
     /**
      * excel 导出下载
+     *
      * @param fileName
      * @param excelList
      * @param excelClass

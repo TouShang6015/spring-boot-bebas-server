@@ -1,7 +1,7 @@
 package com.bebas.module.base.web.service.login;
 
-import com.org.bebasWh.utils.result.Result;
 import com.bebas.org.modules.model.base.vo.RegisterBodyVo;
+import com.org.bebasWh.utils.result.Result;
 
 import javax.validation.Valid;
 
@@ -14,10 +14,11 @@ public interface IRegisterService {
     /**
      * 注册接口
      * <p>
-     *     userName -- 必填
-     *     nickName -- 必填
-     *     password -- 密码
+     * userName -- 必填
+     * nickName -- 必填
+     * password -- 密码
      * </p>
+     *
      * @param param
      * @return
      */

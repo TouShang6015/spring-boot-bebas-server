@@ -1,7 +1,7 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.model.SysRoleDeptModel;
+import com.org.bebasWh.mapper.service.IService;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ public interface ISysRoleDeptService extends IService<SysRoleDeptModel> {
 
     /**
      * 获取部门id根据roleId
+     *
      * @param roleId
      * @param deptCheckStrictly 部门树选择项是否关联显示
      * @return

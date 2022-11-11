@@ -1,10 +1,10 @@
 package com.bebas.org.modules.model.base.vo.menu;
 
-import com.org.bebasWh.utils.StringUtils;
 import com.bebas.org.common.constants.Constants;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.modules.model.base.dto.SysMenuDTO;
 import com.bebas.org.modules.model.base.model.SysMenuModel;
+import com.org.bebasWh.utils.StringUtils;
 import lombok.Data;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -132,7 +132,7 @@ public class RouteMenuVo {
         }
         // 非外链并且是一级目录（类型为目录）
         if (0 == menu.getParentId().intValue() && Constants.MENU_TYPE.M.equals(menu.getMenuType())
-                && Constants.MENU_INFO.NO_FRAME.equals(menu.getStateFrame().toString())) {
+                && Constants.MENU_INFO.NO_FRAME.equals(menu.getStateFrame())) {
             routerPath = StringPool.SLASH + menu.getPath();
         }
         // 非外链并且是一级目录（类型为菜单）
@@ -168,7 +168,7 @@ public class RouteMenuVo {
      */
     public boolean isMenuFrame(SysMenuDTO menu) {
         return menu.getParentId().intValue() == 0 && Constants.MENU_TYPE.C.equals(menu.getMenuType())
-                && Constants.MENU_INFO.NO_FRAME.equals(menu.getStateFrame().toString());
+                && Constants.MENU_INFO.NO_FRAME.equals(menu.getStateFrame());
     }
 
     /**
@@ -178,7 +178,7 @@ public class RouteMenuVo {
      * @return 结果
      */
     public boolean isInnerLink(SysMenuDTO menu) {
-        return Constants.MENU_INFO.NO_FRAME.equals(menu.getStateFrame().toString()) && StringUtils.ishttp(menu.getPath());
+        return Constants.MENU_INFO.NO_FRAME.equals(menu.getStateFrame()) && StringUtils.ishttp(menu.getPath());
     }
 
     /**

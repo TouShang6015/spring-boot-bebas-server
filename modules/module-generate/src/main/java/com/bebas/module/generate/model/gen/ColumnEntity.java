@@ -13,31 +13,31 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ColumnEntity {
-	/**
-	 * 列名
-	 */
+    /**
+     * 列名
+     */
     private String columnName;
-	/**
-	 * 列类型
-	 */
-	private String dataType;
-	/**
-	 * 列描述
-	 */
-	private String comments;
+    /**
+     * 列类型
+     */
+    private String dataType;
+    /**
+     * 列描述
+     */
+    private String comments;
 
-	/**
-	 * 列 名称 (UserName)
-	 */
-	private String attrName;
-	/**
-	 * 列 属性 (userName)
-	 */
-	private String attrNameAttribute;
-	/**
-	 * 属性类型
-	 */
-	private String attrType;
+    /**
+     * 列 名称 (UserName)
+     */
+    private String attrName;
+    /**
+     * 列 属性 (userName)
+     */
+    private String attrNameAttribute;
+    /**
+     * 属性类型
+     */
+    private String attrType;
     //auto_increment
     private String extra;
 

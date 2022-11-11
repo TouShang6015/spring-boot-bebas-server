@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 标签下拉实体
+ *
  * @author WuHao
  * @date 2022/7/13 18:33
  */
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LabelOption<ValueType,LabelType> {
+public class LabelOption<ValueType, LabelType> {
 
     private ValueType value;
 

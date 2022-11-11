@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bebas.module.base.core.dataPermission.annotation.PermissionData;
 import com.bebas.module.base.mapper.SysUserMapper;
 import com.bebas.module.base.web.service.*;
+import com.bebas.org.common.constants.MessageCode;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.common.security.utils.SecurityUtils;
 import com.bebas.org.common.utils.MessageUtils;
@@ -77,15 +78,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
         // 部门查询条件
         Long deptId = param.getDeptId();
         if (Objects.nonNull(deptId)) {
-            String deptIds = OptionalUtil.ofNullList(
+            List<Long> deptIds = OptionalUtil.ofNullList(
                             sysDeptService.lambdaQuery().and(deptWrapper -> deptWrapper.eq(SysDeptModel::getId, deptId).or().apply(StringUtils.format("FIND_IN_SET({},{})", deptId, "ancestors"))).list()
                     )
                     .stream()
                     .map(SysDeptModel::getId)
                     .distinct()
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(StringPool.COMMA));
-            if (StringUtils.isNotEmpty(deptIds)) {
+                    .collect(Collectors.toList());
+            if (CollUtil.isNotEmpty(deptIds)) {
                 param.queryParamIn(SysUserModel::getDeptId, deptIds);
             }
         }
@@ -262,7 +262,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
     @Override
     public void checkUserAllowed(SysUserModel user) {
         if (Objects.nonNull(user) && SecurityUtils.isAdmin(user.getId())) {
-            throw new UserException(MessageUtils.message("business.base.user.not.handle.admin"));
+            throw new UserException(MessageUtils.message(MessageCode.User.NOT_HANDLE_ADMIN_USER));
         }
     }
 

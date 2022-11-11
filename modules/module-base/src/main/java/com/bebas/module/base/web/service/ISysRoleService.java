@@ -1,8 +1,8 @@
 package com.bebas.module.base.web.service;
 
-import com.org.bebasWh.mapper.service.IService;
 import com.bebas.org.modules.model.base.dto.SysRoleDTO;
 import com.bebas.org.modules.model.base.model.SysRoleModel;
+import com.org.bebasWh.mapper.service.IService;
 import io.vavr.Tuple2;
 
 import java.util.List;
@@ -17,9 +17,10 @@ public interface ISysRoleService extends IService<SysRoleModel> {
 
     /**
      * 根据用户id获取角色权限字段
+     *
      * @return
      */
-    Tuple2<List<SysRoleModel>,List<String>> getRolePermissions();
+    Tuple2<List<SysRoleModel>, List<String>> getRolePermissions();
 
     /**
      * 修改保存角色信息
@@ -62,6 +63,7 @@ public interface ISysRoleService extends IService<SysRoleModel> {
 
     /**
      * 修改角色权限
+     *
      * @param param
      * @return
      */
@@ -69,6 +71,7 @@ public interface ISysRoleService extends IService<SysRoleModel> {
 
     /**
      * 角色删除
+     *
      * @param idList
      * @return
      */
@@ -76,6 +79,7 @@ public interface ISysRoleService extends IService<SysRoleModel> {
 
     /**
      * 角色分配路由
+     *
      * @param roleId
      * @param permissionIdList
      * @return
@@ -84,6 +88,7 @@ public interface ISysRoleService extends IService<SysRoleModel> {
 
     /**
      * 通过用户获取角色列表
+     *
      * @param id
      * @return
      */

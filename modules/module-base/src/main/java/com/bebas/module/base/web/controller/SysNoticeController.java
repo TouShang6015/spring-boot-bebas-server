@@ -1,14 +1,12 @@
 package com.bebas.module.base.web.controller;
 
-import com.bebas.org.modules.model.base.model.SysNoticeModel;
 import com.bebas.module.base.web.service.ISysNoticeService;
 import com.bebas.org.common.web.controller.BaseController;
 import com.bebas.org.modules.constants.ApiPrefixConstant;
+import com.bebas.org.modules.model.base.model.SysNoticeModel;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * 通知公告表 控制器
@@ -18,13 +16,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/sysnotice")
-@Api(value = "SysNoticeModel",tags = "通知公告")
-public class SysNoticeController extends BaseController<ISysNoticeService,SysNoticeModel> {
-
-    @Resource
-    @Override
-    public void setService(ISysNoticeService service) {
-        super.service = service;
-    }
+@Api(value = "SysNoticeModel", tags = "通知公告")
+public class SysNoticeController extends BaseController<ISysNoticeService, SysNoticeModel> {
 
 }

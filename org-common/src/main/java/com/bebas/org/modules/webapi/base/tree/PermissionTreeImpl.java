@@ -1,10 +1,10 @@
 package com.bebas.org.modules.webapi.base.tree;
 
-import com.org.bebasWh.core.model.TreeBaseModel;
 import com.bebas.org.common.utils.tree.TreeBuild;
 import com.bebas.org.modules.convert.base.SysPermissionConvert;
 import com.bebas.org.modules.model.base.dto.SysPermissionDTO;
 import com.bebas.org.modules.model.base.model.SysPermissionModel;
+import com.org.bebasWh.core.model.TreeBaseModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

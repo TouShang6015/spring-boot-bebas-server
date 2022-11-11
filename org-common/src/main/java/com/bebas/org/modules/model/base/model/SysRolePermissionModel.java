@@ -1,8 +1,8 @@
 package com.bebas.org.modules.model.base.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.org.bebasWh.core.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
@@ -20,17 +20,17 @@ import lombok.*;
 @TableName("sys_role_permission")
 public class SysRolePermissionModel extends BaseModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 权限ID
-	 */
-	@ApiModelProperty(value = "权限ID", dataType = "Long")
-	private Long permissionId;
-	/**
-	 * 角色ID
-	 */
-	@ApiModelProperty(value = "角色ID", dataType = "Long")
-	private Long roleId;
+    /**
+     * 权限ID
+     */
+    @ApiModelProperty(value = "权限ID", dataType = "Long")
+    private Long permissionId;
+    /**
+     * 角色ID
+     */
+    @ApiModelProperty(value = "角色ID", dataType = "Long")
+    private Long roleId;
 
 }
