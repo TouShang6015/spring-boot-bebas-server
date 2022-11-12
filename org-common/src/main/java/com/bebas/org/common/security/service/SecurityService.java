@@ -32,6 +32,11 @@ public class SecurityService {
      */
     private static final String[] permitStaticPath = {"/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js"};
 
+    /**
+     * 固定白名单路由
+     */
+    private static final String[] white_route = {"/open/**"};
+
     @Resource
     private ISysPermissionWebApi permissionWebApi;
 
@@ -47,7 +52,9 @@ public class SecurityService {
                 // 匿名访问路由
                 .antMatchers(GlobalRouteConfig.getAnonymousRoutePath().toArray(new String[0])).anonymous()
                 // 完全放行路由
-                .antMatchers(HttpMethod.GET, permitStaticPath).permitAll().antMatchers(GlobalRouteConfig.getPassRoutePath().toArray(new String[0])).permitAll();
+                .antMatchers(HttpMethod.GET, permitStaticPath).permitAll()
+                .antMatchers(white_route).permitAll()
+                .antMatchers(GlobalRouteConfig.getPassRoutePath().toArray(new String[0])).permitAll();
     }
 
     /**

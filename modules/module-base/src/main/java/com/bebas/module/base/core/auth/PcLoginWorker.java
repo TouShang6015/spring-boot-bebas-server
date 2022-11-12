@@ -46,10 +46,6 @@ public abstract class PcLoginWorker extends LoginCommonAbstract<LoginPcRequest, 
     @Resource
     private ISysLogininforService sysLogininforService;
 
-    public PcLoginWorker(ResourceConfigWebApi resourceConfigWebApi) {
-        super(resourceConfigWebApi);
-    }
-
     /**
      * 是否开启验证码
      */
@@ -60,7 +56,10 @@ public abstract class PcLoginWorker extends LoginCommonAbstract<LoginPcRequest, 
      *
      * @return
      */
-    protected abstract Integer getMaxLogin();
+    @Override
+    protected Integer getMaxLogin() {
+        return this.mainVO.getMaxUserLogin();
+    }
 
     /**
      * 登陆操作，获取实体

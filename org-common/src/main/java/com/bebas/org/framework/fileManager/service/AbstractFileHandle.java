@@ -1,5 +1,6 @@
 package com.bebas.org.framework.fileManager.service;
 
+import cn.hutool.core.lang.Singleton;
 import com.bebas.org.common.constants.ResourceConfigConstant;
 import com.bebas.org.common.constants.StringPool;
 import com.bebas.org.modules.model.base.vo.baseResource.ResourceMainVO;
@@ -22,14 +23,8 @@ public abstract class AbstractFileHandle extends AbstractFillUtil implements Fil
 
     protected ResourceMainVO mainVO;
 
-    protected ResourceConfigWebApi resourceConfigWebApi;
-
-    public AbstractFileHandle(ResourceConfigWebApi resourceConfigWebApi) {
-        this.resourceConfigWebApi = resourceConfigWebApi;
-    }
-
-    protected void flushConfig() {
-        this.mainVO = resourceConfigWebApi.queryValueByConfigKey(ResourceConfigConstant.MAIN_KEY, ResourceMainVO.class, false);
+    public AbstractFileHandle() {
+        this.mainVO = Singleton.get(ResourceMainVO.class);
     }
 
     /**
@@ -41,7 +36,6 @@ public abstract class AbstractFileHandle extends AbstractFillUtil implements Fil
      */
     @Override
     public String upload(MultipartFile file, String prefix, String[] allowedType) {
-        this.flushConfig();
         try {
             // 文件校验
             super.assertAllowed(file, allowedType);
@@ -65,7 +59,6 @@ public abstract class AbstractFileHandle extends AbstractFillUtil implements Fil
 
     @Override
     public String upload(String prefix, String suffix, InputStream inputStream) {
-        this.flushConfig();
         try {
             if (StringUtils.isEmpty(suffix)) {
                 throw new IOException("文件后缀为空！");
@@ -94,7 +87,6 @@ public abstract class AbstractFileHandle extends AbstractFillUtil implements Fil
      */
     @Override
     public String download(String path, OutputStream outputStream) throws IOException {
-        this.flushConfig();
         String filePath = this.getPath() + path;
         FileInputStream fis = null;
         try {
