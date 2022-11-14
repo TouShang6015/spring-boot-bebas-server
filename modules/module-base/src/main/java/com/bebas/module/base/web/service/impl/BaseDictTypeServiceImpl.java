@@ -133,7 +133,7 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper, Bas
      */
     @Override
     public void cacheAddByDictType(final BaseDictTypeModel param) {
-        super.cacheAddById(redisCache, param);
+        super.cacheAddById(param);
         redisCache.setCacheObject(KEY_TYPE + param.getDictType(), param);
     }
 
@@ -146,7 +146,7 @@ public class BaseDictTypeServiceImpl extends ServiceImpl<BaseDictTypeMapper, Bas
     @Override
     public void cacheDeleteByDictType(final String dictType) {
         Optional.ofNullable(this.selectOneByType(dictType)).ifPresent(model -> {
-            super.cacheDeleteById(redisCache, model.getId());
+            super.cacheDeleteById(model.getId());
             redisCache.deleteObject(KEY_TYPE + dictType);
         });
     }

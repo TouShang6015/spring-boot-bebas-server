@@ -93,6 +93,8 @@ project:
 # BebasWh 框架配置
 bebasWh:
   cache:
+    # 缓存类型 redis h2
+    type: redis
     # 是否开启主键缓存
     openMainCache: true
     # 缓存默认过期时间  6小时
