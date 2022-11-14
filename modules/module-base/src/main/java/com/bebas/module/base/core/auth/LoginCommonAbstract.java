@@ -1,5 +1,6 @@
 package com.bebas.module.base.core.auth;
 
+import cn.hutool.core.lang.Singleton;
 import com.bebas.org.common.constants.ResourceConfigConstant;
 import com.bebas.org.modules.model.base.vo.baseResource.ResourceMainVO;
 import com.bebas.org.modules.webapi.base.ResourceConfigWebApi;
@@ -14,14 +15,8 @@ public abstract class LoginCommonAbstract<LoginUser, LoginResponse> implements L
 
     protected ResourceMainVO mainVO;
 
-    protected ResourceConfigWebApi resourceConfigWebApi;
-
-    public LoginCommonAbstract(ResourceConfigWebApi resourceConfigWebApi) {
-        this.resourceConfigWebApi = resourceConfigWebApi;
-    }
-
-    protected void flushConfig() {
-        this.mainVO = resourceConfigWebApi.queryValueByConfigKey(ResourceConfigConstant.MAIN_KEY, ResourceMainVO.class, false);
+    public LoginCommonAbstract() {
+        this.mainVO = Singleton.get(ResourceMainVO.class);
     }
 
     /**

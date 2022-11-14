@@ -25,15 +25,9 @@ SpringBoot轻量级快速开发框架，用来接私活、学习都是不错的�
 ```java
 @RestController
 @RequestMapping(ApiPrefixConstant.Modules.BASE + "/sysnotice")
-@Api(value = "SysNoticeModel",tags = "通知公告")
-public class SysNoticeController extends BaseController<ISysNoticeService,SysNoticeModel> {
-
-  @Resource
-  @Override
-  public void setService(ISysNoticeService service) {
-    super.service = service;
-  }
-
+@Api(value = "SysNoticeModel", tags = "通知公告")
+public class SysNoticeController extends BaseController<ISysNoticeService, SysNoticeModel> {
+    
 }
 
 ```

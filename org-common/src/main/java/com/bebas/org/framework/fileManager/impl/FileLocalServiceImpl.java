@@ -29,10 +29,6 @@ public class FileLocalServiceImpl extends AbstractFileHandle {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public FileLocalServiceImpl(ResourceConfigWebApi resourceConfigWebApi) {
-        super(resourceConfigWebApi);
-    }
-
     /**
      * 文件上传操作
      *
