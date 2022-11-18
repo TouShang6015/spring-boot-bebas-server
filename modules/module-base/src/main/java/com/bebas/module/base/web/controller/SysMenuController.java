@@ -1,7 +1,7 @@
 package com.bebas.module.base.web.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson2.JSONArray;
 import com.bebas.module.base.web.service.ISysMenuService;
 import com.bebas.module.base.web.service.ISysRoleMenuService;
 import com.bebas.org.common.constants.Constants;

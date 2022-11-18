@@ -1,8 +1,7 @@
 package com.bebas.org.common.config.redis;
 
-import com.alibaba.fastjson.parser.ParserConfig;
 import com.org.bebasWh.constants.RedisConstant;
-import com.org.bebasWh.utils.redis.FastJsonRedisSerializer;
+import com.org.bebasWh.utils.redis.FastJson2JsonRedisSerializer;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -31,23 +30,22 @@ public class RedisConfig {
 
     @Autowired
     private Environment environment;
-    @Value("${project.fastjson.redisSerializerPackage}")
-    private String redisSerializerPackage;
 
     @Primary
     @Bean(RedisConstant.TemplateKey.REDIS_TEMPLATE)
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate redisTemplate = new RedisTemplate();
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(redisConnectionFactory);
+
+        FastJson2JsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJson2JsonRedisSerializer<>(Object.class);
+
         // key的序列化采用StringRedisSerializer
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
 
         // value 自定义序列化配置
-        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-        ParserConfig.getGlobalInstance().addAccept(redisSerializerPackage);
-        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
 
         return redisTemplate;
@@ -75,31 +73,31 @@ public class RedisConfig {
 
     @Bean
     @Primary
-    public ValueOperations getValueOperations(RedisTemplate<String, Object> redisTemplate) {
+    public ValueOperations getValueOperations(RedisTemplate<Object, Object> redisTemplate) {
         return redisTemplate.opsForValue();
     }
 
     @Bean
     @Primary
-    public ListOperations getListOperations(RedisTemplate<String, Object> redisTemplate) {
+    public ListOperations getListOperations(RedisTemplate<Object, Object> redisTemplate) {
         return redisTemplate.opsForList();
     }
 
     @Bean
     @Primary
-    public HashOperations getHashOperations(RedisTemplate<String, Object> redisTemplate) {
+    public HashOperations getHashOperations(RedisTemplate<Object, Object> redisTemplate) {
         return redisTemplate.opsForHash();
     }
 
     @Bean
     @Primary
-    public SetOperations getSetOperations(RedisTemplate<String, Object> redisTemplate) {
+    public SetOperations getSetOperations(RedisTemplate<Object, Object> redisTemplate) {
         return redisTemplate.opsForSet();
     }
 
     @Bean
     @Primary
-    public ZSetOperations getZSetOperations(RedisTemplate<String, Object> redisTemplate) {
+    public ZSetOperations getZSetOperations(RedisTemplate<Object, Object> redisTemplate) {
         return redisTemplate.opsForZSet();
     }
 

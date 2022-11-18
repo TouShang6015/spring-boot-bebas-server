@@ -1,6 +1,6 @@
 package com.bebas.org.common.security.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.bebas.org.modules.model.base.model.SysUserModel;
 import com.org.bebasWh.core.security.model.BaseSecurityUser;
 import lombok.Data;

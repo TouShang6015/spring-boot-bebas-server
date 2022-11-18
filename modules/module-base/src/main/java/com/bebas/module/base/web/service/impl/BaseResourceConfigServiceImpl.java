@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.bebas.module.base.mapper.BaseResourceConfigMapper;
 import com.bebas.module.base.web.service.IBaseResourceConfigService;
 import com.bebas.org.common.constants.ResourceConfigConstant;

@@ -1,6 +1,6 @@
 package com.bebas.org.common.security.handle;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.org.bebasWh.constants.HttpStatus;
 import com.org.bebasWh.utils.ServletUtils;
 import com.org.bebasWh.utils.StringUtils;

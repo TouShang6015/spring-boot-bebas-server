@@ -1,7 +1,7 @@
 package com.bebas.module.base.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.bebas.module.base.mapper.SysPermissionMapper;
 import com.bebas.module.base.web.service.ISysPermissionService;
 import com.bebas.module.base.web.service.ISysRolePermissionService;

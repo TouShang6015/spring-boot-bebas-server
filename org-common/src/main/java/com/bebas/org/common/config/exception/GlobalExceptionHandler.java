@@ -1,6 +1,6 @@
 package com.bebas.org.common.config.exception;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.org.bebasWh.constants.HttpStatus;
 import com.org.bebasWh.enums.result.ResultEnum;
 import com.org.bebasWh.exception.BusinessException;

@@ -1,6 +1,6 @@
 package com.bebas.module.base.web.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.bebas.module.base.mapper.SysLogininforMapper;
 import com.bebas.module.base.web.service.ISysLogininforService;
 import com.bebas.org.common.constants.ChannelConstant;
