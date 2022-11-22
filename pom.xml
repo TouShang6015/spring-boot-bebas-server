@@ -30,7 +30,7 @@
 
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <lombok.version>1.18.24</lombok.version>
-        <bebasWh.version>1.0.6</bebasWh.version>
+        <bebasWh.version>1.0.7</bebasWh.version>
     </properties>
 
     <dependencyManagement>
